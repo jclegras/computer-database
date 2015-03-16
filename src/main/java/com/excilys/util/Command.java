@@ -67,46 +67,15 @@ public enum Command {
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
 			final Computer computer = new Computer();
-			System.out.println("Name : ");
-			if (ctx.getScanner().hasNextToken()) {
-				computer.setName(ctx.getScanner().getNextToken());
-			}
-			System.out.println("Introduced :");
-			if (ctx.getScanner().hasNextToken()) {
-				final String tok = ctx.getScanner().getNextToken();
-				final StringBuilder sb = new StringBuilder();
-				sb.append(tok).append(" ").append("00:00:00");
-				if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
-						.toString())) {
-					DateTimeFormatter formatter = DateTimeFormatter
-							.ofPattern("yyyy-MM-dd HH:mm:ss");
-					LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
-							formatter);
-					computer.setIntroduced(dateTime);
-				}
-			}
-			System.out.println("Discontinued :");
-			if (ctx.getScanner().hasNextToken()) {
-				final String tok = ctx.getScanner().getNextToken();
-				final StringBuilder sb = new StringBuilder();
-				sb.append(tok).append(" ").append("00:00:00");
-				if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
-						.toString())) {
-					DateTimeFormatter formatter = DateTimeFormatter
-							.ofPattern("yyyy-MM-dd HH:mm:ss");
-					LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
-							formatter);
-					computer.setDiscontinued(dateTime);
-				}
-			}
-			System.out.println("Company id");
-			if (ctx.getScanner().hasNextToken()) {
-				computer.setCompanyId(Long.valueOf(ctx.getScanner()
-						.getNextToken()));
-			}
+			populate(ctx, computer);
 			ctx.setNewComputer(computer);
 			ctx.setComputerId(ComputerService.INSTANCE.create(ctx
 					.getNewComputer()));
+			if (ctx.getComputerId() > 0) {
+				System.out.println("Successfully created");
+			} else {
+				System.out.println("Failed to create");
+			}
 		}
 
 	},
@@ -121,45 +90,10 @@ public enum Command {
 			System.out.println("Identifier : ");
 			final Computer computer = ComputerService.INSTANCE.getById(Long
 					.valueOf(ctx.getScanner().getNextToken()));
-			System.out.println("Name : ");
-			if (ctx.getScanner().hasNextToken()) {
-				computer.setName(ctx.getScanner().getNextToken());
-			}
-			System.out.println("Introduced :");
-			if (ctx.getScanner().hasNextToken()) {
-				final String tok = ctx.getScanner().getNextToken();
-				final StringBuilder sb = new StringBuilder();
-				sb.append(tok).append(" ").append("00:00:00");
-				if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
-						.toString())) {
-					DateTimeFormatter formatter = DateTimeFormatter
-							.ofPattern("yyyy-MM-dd HH:mm:ss");
-					LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
-							formatter);
-					computer.setIntroduced(dateTime);
-				}
-			}
-			System.out.println("Discontinued :");
-			if (ctx.getScanner().hasNextToken()) {
-				final String tok = ctx.getScanner().getNextToken();
-				final StringBuilder sb = new StringBuilder();
-				sb.append(tok).append(" ").append("00:00:00");
-				if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
-						.toString())) {
-					DateTimeFormatter formatter = DateTimeFormatter
-							.ofPattern("yyyy-MM-dd HH:mm:ss");
-					LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
-							formatter);
-					computer.setDiscontinued(dateTime);
-				}
-			}
-			System.out.println("Company id");
-			if (ctx.getScanner().hasNextToken()) {
-				computer.setCompanyId(Long.valueOf(ctx.getScanner()
-						.getNextToken()));
-			}
+			populate(ctx, computer);
 			ctx.setNewComputer(computer);
 			ComputerService.INSTANCE.update(ctx.getNewComputer());
+			System.out.println("UPDATED");
 		}
 
 	},
@@ -200,6 +134,46 @@ public enum Command {
 
 	private Command(String commandLabel) {
 		this.commandLabel = commandLabel;
+	}
+	
+	private static void populate(ComputerDatabaseContext ctx, Computer computer) {
+		System.out.println("Name : ");
+		if (ctx.getScanner().hasNextToken()) {
+			computer.setName(ctx.getScanner().getNextToken());
+		}
+		System.out.println("Introduced :");
+		if (ctx.getScanner().hasNextToken()) {
+			final String tok = ctx.getScanner().getNextToken();
+			final StringBuilder sb = new StringBuilder();
+			sb.append(tok).append(" ").append("00:00:00");
+			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
+					.toString())) {
+				DateTimeFormatter formatter = DateTimeFormatter
+						.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
+						formatter);
+				computer.setIntroduced(dateTime);
+			}
+		}
+		System.out.println("Discontinued :");
+		if (ctx.getScanner().hasNextToken()) {
+			final String tok = ctx.getScanner().getNextToken();
+			final StringBuilder sb = new StringBuilder();
+			sb.append(tok).append(" ").append("00:00:00");
+			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
+					.toString())) {
+				DateTimeFormatter formatter = DateTimeFormatter
+						.ofPattern("yyyy-MM-dd HH:mm:ss");
+				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
+						formatter);
+				computer.setDiscontinued(dateTime);
+			}
+		}
+		System.out.println("Company id : ");
+		if (ctx.getScanner().hasNextToken()) {
+			computer.setCompanyId(Long.valueOf(ctx.getScanner()
+					.getNextToken()));
+		}
 	}
 
 	/**
