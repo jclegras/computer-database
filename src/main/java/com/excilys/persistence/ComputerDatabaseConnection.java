@@ -12,17 +12,15 @@ import com.excilys.exception.PersistenceException;
 public enum ComputerDatabaseConnection {
 	INSTANCE;
 
+	private Properties properties;
 	private String url;
-	private String username;
-	private String password;
 
 	public Connection getInstance() throws PersistenceException {
 		Connection connection = null;
 		
 		try {
 			loadConfigFile();
-			connection = DriverManager.getConnection(url,
-					username, password);
+			connection = DriverManager.getConnection(url, properties);
 		} catch (SQLException | IOException e) {
 			throw new PersistenceException(e.getMessage());
 		}
@@ -30,15 +28,13 @@ public enum ComputerDatabaseConnection {
 		return connection;
 	}
 
-	private synchronized void loadConfigFile() throws IOException {
-		if (url == null) {
-			final Properties properties = new Properties();
+	private void loadConfigFile() throws IOException {
+		if (properties == null) {
+			properties = new Properties();
 			try (final InputStream is = ComputerDatabaseConnection.class
 					.getClassLoader().getResourceAsStream("config.properties")) {
 				properties.load(is);
 				url = properties.getProperty("url");
-				username = properties.getProperty("username");
-				password = properties.getProperty("password");
 			}	
 		}
 	}

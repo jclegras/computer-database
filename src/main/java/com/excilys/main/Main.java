@@ -1,21 +1,25 @@
 package com.excilys.main;
 
-import java.time.LocalDateTime;
+import com.excilys.util.Command;
+import com.excilys.util.ComputerDatabaseContext;
+import com.excilys.util.ComputerDatabaseScanner;
 
-import com.excilys.dao.ComputerDAO;
-import com.excilys.model.Computer;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		System.out.println(ComputerDAO.INSTANCE.getById(7L));
-		
-		final Computer computer = new Computer();
-		computer.setId(7891);
-		computer.setName("myName2");
-		computer.setIntroduced(LocalDateTime.now());
-		computer.setDiscontinued(LocalDateTime.now());
-		computer.setCompanyId(1L);
-		
-		System.out.println(ComputerDAO.INSTANCE.create(computer));
+//		final Page page = new Page(2, 5);
+//		System.out.println(ComputerService.INSTANCE.getAll(page));
+		ComputerDatabaseScanner scanner = new ComputerDatabaseScanner();
+		ComputerDatabaseContext ctx = new ComputerDatabaseContext();
+		while (!scanner.isExit()) {
+			final String token = scanner.getNextToken();
+			if ("exit".equals(token)) {
+				scanner.setExit(true);
+			}
+			final Command command = Command.getCommand(token);
+			if (command != null) {
+				command.execute(ctx);
+			}
+		}
 	}
 }

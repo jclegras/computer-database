@@ -13,6 +13,7 @@ import com.excilys.exception.PersistenceException;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDatabaseConnection;
+import com.excilys.util.Page;
 
 public enum ComputerDAO implements DAO<Computer, Long> {
 	INSTANCE;
@@ -26,6 +27,27 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 				.getInstance().createStatement()) {
 			try (final ResultSet rs = state
 					.executeQuery("SELECT * FROM computer")) {
+				while (rs.next()) {
+					computers.add(computerMapper.rowMap(rs));
+				}
+			}
+		} catch (SQLException | PersistenceException e) {
+			throw new DAOException(e.getMessage());
+		}
+
+		return computers;
+	}
+	
+	public List<Computer> getAll(Page page) throws DAOException {
+		final List<Computer> computers = new ArrayList<>();
+		final ComputerMapper computerMapper = new ComputerMapper();
+		final String sql = "SELECT * FROM computer ORDER BY %s %s LIMIT %d OFFSET %d";
+
+		try (final Statement state = ComputerDatabaseConnection.INSTANCE
+				.getInstance().createStatement()) {
+			try (final ResultSet rs = state.executeQuery(String.format(sql,
+					page.getProperties(), page.getSort(), page.getSize(),
+					page.getOffset()))) {
 				while (rs.next()) {
 					computers.add(computerMapper.rowMap(rs));
 				}
