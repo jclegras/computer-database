@@ -10,6 +10,10 @@ public class ComputerDatabaseScanner {
 		scanner = new Scanner(System.in);
 	}
 	
+	public boolean hasNextToken() {
+		return scanner.hasNext();
+	}
+	
 	public String getNextToken() {
 		return scanner.hasNext() ? scanner.next() : null; 
 	}
