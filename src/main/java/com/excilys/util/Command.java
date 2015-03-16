@@ -24,6 +24,9 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
 			ctx.setComputers(ComputerService.INSTANCE.getAll());
 			System.out.println(ctx.getComputers());
 		}
@@ -37,6 +40,9 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
 			ctx.setCompanies(CompanyService.INSTANCE.getAll());
 			System.out.println(ctx.getCompanies());
 		}
@@ -50,6 +56,9 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
 			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
 			ctx.setComputers(Arrays.asList(ComputerService.INSTANCE.getById(ctx
@@ -66,6 +75,9 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
 			final Computer computer = new Computer();
 			populate(ctx, computer);
 			ctx.setNewComputer(computer);
@@ -87,6 +99,9 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
 			System.out.println("Identifier : ");
 			final Computer computer = ComputerService.INSTANCE.getById(Long
 					.valueOf(ctx.getScanner().getNextToken()));
@@ -105,6 +120,9 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
 			System.out.print("Identifier : ");
 			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
 			ComputerService.INSTANCE.delete(ctx.getComputerId());
@@ -112,11 +130,17 @@ public enum Command {
 		}
 
 	},
+	/**
+	 * Command to terminate a program.
+	 */
 	EXIT("exit") {
 
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			if (ctx == null) {
+				throw new IllegalArgumentException();
+			}
 			ctx.getScanner().setExit(true);
 		}
 
@@ -136,6 +160,9 @@ public enum Command {
 		this.commandLabel = commandLabel;
 	}
 	
+	/*
+	 * Populate a computer model from answers given by the user.
+	 */
 	private static void populate(ComputerDatabaseContext ctx, Computer computer) {
 		System.out.println("Name : ");
 		if (ctx.getScanner().hasNextToken()) {

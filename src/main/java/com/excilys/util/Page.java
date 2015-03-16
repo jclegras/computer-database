@@ -41,22 +41,37 @@ public class Page {
 		}
 	}
 
+	/**
+	 * @return Current page
+	 */
 	public int getPage() {
 		return page;
 	}
 
+	/**
+	 * @return Number entities by page
+	 */
 	public int getSize() {
 		return size;
 	}
 	
+	/**
+	 * @return Offset for this page
+	 */
 	public int getOffset() {
 		return (page - 1) * size;
 	}
 
+	/**
+	 * @return Current sort
+	 */
 	public Sort getSort() {
 		return sort;
 	}
 	
+	/**
+	 * @return Properties on which apply the sort
+	 */
 	public String getProperties() {
 		final StringBuilder sb = new StringBuilder();
 		sb.append(properties.get(0));
@@ -66,6 +81,10 @@ public class Page {
 		return sb.toString();
 	}
 	
+	/**
+	 * @pre page >= 1
+	 * @param page Current page
+	 */
 	public void setPage(int page) {
 		if (page < 1) {
 			throw new IllegalArgumentException();
@@ -73,6 +92,10 @@ public class Page {
 		this.page = page;
 	}
 
+	/**
+	 * @pre size >= 0
+	 * @param size Number entities
+	 */
 	public void setSize(int size) {
 		if (size < 0) {
 			throw new IllegalArgumentException();
@@ -80,6 +103,10 @@ public class Page {
 		this.size = size;
 	}
 	
+	/**
+	 * @pre sort != null
+	 * @param sort Current sort
+	 */
 	public void setSort(Sort sort) {
 		if (sort == null) {
 			throw new IllegalArgumentException();
@@ -87,6 +114,10 @@ public class Page {
 		this.sort = sort;
 	}
 	
+	/**
+	 * @pre |properties| > 0
+	 * @param properties Properties for the sort
+	 */
 	public void setProperties(String ...properties) {
 		if (properties.length > 0) {
 			this.properties = Arrays.asList(properties);
