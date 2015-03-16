@@ -6,11 +6,10 @@ import com.excilys.util.ComputerDatabaseScanner;
 
 public class Main {
 	public static void main(String[] args) throws Exception {
-		// final Page page = new Page(2, 5);
-		// System.out.println(ComputerService.INSTANCE.getAll(page));
 		ComputerDatabaseScanner scanner = new ComputerDatabaseScanner();
 		ComputerDatabaseContext ctx = new ComputerDatabaseContext();
 		ctx.setScanner(scanner);
+		
 		while (!scanner.isExit()) {
 			final String token = scanner.getNextToken();
 			final Command command = Command.getCommand(token);
