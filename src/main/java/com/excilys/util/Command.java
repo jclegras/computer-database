@@ -1,12 +1,16 @@
 package com.excilys.util;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
 import com.excilys.exception.ServiceException;
+import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
+import com.excilys.validation.ComputerDatabaseValidator;
 
 /**
  * Pattern command.
@@ -46,6 +50,8 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			System.out.print("Identifier : ");
+			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
 			ctx.setComputers(Arrays.asList(ComputerService.INSTANCE.getById(ctx
 					.getComputerId())));
 			System.out.println(ctx.getComputers());
@@ -74,6 +80,47 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			System.out.println("Identifier : ");
+			final Computer computer = ComputerService.INSTANCE.getById(Long
+					.valueOf(ctx.getScanner().getNextToken()));
+			System.out.println("name : ");
+			if (ctx.getScanner().hasNextToken()) {
+				computer.setName(ctx.getScanner().getNextToken());
+			}
+			System.out.println("Introduced :");
+			if (ctx.getScanner().hasNextToken()) {
+				final String tok = ctx.getScanner().getNextToken();
+				final StringBuilder sb = new StringBuilder();
+				sb.append(tok).append(" ").append("00:00:00");
+				if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
+						.toString())) {
+					DateTimeFormatter formatter = DateTimeFormatter
+							.ofPattern("yyyy-MM-dd HH:mm:ss");
+					LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
+							formatter);
+					computer.setIntroduced(dateTime);
+				}
+			}
+			System.out.println("Discontinued :");
+			if (ctx.getScanner().hasNextToken()) {
+				final String tok = ctx.getScanner().getNextToken();
+				final StringBuilder sb = new StringBuilder();
+				sb.append(tok).append(" ").append("00:00:00");
+				if (ComputerDatabaseValidator.INSTANCE.validateDate(sb
+						.toString())) {
+					DateTimeFormatter formatter = DateTimeFormatter
+							.ofPattern("yyyy-MM-dd HH:mm:ss");
+					LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
+							formatter);
+					computer.setDiscontinued(dateTime);
+				}
+			}
+			System.out.println("Company id");
+			if (ctx.getScanner().hasNextToken()) {
+				computer.setCompanyId(Long.valueOf(ctx.getScanner()
+						.getNextToken()));
+			}
+			ctx.setNewComputer(computer);
 			ComputerService.INSTANCE.update(ctx.getNewComputer());
 		}
 
@@ -86,11 +133,23 @@ public enum Command {
 		@Override
 		public void execute(ComputerDatabaseContext ctx)
 				throws ServiceException {
+			System.out.print("Identifier : ");
+			ctx.setComputerId(Long.valueOf(ctx.getScanner().getNextToken()));
 			ComputerService.INSTANCE.delete(ctx.getComputerId());
+			System.out.println("Deleted");
 		}
 
+	},
+	EXIT("exit") {
+
+		@Override
+		public void execute(ComputerDatabaseContext ctx)
+				throws ServiceException {
+			ctx.getScanner().setExit(true);
+		}
+		
 	};
-	
+
 	private static Map<String, Command> commands;
 	static {
 		commands = new HashMap<>();
@@ -98,16 +157,18 @@ public enum Command {
 			commands.put(com.commandLabel, com);
 		}
 	}
-	
+
 	private final String commandLabel;
-	
+
 	private Command(String commandLabel) {
 		this.commandLabel = commandLabel;
 	}
-	
+
 	/**
 	 * Return a command from its textual value.
-	 * @param command Textual command
+	 * 
+	 * @param command
+	 *            Textual command
 	 * @return The matching command
 	 */
 	public static Command getCommand(String command) {

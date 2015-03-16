@@ -10,6 +10,12 @@ public class ComputerDatabaseContext {
 	private List<Company> companies;
 	private Computer newComputer;
 	private long computerId;
+	private ComputerDatabaseScanner scanner;
+	
+
+	public ComputerDatabaseScanner getScanner() {
+		return scanner;
+	}
 
 	public List<Computer> getComputers() {
 		return computers;
@@ -42,5 +48,10 @@ public class ComputerDatabaseContext {
 	public void setNewComputer(Computer newComputer) {
 		this.newComputer = newComputer;
 	}
+
+	public void setScanner(ComputerDatabaseScanner scanner) {
+		this.scanner = scanner;
+	}
+	
 	
 }
