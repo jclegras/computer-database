@@ -7,7 +7,7 @@ public class Computer {
 	private String name;
 	private LocalDateTime introduced;
 	private LocalDateTime discontinued;
-	private Company company;
+	private long companyId;
 	
 	public long getId() {
 		return id;
@@ -25,10 +25,11 @@ public class Computer {
 		return discontinued;
 	}
 	
-	public Company getCompany() {
-		return company;
-	}
 	
+	public long getCompanyId() {
+		return companyId;
+	}
+
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -44,15 +45,25 @@ public class Computer {
 		this.discontinued = discontinued;
 	}
 	
-	public void setCompany(Company company) {
-		this.company = company;
+	public void setCompanyId(long companyId) {
+		this.companyId = companyId;
 	}
 
 	@Override
 	public String toString() {
-		return "Computer [id=" + id + ", name=" + name + ", introduced="
-				+ introduced + ", discontinued=" + discontinued + ", company="
-				+ company + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("Computer [id=");
+		builder.append(id);
+		builder.append(", name=");
+		builder.append(name);
+		builder.append(", introduced=");
+		builder.append(introduced);
+		builder.append(", discontinued=");
+		builder.append(discontinued);
+		builder.append(", companyId=");
+		builder.append(companyId);
+		builder.append("]");
+		return builder.toString();
 	}
 
 }
