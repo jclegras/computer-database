@@ -6,7 +6,7 @@ import com.excilys.dao.ComputerDAO;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Computer;
-import com.excilys.util.Page;
+import com.excilys.util.SimplePage;
 
 public enum ComputerService {
 	INSTANCE;
@@ -19,7 +19,7 @@ public enum ComputerService {
 		}
 	}
 	
-	public List<Computer> getAll(Page page) throws ServiceException {
+	public List<Computer> getAll(SimplePage page) throws ServiceException {
 		if (page == null) {
 			throw new IllegalArgumentException();
 		}

@@ -9,6 +9,9 @@ public class ComputerMapper implements Mapper<Computer> {
 
 	@Override
 	public Computer rowMap(ResultSet res) throws SQLException {
+		if (res == null) {
+			throw new IllegalArgumentException();
+		}
 		final Computer computer = new Computer();
 		computer.setId(res.getLong("id"));
 		computer.setName(res.getString("name"));

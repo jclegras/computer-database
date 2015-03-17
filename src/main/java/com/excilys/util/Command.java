@@ -13,7 +13,7 @@ import com.excilys.service.ComputerService;
 import com.excilys.validation.ComputerDatabaseValidator;
 
 /**
- * Pattern command.
+ * Pattern command for the processing of actions.
  */
 public enum Command {
 	/**
@@ -206,8 +206,7 @@ public enum Command {
 	/**
 	 * Return a command from its textual value.
 	 * 
-	 * @param command
-	 *            Textual command
+	 * @param command Textual command
 	 * @return The matching command
 	 */
 	public static Command getCommand(String command) {

@@ -10,11 +10,10 @@ public enum ComputerDatabaseValidator {
 	/**
 	 * Validate date.
 	 *
-	 * @param inputString the input string
-	 * @return true, if successful
+	 * @param inputString The input string
+	 * @return True, if successful
 	 */
 	public boolean validateDate(String inputString) {
-
 		SimpleDateFormat format = new java.text.SimpleDateFormat(
 				"yyyy-MM-dd HH:mm:ss");
 		try {
