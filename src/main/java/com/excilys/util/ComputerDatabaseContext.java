@@ -11,6 +11,7 @@ public class ComputerDatabaseContext {
 	private Computer newComputer;
 	private long computerId;
 	private ComputerDatabaseScanner scanner;
+	private String help;
 	
 
 	public ComputerDatabaseScanner getScanner() {
@@ -31,6 +32,10 @@ public class ComputerDatabaseContext {
 	
 	public Computer getNewComputer() {
 		return newComputer;
+	}
+	
+	public String getHelp() {
+		return help;
 	}
 
 	public void setComputers(List<Computer> computers) {
@@ -53,5 +58,8 @@ public class ComputerDatabaseContext {
 		this.scanner = scanner;
 	}
 	
-	
+	public void setHelp(String help) {
+		this.help = help;
+	}
+		
 }

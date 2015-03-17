@@ -15,27 +15,36 @@ public enum ComputerDatabaseConnection {
 	private Properties properties;
 	private String url;
 
-	public Connection getInstance() throws PersistenceException {
-		Connection connection = null;
-		
+	ComputerDatabaseConnection() {
+		properties = new Properties();
 		try {
 			loadConfigFile();
-			connection = DriverManager.getConnection(url, properties);
-		} catch (SQLException | IOException e) {
-			throw new PersistenceException(e.getMessage());
+		} catch (IOException e) {
+			throw new PersistenceException(e);
 		}
-		
+	}
+
+	public Connection getInstance() {
+		Connection connection = null;
+
+		try {
+			connection = DriverManager.getConnection(url, properties);
+		} catch (SQLException e) {
+			throw new PersistenceException(e);
+		}
+
 		return connection;
 	}
 
+	/*
+	 * Load config.properties.
+	 */
 	private void loadConfigFile() throws IOException {
-		if (properties == null) {
-			properties = new Properties();
-			try (final InputStream is = ComputerDatabaseConnection.class
-					.getClassLoader().getResourceAsStream("config.properties")) {
-				properties.load(is);
-				url = properties.getProperty("url");
-			}	
+		properties = new Properties();
+		try (final InputStream is = ComputerDatabaseConnection.class
+				.getClassLoader().getResourceAsStream("config.properties")) {
+			properties.load(is);
+			url = properties.getProperty("url");
 		}
 	}
 }

@@ -2,7 +2,9 @@ package com.excilys.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 
+import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
 public class ComputerMapper implements Mapper<Computer> {
@@ -15,13 +17,21 @@ public class ComputerMapper implements Mapper<Computer> {
 		final Computer computer = new Computer();
 		computer.setId(res.getLong("id"));
 		computer.setName(res.getString("name"));
-		if (res.getTimestamp("introduced") != null) {
-			computer.setIntroduced(res.getTimestamp("introduced").toLocalDateTime());	
+		final Timestamp introduced = res.getTimestamp("introduced");
+		if (introduced != null) {
+			computer.setIntroduced(introduced.toLocalDateTime());
 		}
-		if (res.getTimestamp("discontinued") != null) {
-			computer.setDiscontinued(res.getTimestamp("discontinued").toLocalDateTime());
+		final Timestamp discontinued = res.getTimestamp("discontinued");
+		if (discontinued != null) {
+			computer.setDiscontinued(discontinued.toLocalDateTime());
 		}
-		computer.setCompanyId(res.getLong("company_id"));
+		final Long companyId = res.getLong("company_id");
+		if (companyId > 0) {
+			final Company company = new Company();
+			company.setId(companyId);
+			company.setName(res.getString("compa.name"));
+			computer.setCompany(company);
+		}
 		return computer;
 	}
 

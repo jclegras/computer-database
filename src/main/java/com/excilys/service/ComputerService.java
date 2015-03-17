@@ -2,75 +2,49 @@ package com.excilys.service;
 
 import java.util.List;
 
-import com.excilys.dao.ComputerDAO;
-import com.excilys.exception.DAOException;
-import com.excilys.exception.ServiceException;
 import com.excilys.model.Computer;
-import com.excilys.util.SimplePage;
+import com.excilys.persistence.dao.ComputerDAO;
+import com.excilys.util.Page;
 
 public enum ComputerService {
 	INSTANCE;
-	
-	public List<Computer> getAll() throws ServiceException {
-		try {
-			return ComputerDAO.INSTANCE.getAll();
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
+
+	public List<Computer> getAll() {
+		return ComputerDAO.INSTANCE.getAll();
 	}
-	
-	public List<Computer> getAll(SimplePage page) throws ServiceException {
+
+	public List<Computer> getAll(Page page) {
 		if (page == null) {
 			throw new IllegalArgumentException();
 		}
-		try {
-			return ComputerDAO.INSTANCE.getAll(page);
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
+		return ComputerDAO.INSTANCE.getAll(page);
 	}
 
-	public Computer getById(long id) throws ServiceException {
+	public Computer getById(long id) {
 		if (id <= 0) {
 			throw new IllegalArgumentException();
 		}
-		try {
-			return ComputerDAO.INSTANCE.getById(id);
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
+		return ComputerDAO.INSTANCE.getById(id);
 	}
 
-	public long create(Computer computer) throws ServiceException {
+	public void create(Computer computer) {
 		if (computer == null) {
 			throw new IllegalArgumentException();
 		}
-		try {
-			return ComputerDAO.INSTANCE.create(computer);
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
+		ComputerDAO.INSTANCE.create(computer);
 	}
 
-	public void update(Computer computer) throws ServiceException {
+	public void update(Computer computer) {
 		if (computer == null) {
 			throw new IllegalArgumentException();
 		}
-		try {
-			ComputerDAO.INSTANCE.update(computer);
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
+		ComputerDAO.INSTANCE.update(computer);
 	}
 
-	public void delete(long id) throws ServiceException {
+	public void delete(long id) {
 		if (id <= 0) {
 			throw new IllegalArgumentException();
 		}
-		try {
-			ComputerDAO.INSTANCE.delete(id);
-		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage());
-		}
+		ComputerDAO.INSTANCE.delete(id);
 	}
 }
