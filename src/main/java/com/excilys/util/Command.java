@@ -143,7 +143,7 @@ public enum Command {
 				final StringBuilder sb = new StringBuilder();
 				sb.append("==Commands==\n\n");
 				for (Command c : commands.values()) {
-					sb.append(c).append(" ").append("[").append(c.info)
+					sb.append(c.toString()).append(" ").append("[").append(c.info)
 							.append("]").append("\n");
 				}
 				ctx.setHelp(sb.toString());
@@ -230,11 +230,17 @@ public enum Command {
 	 * 
 	 * @param command
 	 *            Textual command
-	 * @return The matching command
+	 * @return The matching command (or HELP if wrong command)
 	 */
 	public static Command getCommand(String command) {
-		return commands.get(command);
+		final Command com = commands.get(command);
+		return (com == null) ? Command.HELP : com;
 	}
 
 	public abstract void execute(ComputerDatabaseContext ctx);
+	
+	@Override
+	public String toString() {
+		return commandLabel;
+	}
 }

@@ -9,13 +9,9 @@ public class Main {
 		ComputerDatabaseScanner scanner = new ComputerDatabaseScanner();
 		ComputerDatabaseContext ctx = new ComputerDatabaseContext();
 		ctx.setScanner(scanner);
-		
+
 		while (!scanner.isExit()) {
-			final String token = scanner.getNextToken();
-			final Command command = Command.getCommand(token);
-			if (command != null) {
-				command.execute(ctx);
-			}
+			Command.getCommand(scanner.getNextToken()).execute(ctx);
 		}
 	}
 }

@@ -16,7 +16,6 @@ public enum ComputerDatabaseConnection {
 	private String url;
 
 	ComputerDatabaseConnection() {
-		properties = new Properties();
 		try {
 			loadConfigFile();
 		} catch (IOException e) {
