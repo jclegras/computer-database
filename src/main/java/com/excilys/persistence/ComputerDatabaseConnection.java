@@ -39,9 +39,11 @@ public enum ComputerDatabaseConnection {
 	 * Load config.properties.
 	 */
 	private void loadConfigFile() throws IOException {
+		final String config = System.getProperty("env").equals("TEST") ? "config-test"
+				: "config";
 		properties = new Properties();
 		try (final InputStream is = ComputerDatabaseConnection.class
-				.getClassLoader().getResourceAsStream("config.properties")) {
+				.getClassLoader().getResourceAsStream(config + ".properties")) {
 			properties.load(is);
 			url = properties.getProperty("url");
 		}

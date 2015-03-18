@@ -4,6 +4,14 @@ public class Company {
 	private long id;
 	private String name;
 	
+	public Company() {
+	}
+
+	public Company(long id, String name) {
+		this.id = id;
+		this.name = name;
+	}
+
 	public long getId() {
 		return id;
 	}
