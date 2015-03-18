@@ -34,7 +34,7 @@ public class CompanyDAOTest {
 	public void getAllWithSuccess() throws Exception {
 		// GIVEN
 		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-				"test/datasets/companyDAO/getAll.xml")));
+				"src/test/java/datasets/companyDAO/getAll.xml")));
 		final int expectedSize = 2;
 		final Company expectedCompany1 = new Company(1L, "IBM");
 		final Company expectedCompany2 = new Company(2L, "Dell");
@@ -51,7 +51,7 @@ public class CompanyDAOTest {
 	public void getAllWhenNoEntityGiveEmptyList() throws Exception {
 		// GIVEN
 		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-				"test/datasets/companyDAO/getAllNoEntity.xml")));
+				"src/test/java/datasets/companyDAO/getAllNoEntity.xml")));
 		final int expectedSize = 0;
 		
 		// WHEN
@@ -66,7 +66,7 @@ public class CompanyDAOTest {
 	public void getByIdWithSuccess() throws Exception {
 		// GIVEN
 		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-				"test/datasets/companyDAO/getById.xml")));
+				"src/test/java/datasets/companyDAO/getById.xml")));
 		final long id = 2L;
 		final long expectedId = 2L;
 		final String expectedName = "Dell";
@@ -84,7 +84,7 @@ public class CompanyDAOTest {
 	public void getByIdWhenNotFoundGivesANullResult() throws Exception {
 		// GIVEN
 		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-				"test/datasets/companyDAO/getById.xml")));
+				"src/test/java/datasets/companyDAO/getById.xml")));
 		final long id = 45456L;
 		
 		// WHEN
@@ -94,6 +94,4 @@ public class CompanyDAOTest {
 		Assertions.assertThat(company).isNull();
 	}
 	
-	@Test
-	public void 
 }
