@@ -23,11 +23,12 @@ public class DBUtil {
 	public static String jdbcUrl;
 	public static String user;
 	public static String password;
+	private static final String CONFIG_TEST = "config-test.properties";
 	
 	static {
 		final Properties properties = new Properties();
 		try (final InputStream is = ComputerDatabaseConnection.class
-				.getClassLoader().getResourceAsStream("test.properties")) {
+				.getClassLoader().getResourceAsStream(CONFIG_TEST)) {
 			properties.load(is);
 			jdbcDriver = properties.getProperty("driver");
 			jdbcUrl = properties.getProperty("url");
@@ -70,7 +71,7 @@ public class DBUtil {
 	public static Connection getConnection() throws IOException, SQLException {
 		final Properties properties = new Properties();
 		try (final InputStream is = ComputerDatabaseConnection.class
-				.getClassLoader().getResourceAsStream("test.properties")) {
+				.getClassLoader().getResourceAsStream(CONFIG_TEST)) {
 			properties.load(is);
 			final String url = properties.getProperty("url");
 			return DriverManager.getConnection(url, properties);

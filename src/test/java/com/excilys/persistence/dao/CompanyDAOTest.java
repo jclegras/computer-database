@@ -43,6 +43,7 @@ public class CompanyDAOTest {
 		final List<Company> companies = CompanyDAO.INSTANCE.getAll();
 
 		// THEN
+		Assertions.assertThat(companies).isNotNull();
 		Assertions.assertThat(companies.size()).isEqualTo(expectedSize);
 		Assertions.assertThat(companies).contains(expectedCompany1, expectedCompany2);
 	}
@@ -52,14 +53,13 @@ public class CompanyDAOTest {
 		// GIVEN
 		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
 				"src/test/java/datasets/companyDAO/getAllNoEntity.xml")));
-		final int expectedSize = 0;
 		
 		// WHEN
 		final List<Company> companies = CompanyDAO.INSTANCE.getAll();
 
 		// THEN
 		Assertions.assertThat(companies).isNotNull();
-		Assertions.assertThat(companies.size()).isEqualTo(expectedSize);
+		Assertions.assertThat(companies).isEmpty();
 	}
 	
 	@Test
@@ -94,4 +94,22 @@ public class CompanyDAOTest {
 		Assertions.assertThat(company).isNull();
 	}
 	
+	@Test
+	public void getByIdWithNullIDThrowsException() throws Exception {
+		// GIVEN
+		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
+				"src/test/java/datasets/companyDAO/getById.xml")));
+		final String expectedMessage = "ID must be not null";
+		
+		// WHEN
+		try {
+			CompanyDAO.INSTANCE.getById(null);
+			// THEN KO
+			Assertions.fail("Must fail because of null ID");
+		} catch (Exception e) {
+			// THEN
+			Assertions.assertThat(e).isInstanceOf(IllegalArgumentException.class);
+			Assertions.assertThat(e.getMessage()).isEqualTo(expectedMessage);
+		}
+	}
 }

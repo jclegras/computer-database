@@ -18,7 +18,7 @@ public enum ComputerDatabaseConnection {
 	ComputerDatabaseConnection() {
 		try {
 			loadConfigFile();
-		} catch (IOException e) {
+		} catch (Exception e) {
 			throw new PersistenceException(e);
 		}
 	}
@@ -38,9 +38,14 @@ public enum ComputerDatabaseConnection {
 	/*
 	 * Load config.properties.
 	 */
-	private void loadConfigFile() throws IOException {
-		final String config = System.getProperty("env").equals("TEST") ? "config-test"
-				: "config";
+	private void loadConfigFile() throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		String config = null;
+		if ("TEST".equals(System.getProperty("env"))) {
+			config = "config-test";
+		} else {
+			Class.forName("com.mysql.jdbc.Driver").newInstance();
+			config = "config";
+		}
 		properties = new Properties();
 		try (final InputStream is = ComputerDatabaseConnection.class
 				.getClassLoader().getResourceAsStream(config + ".properties")) {

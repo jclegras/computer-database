@@ -35,6 +35,9 @@ public enum CompanyDAO implements DAO<Company, Long> {
 
 	@Override
 	public Company getById(Long id) {
+		if (id == null) {
+			throw new IllegalArgumentException("ID must be not null");
+		}
 		final CompanyMapper companyMapper = new CompanyMapper();
 		final String sql = "SELECT * FROM company WHERE id = ?";
 

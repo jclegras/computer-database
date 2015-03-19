@@ -19,8 +19,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public List<Computer> getAll() {
-		final String sql = "SELECT * FROM computer compu LEFT OUTER JOIN company"
-				+ " compa ON compu.company_id = compa.id";
+		final String sql = "SELECT * FROM computer LEFT OUTER JOIN company"
+				+ " ON computer.company_id = company.id";
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
 
@@ -40,8 +40,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	public List<Computer> getAll(Page page) {
 		final List<Computer> computers = new ArrayList<>();
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM computer compu LEFT OUTER JOIN company"
-				+ " compa ON compu.company_id = compa.id"
+		final String sql = "SELECT * FROM computer LEFT OUTER JOIN company"
+				+ " ON computer.company_id = company.id"
 				+ " ORDER BY ? ? LIMIT ? OFFSET ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
@@ -63,9 +63,12 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public Computer getById(Long id) {
+		if (id == null) {
+			throw new IllegalArgumentException("ID must be not null");
+		}
 		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM computer compu LEFT OUTER JOIN company"
-				+ " compa ON compu.company_id = compa.id WHERE compu.id = ?";
+		final String sql = "SELECT * FROM computer LEFT OUTER JOIN company"
+				+ " ON computer.company_id = company.id WHERE computer.id = ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 				.getInstance().prepareStatement(sql)) {
@@ -83,6 +86,9 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void create(Computer entity) {
+		if (entity == null) {
+			throw new IllegalArgumentException("Entity must be not null");
+		}
 		final String sql = "INSERT INTO computer VALUES (?, ?, ?, ?, ?)";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
@@ -122,6 +128,9 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void update(Computer entity) {
+		if (entity == null) {
+			throw new IllegalArgumentException("Entity must be not null");
+		}
 		final String sql = "UPDATE computer SET name = ?, introduced = ?, "
 				+ "discontinued = ?, company_id = ? WHERE id = ?";
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
@@ -155,6 +164,9 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void delete(Long id) {
+		if (id == null) {
+			throw new IllegalArgumentException("ID must be not null");
+		}
 		final String sql = "DELETE FROM computer WHERE id = ?";
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
 				.getInstance().prepareStatement(sql)) {

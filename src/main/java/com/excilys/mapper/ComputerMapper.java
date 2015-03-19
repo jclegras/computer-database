@@ -15,21 +15,21 @@ public class ComputerMapper implements Mapper<Computer> {
 			throw new IllegalArgumentException();
 		}
 		final Computer computer = new Computer();
-		computer.setId(res.getLong("id"));
-		computer.setName(res.getString("name"));
-		final Timestamp introduced = res.getTimestamp("introduced");
+		computer.setId(res.getLong("computer.id"));
+		computer.setName(res.getString("computer.name"));
+		final Timestamp introduced = res.getTimestamp("computer.introduced");
 		if (introduced != null) {
 			computer.setIntroduced(introduced.toLocalDateTime());
 		}
-		final Timestamp discontinued = res.getTimestamp("discontinued");
+		final Timestamp discontinued = res.getTimestamp("computer.discontinued");
 		if (discontinued != null) {
 			computer.setDiscontinued(discontinued.toLocalDateTime());
 		}
-		final Long companyId = res.getLong("company_id");
+		final Long companyId = res.getLong("computer.company_id");
 		if (companyId > 0) {
 			final Company company = new Company();
 			company.setId(companyId);
-			company.setName(res.getString("compa.name"));
+			company.setName(res.getString("company.name"));
 			computer.setCompany(company);
 		}
 		return computer;
