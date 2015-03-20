@@ -197,7 +197,7 @@ public enum Command {
 			final String tok = ctx.getScanner().getNextToken();
 			final StringBuilder sb = new StringBuilder();
 			sb.append(tok).append(" ").append("00:00:00");
-			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb.toString())) {
+			if (ComputerDatabaseValidator.INSTANCE.validateDateTime(sb.toString())) {
 				DateTimeFormatter formatter = DateTimeFormatter
 						.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),
@@ -210,7 +210,7 @@ public enum Command {
 			final String tok = ctx.getScanner().getNextToken();
 			final StringBuilder sb = new StringBuilder();
 			sb.append(tok).append(" ").append("00:00:00");
-			if (ComputerDatabaseValidator.INSTANCE.validateDate(sb.toString())) {
+			if (ComputerDatabaseValidator.INSTANCE.validateDateTime(sb.toString())) {
 				DateTimeFormatter formatter = DateTimeFormatter
 						.ofPattern("yyyy-MM-dd HH:mm:ss");
 				LocalDateTime dateTime = LocalDateTime.parse(sb.toString(),

@@ -20,6 +20,11 @@ public class Computer {
 		this.discontinued = discontinued;
 		this.company = company;
 	}
+	
+	public Computer(String name, LocalDateTime introduced,
+			LocalDateTime discontinued, Company company) {
+		this(null, name, introduced, discontinued, company);
+	}
 
 	public Long getId() {
 		return id;

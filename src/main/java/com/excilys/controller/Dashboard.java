@@ -13,10 +13,8 @@ import com.excilys.service.ComputerService;
  * Servlet implementation class Test
  */
 public class Dashboard extends HttpServlet {
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
-	 *      response)
-	 */
+	
+	@Override
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		request.setAttribute("computers", ComputerService.INSTANCE.getAll());

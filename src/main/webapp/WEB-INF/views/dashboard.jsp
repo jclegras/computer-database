@@ -15,7 +15,7 @@
 <body>
     <header class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
-            <a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+        	<a class="navbar-brand" href="<c:url value="/dashboard" />"> Application - Computer Database </a>
         </div>
     </header>
 
@@ -34,7 +34,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="<c:url value="/addComputer" />">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -50,7 +50,6 @@
                     <tr>
                         <!-- Variable declarations for passing labels as parameters -->
                         <!-- Table header for Computer Name -->
-
                         <th class="editMode" style="width: 60px; height: 22px;">
                             <input type="checkbox" id="selectall" /> 
                             <span style="vertical-align: top;">
@@ -99,15 +98,6 @@
 									    </c:otherwise>
 									</c:choose>
 								</td>
-<!-- 								<td><a -->
-<%-- 									href="<c:url value="/medicament/detail?id=${medicament.idMedicament}" />">${medicament.code_cis}</a></td> --%>
-<%-- 								<td>${medicament.libelle}</td> --%>
-<!-- 								<td><a -->
-<%-- 									href="<c:url value="/medicament/detail?id=${medicament.idMedicament}" />" --%>
-<!-- 									class="btn btn-sm btn-info">Consulter</a> <a -->
-<%-- 									href="<c:url value="/medicament/delete?id=${medicament.idMedicament}" />" --%>
-<!-- 									class="btn btn-sm btn-danger" onclick="confirmMessage()">Supprimer</a> -->
-<!-- 								</td> -->
 							</tr>
 						</tbody>
 					</c:forEach>
