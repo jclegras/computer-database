@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.assertj.core.api.Assertions;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -24,10 +25,10 @@ public class CompanyDAOTest {
 		}
 	}
 	
-//	@After 
-//	public void tearDown() throws Exception {
-//		DBUtil.databaseTester.onTearDown();
-//	}
+	@After 
+	public void tearDown() throws Exception {
+		DBUtil.databaseTester.onTearDown();
+	}
 
 	@Test
 	public void getAllWithSuccess() throws Exception {

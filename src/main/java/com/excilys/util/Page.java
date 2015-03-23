@@ -10,12 +10,17 @@ package com.excilys.util;
  */
 public interface Page {
 	enum Sort {
-		ASC, DESC;
+		ASC, DESC
 	}
 	/**
 	 * Default property on which apply the sorting
 	 */
-	final String DEFAULT_PROPERTY = "ID";
+	String DEFAULT_PROPERTY = "ID";
+	/**
+	 * Default size
+	 */
+	int DEFAULT_SIZE = 10;
+
 	/**
 	 * @return Current page
 	 */

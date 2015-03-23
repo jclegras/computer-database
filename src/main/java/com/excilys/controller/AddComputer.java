@@ -1,23 +1,19 @@
 package com.excilys.controller;
 
-import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 import com.excilys.util.LocalDateTimeUtil;
 
-/**
- * Servlet implementation class EditComputer
- */
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 public class AddComputer extends HttpServlet {
 
 	@Override
@@ -54,7 +50,7 @@ public class AddComputer extends HttpServlet {
 		if (introduced != null) {
 			introduced = introduced.trim();
 			if (!introduced.isEmpty()) {
-				LocalDateTimeUtil.convertToValidLocalDateTime(introduced)
+				LocalDateTimeUtil.convertToValidLocalDateTime(introduced);
 				introducedTime = LocalDateTime.parse(introduced, formatter);	
 			}
 		}
@@ -75,7 +71,7 @@ public class AddComputer extends HttpServlet {
 		}
 		ComputerService.INSTANCE.create(new Computer(name, introducedTime,
 				discontinuedTime, company));
-		resp.sendRedirect("/dashboard");
+		resp.sendRedirect("dashboard");
 	}
 
 }

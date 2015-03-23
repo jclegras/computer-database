@@ -31,20 +31,28 @@
                         <fieldset>
                             <div class="form-group">
                                 <label for="computerName">Computer name</label>
-                                <input type="text" class="form-control" id="computerName" placeholder="Computer name">
+                                <input type="text" class="form-control" id="computerName" placeholder="Computer name" value="${computer.name}" />
                             </div>
                             <div class="form-group">
                                 <label for="introduced">Introduced date</label>
-                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date">
+                                <input type="date" class="form-control" id="introduced" placeholder="Introduced date" value="${computer.introduced}" />
                             </div>
                             <div class="form-group">
                                 <label for="discontinued">Discontinued date</label>
-                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date">
+                                <input type="date" class="form-control" id="discontinued" placeholder="Discontinued date" value="${computer.discontinued}" />
                             </div>
                             <div class="form-group">
                                 <label for="companyId">Company</label>
-                                <select class="form-control" id="companyId" >
-                                    <option value="0">--</option>
+                                <select class="form-control" id="companyId">
+                                    <c:choose>
+                                        <c:when test="${!empty computer.company}">
+                                            <option selected>${computer.company.id}</option>
+                                        </c:when>
+                                        <c:otherwise>
+                                            <option>--</option>
+                                        </c:otherwise>
+                                    </c:choose>
+                                    <option selected="${computer.company.id}">${computer.company.id}</option>
                                 </select>
                             </div>            
                         </fieldset>

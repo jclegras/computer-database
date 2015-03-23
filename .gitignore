@@ -56,5 +56,5 @@ local.properties
 ######################
 # INTELLIJ
 ######################
-heylisten.iml
+*.iml
 .idea
