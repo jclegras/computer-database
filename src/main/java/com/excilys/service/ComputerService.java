@@ -8,6 +8,10 @@ import com.excilys.util.Page;
 
 public enum ComputerService {
 	INSTANCE;
+	
+	public int count() {
+		return ComputerDAO.INSTANCE.count();
+	}
 
 	public List<Computer> getAll() {
 		return ComputerDAO.INSTANCE.getAll();

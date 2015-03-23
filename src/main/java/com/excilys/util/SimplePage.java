@@ -27,6 +27,20 @@ public class SimplePage implements Page {
         this.properties = new ArrayList<>();
         this.properties.add(DEFAULT_PROPERTY);
     }
+    
+    /**
+     * @post getPage() == 1
+     * getSize() == size getSort().equals(Sort.ASC)
+     * getProperties().size() == 1
+     * getProperties().contains(Page.DEFAULT_PROPERTY)
+     */
+    public SimplePage(int size) {
+        this.page = 1;
+        this.size = size;
+        this.sort = Sort.ASC;
+        this.properties = new ArrayList<>();
+        this.properties.add(DEFAULT_PROPERTY);
+    }
 
     /**
      * @param page Current page
@@ -77,23 +91,76 @@ public class SimplePage implements Page {
             this.properties = Arrays.asList(properties);
         }
     }
+    
+    @Override
+    public boolean isPrevious() {
+    	return page > 1;
+    }
 
+	@Override
     public int getPage() {
         return page;
     }
 
+	@Override
     public int getSize() {
         return size;
     }
 
+	@Override
     public int getOffset() {
         return (page - 1) * size;
     }
 
+	@Override
     public Sort getSort() {
         return sort;
     }
+	
+	@Override
+	public Page getFirst() {
+		return new SimplePage(1, size, sort);
+	}
+//	
+//	@Override
+//	public Page getPrevious() {
+//		return page > 1 ? new SimplePage(page - 1, size, sort) : null;
+//	}
 
+	@Override
+	public Page getNext() {
+		return new SimplePage(page + 1, size, sort);
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + page;
+		result = prime * result + size;
+		result = prime * result + ((sort == null) ? 0 : sort.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		SimplePage other = (SimplePage) obj;
+		if (page != other.page)
+			return false;
+		if (size != other.size)
+			return false;
+		if (sort != other.sort)
+			return false;
+		return true;
+	}
+
+	@Override
     public String getProperties() {
         if (textualProperties == null) {
             final StringBuilder sb = new StringBuilder();
@@ -106,6 +173,7 @@ public class SimplePage implements Page {
         return textualProperties;
     }
 
+	@Override
     public void setPage(int page) {
         if (page < 1) {
             throw new IllegalArgumentException();
@@ -113,6 +181,7 @@ public class SimplePage implements Page {
         this.page = page;
     }
 
+	@Override
     public void setSize(int size) {
         if (size < 0) {
             throw new IllegalArgumentException();
@@ -120,6 +189,7 @@ public class SimplePage implements Page {
         this.size = size;
     }
 
+	@Override
     public void setSort(Sort sort) {
         if (sort == null) {
             throw new IllegalArgumentException();
@@ -127,9 +197,11 @@ public class SimplePage implements Page {
         this.sort = sort;
     }
 
+	@Override
     public void setProperties(String... properties) {
         if (properties.length > 0) {
             this.properties = Arrays.asList(properties);
         }
     }
+
 }

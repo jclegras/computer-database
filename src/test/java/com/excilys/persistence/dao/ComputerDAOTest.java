@@ -27,6 +27,33 @@ public class ComputerDAOTest {
 			System.err.println(e.getMessage());
 		}
 	}
+	
+	@Test
+	public void countWhenSeveralEntities() throws Exception {
+		// GIVEN
+		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
+				"src/test/java/datasets/computerDAO/count.xml")));
+		final int expectedNbComputers = 3;
+		
+		// WHEN
+		final int nbComputers = ComputerDAO.INSTANCE.count();
+		
+		// THEN
+		Assertions.assertThat(nbComputers).isEqualTo(expectedNbComputers);
+	}
+	
+	@Test
+	public void countWhenNoEntity() throws Exception {
+		// GIVEN
+		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
+				"src/test/java/datasets/computerDAO/getAllNoEntity.xml")));
+		
+		// WHEN
+		final int nbComputers = ComputerDAO.INSTANCE.count();
+		
+		// THEN
+		Assertions.assertThat(nbComputers).isZero();
+	}
 
 	@Test
 	public void getAllWithSuccess() throws Exception {
@@ -60,6 +87,23 @@ public class ComputerDAOTest {
 		Assertions.assertThat(computers).isNotNull();
 		Assertions.assertThat(computers).isEmpty();
 	}
+	
+//	@Test
+//	public void getAllWithPage() throws Exception {
+//		// GIVEN
+//		DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
+//				"src/test/java/datasets/computerDAO/getAllWithPage.xml")));
+//		final Page page = new SimplePage(5);
+//		final int expectedSize = 5;
+//		
+//		// WHEN
+//		final List<Computer> computers = ComputerDAO.INSTANCE.getAll(page);
+//		
+//		
+//		// THEN
+//		Assertions.assertThat(computers).isNotNull();
+//		Assertions.assertThat(computers.size()).isEqualTo(expectedSize);
+//	}
 
 	@Test
 	public void getByIdWithSuccess() throws Exception {

@@ -38,7 +38,8 @@ public enum ComputerDatabaseConnection {
 	/*
 	 * Load config.properties.
 	 */
-	private void loadConfigFile() throws IOException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	private void loadConfigFile() throws IOException, InstantiationException,
+			IllegalAccessException, ClassNotFoundException {
 		String config = null;
 		if ("TEST".equals(System.getProperty("env"))) {
 			config = "config-test";
