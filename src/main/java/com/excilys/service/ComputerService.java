@@ -1,54 +1,54 @@
 package com.excilys.service;
 
-import java.util.List;
-
 import com.excilys.model.Computer;
 import com.excilys.persistence.dao.ComputerDAO;
 import com.excilys.util.Page;
 
+import java.util.List;
+
 public enum ComputerService {
-	INSTANCE;
-	
-	public int count() {
-		return ComputerDAO.INSTANCE.count();
-	}
+    INSTANCE;
 
-	public List<Computer> getAll() {
-		return ComputerDAO.INSTANCE.getAll();
-	}
+    public int count() {
+        return ComputerDAO.INSTANCE.count();
+    }
 
-	public List<Computer> getAll(Page page) {
-		if (page == null) {
-			throw new IllegalArgumentException();
-		}
-		return ComputerDAO.INSTANCE.getAll(page);
-	}
+    public List<Computer> getAll() {
+        return ComputerDAO.INSTANCE.getAll();
+    }
 
-	public Computer getById(long id) {
-		if (id <= 0) {
-			throw new IllegalArgumentException();
-		}
-		return ComputerDAO.INSTANCE.getById(id);
-	}
+    public List<Computer> getAll(Page page) {
+        if (page == null) {
+            throw new IllegalArgumentException();
+        }
+        return ComputerDAO.INSTANCE.getAll(page);
+    }
 
-	public void create(Computer computer) {
-		if (computer == null) {
-			throw new IllegalArgumentException();
-		}
-		ComputerDAO.INSTANCE.create(computer);
-	}
+    public Computer getById(long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException();
+        }
+        return ComputerDAO.INSTANCE.getById(id);
+    }
 
-	public void update(Computer computer) {
-		if (computer == null) {
-			throw new IllegalArgumentException();
-		}
-		ComputerDAO.INSTANCE.update(computer);
-	}
+    public void create(Computer computer) {
+        if (computer == null) {
+            throw new IllegalArgumentException();
+        }
+        ComputerDAO.INSTANCE.create(computer);
+    }
 
-	public void delete(long id) {
-		if (id <= 0) {
-			throw new IllegalArgumentException();
-		}
-		ComputerDAO.INSTANCE.delete(id);
-	}
+    public void update(Computer computer) {
+        if (computer == null) {
+            throw new IllegalArgumentException();
+        }
+        ComputerDAO.INSTANCE.update(computer);
+    }
+
+    public void delete(long id) {
+        if (id <= 0) {
+            throw new IllegalArgumentException();
+        }
+        ComputerDAO.INSTANCE.delete(id);
+    }
 }

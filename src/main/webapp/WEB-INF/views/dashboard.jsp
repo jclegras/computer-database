@@ -1,5 +1,6 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="p" %>
 <!DOCTYPE html>
 <html>
@@ -85,18 +86,14 @@
                     <input type="checkbox" name="cb" class="cb" value="0"/>
                 </td>
                 <td>
-                    <a href="<c:url value="/editComputer?id=${computer.id}" />">${computer.name}</a>
+                    <a href="<c:url value="/editComputer?id=${computer.id}" />"><c:out value="${computer.name}"/></a>
                 </td>
-                <td>${computer.introduced}</td>
-                <td>${computer.discontinued}</td>
+                <td><fmt:formatDate value="${computer.introducedDate}" type="date" dateStyle="full"/></td>
+                <td><fmt:formatDate value="${computer.discontinuedDate}" type="date" dateStyle="full"/></td>
                 <td>
-                    <c:choose>
-                        <c:when test="${empty computer.company}">
-                        </c:when>
-                        <c:otherwise>
-                            ${computer.company.name}
-                        </c:otherwise>
-                    </c:choose>
+                    <c:if test="${!empty computer.company}">
+                        <c:out value="${computer.company.name}"/>
+                    </c:if>
                 </td>
             </tr>
             </tbody>
@@ -107,7 +104,8 @@
 </section>
 
 <footer class="navbar-fixed-bottom">
-	<p:paginator totalPages="${totalPages}" page="${page.page}" pageCount="${maxPages}" pageSize="${page.size}" url="/dashboard" previous="${page.previous}" />
+    <p:paginator totalPages="${totalPages}" page="${page.page}" pageCount="${maxPages}" pageSize="${page.size}"
+                 url="/dashboard" previous="${page.previous}"/>
 </footer>
 
 <script src="js/jquery.min.js"></script>

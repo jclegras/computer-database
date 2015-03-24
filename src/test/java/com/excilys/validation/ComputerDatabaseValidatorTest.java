@@ -5,55 +5,55 @@ import org.junit.Test;
 
 public class ComputerDatabaseValidatorTest {
 
-	@Test
-	public void validateRightFormatDate() {
-		// GIVEN
-		final String date = "2000-12-05 00:00:00";
+    @Test
+    public void validateRightFormatDate() {
+        // GIVEN
+        final String date = "2000-12-05 00:00:00";
 
-		// WHEN
-		final boolean result = ComputerDatabaseValidator.INSTANCE
-				.validateDateTime(date);
+        // WHEN
+        final boolean result = ComputerDatabaseValidator.INSTANCE
+                .validateDateTime(date);
 
-		// THEN
-		Assertions.assertThat(result).isTrue();
-	}
+        // THEN
+        Assertions.assertThat(result).isTrue();
+    }
 
-	@Test
-	public void validateWrongFormatDate() {
-		// GIVEN
-		final String date = "2000-12-05";
+    @Test
+    public void validateWrongFormatDate() {
+        // GIVEN
+        final String date = "2000-12-05";
 
-		// WHEN
-		final boolean result = ComputerDatabaseValidator.INSTANCE
-				.validateDateTime(date);
+        // WHEN
+        final boolean result = ComputerDatabaseValidator.INSTANCE
+                .validateDateTime(date);
 
-		// THEN
-		Assertions.assertThat(result).isFalse();
-	}
+        // THEN
+        Assertions.assertThat(result).isFalse();
+    }
 
-	@Test
-	public void validateSimpleDate() {
-		// GIVEN
-		final String date = "2000-12-05";
+    @Test
+    public void validateSimpleDate() {
+        // GIVEN
+        final String date = "2000-12-05";
 
-		// WHEN
-		final boolean result = ComputerDatabaseValidator.INSTANCE
-				.validateSimpleDate(date);
+        // WHEN
+        final boolean result = ComputerDatabaseValidator.INSTANCE
+                .validateSimpleDate(date);
 
-		// THEN
-		Assertions.assertThat(result).isTrue();
-	}
-	
-	@Test
-	public void validateWrongDate() {
-		// GIVEN
-		final String date = "2000-12-05 ";
+        // THEN
+        Assertions.assertThat(result).isTrue();
+    }
 
-		// WHEN
-		final boolean result = ComputerDatabaseValidator.INSTANCE
-				.validateSimpleDate(date);
+    @Test
+    public void validateWrongDate() {
+        // GIVEN
+        final String date = "2000-12-05 ";
 
-		// THEN
-		Assertions.assertThat(result).isFalse();
-	}
+        // WHEN
+        final boolean result = ComputerDatabaseValidator.INSTANCE
+                .validateSimpleDate(date);
+
+        // THEN
+        Assertions.assertThat(result).isFalse();
+    }
 }

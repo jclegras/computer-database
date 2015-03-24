@@ -3,51 +3,52 @@ package com.excilys.util;
 
 /**
  * @inv getPage() >= 1 1 <= getProperties().size() getSize() >= 0 getSort() !=
- *      null
+ * null
  */
 public interface Page {
-	enum Sort {
-		ASC, DESC
-	}
+    /**
+     * Default property on which apply the sorting
+     */
+    String DEFAULT_PROPERTY = "ID";
+    /**
+     * Default size
+     */
+    int DEFAULT_SIZE = 10;
 
-	/**
-	 * Default property on which apply the sorting
-	 */
-	String DEFAULT_PROPERTY = "ID";
-	/**
-	 * Default size
-	 */
-	int DEFAULT_SIZE = 10;
-	
-	boolean isPrevious();
+    boolean isPrevious();
 
-	/**
-	 * @return Current page
-	 */
-	int getPage();
+    /**
+     * @return Current page
+     */
+    int getPage();
 
-	/**
-	 * @return Number entities by page
-	 */
-	int getSize();
+    /**
+     * @param page Current page
+     * @pre page >= 1
+     */
+    void setPage(int page);
 
-	/**
-	 * @return Offset for this page
-	 */
-	int getOffset();
+    /**
+     * @return Number entities by page
+     */
+    int getSize();
 
-	/**
-	 * @return Current sort
-	 */
-	Sort getSort();
+    /**
+     * @param size Number entities
+     * @pre size >= 0
+     */
+    void setSize(int size);
 
-	/**
-	 * Returns the first {@link Page}.
-	 * 
-	 * @return first page
-	 */
-	Page getFirst();
-	
+    /**
+     * @return Offset for this page
+     */
+    int getOffset();
+
+    /**
+     * @return Current sort
+     */
+    Sort getSort();
+
 //	/**
 //	 * Returns the {@link Page} requesting the previous {@link Page}.
 //	 *
@@ -55,43 +56,38 @@ public interface Page {
 //	 */
 //	Page getPrevious();
 
-	/**
-	 * Returns the {@link Page} requesting the next {@link Page}.
-	 *
-	 * @return next page
-	 */
-	Page getNext();
+    /**
+     * @param sort Current sort
+     * @pre sort != null
+     */
+    void setSort(Sort sort);
 
-	/**
-	 * @return Properties on which apply the sort
-	 */
-	String getProperties();
+    /**
+     * Returns the first {@link Page}.
+     *
+     * @return first page
+     */
+    Page getFirst();
 
-	/**
-	 * @pre page >= 1
-	 * @param page
-	 *            Current page
-	 */
-	void setPage(int page);
+    /**
+     * Returns the {@link Page} requesting the next {@link Page}.
+     *
+     * @return next page
+     */
+    Page getNext();
 
-	/**
-	 * @pre size >= 0
-	 * @param size
-	 *            Number entities
-	 */
-	void setSize(int size);
+    /**
+     * @return Properties on which apply the sort
+     */
+    String getProperties();
 
-	/**
-	 * @pre sort != null
-	 * @param sort
-	 *            Current sort
-	 */
-	void setSort(Sort sort);
+    /**
+     * @param properties Properties for the sort
+     * @pre |properties| > 0
+     */
+    void setProperties(String... properties);
 
-	/**
-	 * @pre |properties| > 0
-	 * @param properties
-	 *            Properties for the sort
-	 */
-	void setProperties(String... properties);
+    enum Sort {
+        ASC, DESC
+    }
 }
