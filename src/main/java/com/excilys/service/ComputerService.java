@@ -1,10 +1,11 @@
 package com.excilys.service;
 
+import java.util.List;
+
+import com.excilys.exception.ServiceException;
 import com.excilys.model.Computer;
 import com.excilys.persistence.dao.ComputerDAO;
 import com.excilys.util.Page;
-
-import java.util.List;
 
 public enum ComputerService {
     INSTANCE;
@@ -19,35 +20,35 @@ public enum ComputerService {
 
     public List<Computer> getAll(Page page) {
         if (page == null) {
-            throw new IllegalArgumentException();
+            throw new ServiceException();
         }
         return ComputerDAO.INSTANCE.getAll(page);
     }
 
     public Computer getById(long id) {
         if (id <= 0) {
-            throw new IllegalArgumentException();
+            throw new ServiceException();
         }
         return ComputerDAO.INSTANCE.getById(id);
     }
 
     public void create(Computer computer) {
         if (computer == null) {
-            throw new IllegalArgumentException();
+            throw new ServiceException();
         }
         ComputerDAO.INSTANCE.create(computer);
     }
 
     public void update(Computer computer) {
         if (computer == null) {
-            throw new IllegalArgumentException();
+            throw new ServiceException();
         }
         ComputerDAO.INSTANCE.update(computer);
     }
 
     public void delete(long id) {
         if (id <= 0) {
-            throw new IllegalArgumentException();
+            throw new ServiceException();
         }
         ComputerDAO.INSTANCE.delete(id);
     }

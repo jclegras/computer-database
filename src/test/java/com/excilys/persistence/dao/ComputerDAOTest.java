@@ -1,19 +1,20 @@
 package com.excilys.persistence.dao;
 
-import com.excilys.model.Company;
-import com.excilys.model.Computer;
-import com.excilys.util.DBUtil;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.List;
+import com.excilys.model.Company;
+import com.excilys.model.Computer;
+import com.excilys.util.DBUtil;
 
 public class ComputerDAOTest {
 
@@ -31,7 +32,7 @@ public class ComputerDAOTest {
     public void countWhenSeveralEntities() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/count.xml")));
+                "src/test/resources/datasets/computerDAO/count.xml")));
         final int expectedNbComputers = 3;
 
         // WHEN
@@ -45,7 +46,7 @@ public class ComputerDAOTest {
     public void countWhenNoEntity() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/getAllNoEntity.xml")));
+                "src/test/resources/datasets/computerDAO/getAllNoEntity.xml")));
 
         // WHEN
         final int nbComputers = ComputerDAO.INSTANCE.count();
@@ -58,7 +59,7 @@ public class ComputerDAOTest {
     public void getAllWithSuccess() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/getAll.xml")));
+                "src/test/resources/datasets/computerDAO/getAll.xml")));
         final int expectedSize = 1;
         final Company company1 = new Company(1, "IBM");
         final Computer computer1 = new Computer(1L, "CM-200", LocalDateTime.of(
@@ -77,7 +78,7 @@ public class ComputerDAOTest {
     public void getAllWhenNoEntityGiveEmptyList() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/getAllNoEntity.xml")));
+                "src/test/resources/datasets/computerDAO/getAllNoEntity.xml")));
 
         // WHEN
         final List<Computer> computers = ComputerDAO.INSTANCE.getAll();
@@ -91,7 +92,7 @@ public class ComputerDAOTest {
     public void getByIdWithSuccess() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/getById.xml")));
+                "src/test/resources/datasets/computerDAO/getById.xml")));
         final long id = 1L;
         final long expectedId = 1L;
         final String expectedName = "CM-200";
@@ -109,7 +110,7 @@ public class ComputerDAOTest {
     public void getByIdWhenNotFoundGivesANullResult() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/getById.xml")));
+                "src/test/resources/datasets/computerDAO/getById.xml")));
         final long id = 45456L;
 
         // WHEN
@@ -123,8 +124,8 @@ public class ComputerDAOTest {
     public void createWithSuccess() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/create.xml")));
-        final Computer computer = new Computer(null, "name",
+                "src/test/resources/datasets/computerDAO/create.xml")));
+        final Computer computer = new Computer(0, "name",
                 LocalDateTime.now(), null, null);
         final int expectedSize = 1;
         ComputerDAO.INSTANCE.create(computer);
@@ -145,7 +146,7 @@ public class ComputerDAOTest {
     public void updateWithSuccess() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/update.xml")));
+                "src/test/resources/datasets/computerDAO/update.xml")));
         final String expectedName = "newName";
         Computer computer = ComputerDAO.INSTANCE.getById(1L);
         computer.setName(expectedName);
@@ -163,7 +164,7 @@ public class ComputerDAOTest {
     public void deleteWithSuccess() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/delete.xml")));
+                "src/test/resources/datasets/computerDAO/delete.xml")));
         ComputerDAO.INSTANCE.delete(1L);
 
         // WHEN
@@ -178,7 +179,7 @@ public class ComputerDAOTest {
     public void deleteWithWrongId() throws Exception {
         // GIVEN
         DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
-                "src/test/java/datasets/computerDAO/delete.xml")));
+                "src/test/resources/datasets/computerDAO/delete.xml")));
         ComputerDAO.INSTANCE.delete(1454565L);
         final int expectedSize = 1;
 

@@ -5,7 +5,8 @@ import java.time.ZoneId;
 import java.util.Date;
 
 public class Computer {
-    private Long id;
+	// TODO id primitif
+    private long id;
     private String name;
     private LocalDateTime introduced;
     private LocalDateTime discontinued;
@@ -14,7 +15,7 @@ public class Computer {
     public Computer() {
     }
 
-    public Computer(Long id, String name, LocalDateTime introduced,
+    public Computer(long id, String name, LocalDateTime introduced,
                     LocalDateTime discontinued, Company company) {
         this.id = id;
         this.name = name;
@@ -25,14 +26,14 @@ public class Computer {
 
     public Computer(String name, LocalDateTime introduced,
                     LocalDateTime discontinued, Company company) {
-        this(null, name, introduced, discontinued, company);
+        this(0, name, introduced, discontinued, company);
     }
 
-    public Long getId() {
+    public long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(long id) {
         this.id = id;
     }
 

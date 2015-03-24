@@ -3,6 +3,9 @@ package com.excilys.mapper;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/**
+ * @param <T> Entity type
+ */
 public interface Mapper<T> {
     /**
      * Maps result set into entity.

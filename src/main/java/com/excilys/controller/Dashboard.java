@@ -1,15 +1,16 @@
 package com.excilys.controller;
 
-import com.excilys.service.ComputerService;
-import com.excilys.util.Page;
-import com.excilys.util.SimplePage;
+import java.io.IOException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+
+import com.excilys.service.ComputerService;
+import com.excilys.util.Page;
+import com.excilys.util.SimplePage;
 
 @WebServlet(urlPatterns = "/dashboard")
 public class Dashboard extends HttpServlet {
@@ -19,7 +20,6 @@ public class Dashboard extends HttpServlet {
                          HttpServletResponse response) throws ServletException, IOException {
         String page = request.getParameter("page");
         String size = request.getParameter("size");
-        Page p;
         int currentPage = 1, entitiesByPage = 10, pge = 1;
         if (page != null) {
             page = page.trim();
@@ -34,7 +34,7 @@ public class Dashboard extends HttpServlet {
                 entitiesByPage = Integer.valueOf(size);
             }
         }
-        p = new SimplePage(currentPage, entitiesByPage);
+        final Page p = new SimplePage(currentPage, entitiesByPage);
         final int totalEntities = ComputerService.INSTANCE.count();
         int maxPages = (totalEntities / entitiesByPage);
         if (totalEntities % entitiesByPage != 0) {
