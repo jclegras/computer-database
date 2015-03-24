@@ -58,8 +58,11 @@
     </ul>
 
     <div class="btn-group btn-group-sm pull-right" role="group">
-        <button type="button" class="btn btn-default">10</button>
-        <button type="button" class="btn btn-default">50</button>
-        <button type="button" class="btn btn-default">100</button>
+        <button type="button" class="btn btn-default"
+                onclick="document.location.href='dashboard?page=1&size=10'">10</button>
+        <button type="button" class="btn btn-default"
+                onclick="document.location.href='dashboard?page=1&size=50'">50</button>
+        <button type="button" class="btn btn-default"
+                onclick="document.location.href='dashboard?page=1&size=100'">100</button>
     </div>
 </div>
