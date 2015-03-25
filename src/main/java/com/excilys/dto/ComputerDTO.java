@@ -5,8 +5,10 @@ public class ComputerDTO {
 	private String name;
 	private String introduced;
 	private String discontinued;
-	private String company;
-	
+	private String companyId;
+	private String companyName;
+
+
 	public long getId() {
 		return id;
 	}
@@ -23,8 +25,12 @@ public class ComputerDTO {
 		return discontinued;
 	}
 	
-	public String getCompany() {
-		return company;
+	public String getCompanyId() {
+		return companyId;
+	}
+	
+	public String getCompanyName() {
+		return companyName;
 	}
 	
 	public void setId(long id) {
@@ -43,7 +49,11 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 	}
 	
-	public void setCompany(String company) {
-		this.company = company;
+	public void setCompanyId(String companyId) {
+		this.companyId = companyId;
+	}
+	
+	public void setCompanyName(String companyName) {
+		this.companyName = companyName;
 	}
 }

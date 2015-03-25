@@ -1,13 +1,14 @@
 package com.excilys.mapper;
 
-import com.excilys.model.Company;
-import com.excilys.model.Computer;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public class ComputerMapper implements Mapper<Computer> {
+import com.excilys.model.Company;
+import com.excilys.model.Computer;
+
+public enum ComputerMapper implements Mapper<Computer> {
+	INSTANCE;
 
     @Override
     public Computer rowMap(ResultSet res) throws SQLException {

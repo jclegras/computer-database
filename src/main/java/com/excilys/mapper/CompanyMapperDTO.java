@@ -3,7 +3,8 @@ package com.excilys.mapper;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
 
-public class CompanyMapperDTO implements MapperDTO<Company, CompanyDTO> {
+public enum CompanyMapperDTO implements MapperDTO<Company, CompanyDTO> {
+	INSTANCE;
 
 	@Override
 	public Company dtoToModel(CompanyDTO dto) {

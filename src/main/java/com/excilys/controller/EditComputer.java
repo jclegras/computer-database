@@ -1,8 +1,6 @@
 package com.excilys.controller;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -13,17 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.dto.ComputerDTO;
+import com.excilys.mapper.CompanyMapperDTO;
+import com.excilys.mapper.ComputerMapperDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
-import com.excilys.util.LocalDateTimeUtil;
 
 @WebServlet(urlPatterns = "/editComputer")
 public class EditComputer extends HttpServlet {
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(EditComputer.class);
+	private final CompanyMapperDTO companyMapperDTO = CompanyMapperDTO.INSTANCE;
+	private final ComputerMapperDTO computerMapperDTO = ComputerMapperDTO.INSTANCE;
 
 	@Override
 	protected void doGet(HttpServletRequest request,
@@ -31,14 +33,26 @@ public class EditComputer extends HttpServlet {
 		String id = request.getParameter("id");
 		if (id != null) {
 			id = id.trim();
-			if (!id.isEmpty()) {
+			if (id.isEmpty()) {
+				getServletContext().getRequestDispatcher(
+						"/WEB-INF/views/404.jsp").forward(request, response);
+			} else {
+				if (!id.matches("^[1-9][0-9]*$")) {
+					getServletContext().getRequestDispatcher(
+							"/WEB-INF/views/404.jsp")
+							.forward(request, response);
+				}
 				Long idComputer = Long.valueOf(id);
-				request.setAttribute("computer",
-						ComputerService.INSTANCE.getById(idComputer));
+				request.setAttribute("computer", computerMapperDTO
+						.modelToDto(ComputerService.INSTANCE
+								.getById(idComputer)));
 			}
+		} else {
+			getServletContext().getRequestDispatcher("/WEB-INF/views/404.jsp")
+					.forward(request, response);
 		}
-		request.setAttribute("companiesId",
-				CompanyService.INSTANCE.getAllCompaniesId());
+		request.setAttribute("companies",
+				companyMapperDTO.modelsToDto(CompanyService.INSTANCE.getAll()));
 		getServletContext().getRequestDispatcher(
 				"/WEB-INF/views/editComputer.jsp").forward(request, response);
 	}
@@ -57,59 +71,46 @@ public class EditComputer extends HttpServlet {
 			if (!id.isEmpty()) {
 				computerId = Long.valueOf(id);
 			} else {
-				return;
-				// erreur 500
+				getServletContext().getRequestDispatcher(
+						"/WEB-INF/views/404.html").forward(req, resp);
 			}
 		} else {
-			return;
-			// erreur 500
+			getServletContext().getRequestDispatcher("/WEB-INF/views/404.html")
+					.forward(req, resp);
 		}
 		if (name != null) {
 			name = name.trim();
 			if (name.isEmpty()) {
 				LOGGER.error("Editing computer failed because of empty name");
+				req.setAttribute("companies", companyMapperDTO
+						.modelsToDto(CompanyService.INSTANCE.getAll()));
 				req.setAttribute("message", "Name is mandatory");
 				getServletContext().getRequestDispatcher(
 						"/WEB-INF/views/editComputer.jsp").forward(req, resp);
-				return;
 			}
 		} else {
 			LOGGER.error("Editing computer failed because of null name");
+			req.setAttribute("companies", companyMapperDTO
+					.modelsToDto(CompanyService.INSTANCE.getAll()));
 			req.setAttribute("message", "Name is mandatory");
 			getServletContext().getRequestDispatcher(
 					"/WEB-INF/views/editComputer.jsp").forward(req, resp);
-			return;
 		}
-		DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern("yyyy-MM-dd HH:mm:ss");
-		LocalDateTime introducedTime = null;
-		if (introduced != null) {
-			introduced = introduced.trim();
-			if (!introduced.isEmpty()) {
-				introduced = LocalDateTimeUtil
-						.convertToValidLocalDateTime(introduced);
-				introducedTime = LocalDateTime.parse(introduced, formatter);
-			}
-		}
-		LocalDateTime discontinuedTime = null;
-		if (discontinued != null) {
-			discontinued = discontinued.trim();
-			if (!discontinued.isEmpty()) {
-				discontinued = LocalDateTimeUtil
-						.convertToValidLocalDateTime(discontinued);
-				discontinuedTime = LocalDateTime.parse(discontinued, formatter);
-			}
-		}
-		Company company = null;
+		final ComputerDTO dto = new ComputerDTO();
 		if (companyId != null) {
 			companyId = companyId.trim();
-			if (!companyId.isEmpty()) {
-				Long compId = Long.valueOf(companyId);
-				company = CompanyService.INSTANCE.getById(compId);
+			if (!companyId.isEmpty() && companyId.matches("^[1-9][0-9]*$")) {
+				final Company company = CompanyService.INSTANCE.getById(Long
+						.valueOf(companyId));
+				dto.setCompanyId(companyId);
+				dto.setCompanyName(company.getName());
 			}
 		}
-		ComputerService.INSTANCE.update(new Computer(computerId, name,
-				introducedTime, discontinuedTime, company));
+		dto.setName(name);
+		dto.setIntroduced(introduced);
+		dto.setDiscontinued(discontinued);
+		final Computer computer = computerMapperDTO.dtoToModel(dto);
+		ComputerService.INSTANCE.update(computer);
 		resp.sendRedirect("dashboard");
 	}
 
