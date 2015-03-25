@@ -1,10 +1,9 @@
 package com.excilys.mapper;
 
-import java.time.format.DateTimeFormatter;
-
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Computer;
-import com.excilys.util.LocalDateTimeUtil;
+
+import java.time.format.DateTimeFormatter;
 
 public class ComputerMapperDTO implements MapperDTO<Computer, ComputerDTO> {
 
@@ -16,7 +15,7 @@ public class ComputerMapperDTO implements MapperDTO<Computer, ComputerDTO> {
 		final DateTimeFormatter formatter = DateTimeFormatter
 				.ofPattern("yyyy-MM-dd HH:mm:ss");
 		if ((dto.getIntroduced() != null) && !dto.getIntroduced().isEmpty()) {
-			String localDateTime = LocalDateTimeUtil.convertToValidLocalDateTime(introduced);
+//			String localDateTime = LocalDateTimeUtil.convertToValidLocalDateTime(introduced);
 		}
 		return computer;
 	}
