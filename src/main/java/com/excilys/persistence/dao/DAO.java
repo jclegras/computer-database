@@ -20,7 +20,8 @@ public interface DAO<T, I extends Serializable> {
 
     /**
      * Retrieve entity by its identifier.
-     *
+     * 
+     * @pre id != null && id > 0
      * @param id Identifier
      * @return The matching entity
      */
@@ -31,6 +32,7 @@ public interface DAO<T, I extends Serializable> {
     /**
      * Create a new entity.
      *
+     * @pre entity != null
      * @param entity
      */
     default void create(T entity) {
@@ -40,6 +42,7 @@ public interface DAO<T, I extends Serializable> {
     /**
      * Update the entity.
      *
+     * @pre entity != null
      * @param entity Entity to update
      */
     default void update(T entity) {
@@ -49,6 +52,7 @@ public interface DAO<T, I extends Serializable> {
     /**
      * Delete a entity by its identifier.
      *
+     * @pre id != null && id > 0
      * @param id Identifier
      */
     default void delete(I id) {

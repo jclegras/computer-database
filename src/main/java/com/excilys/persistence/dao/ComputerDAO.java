@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.exception.DAOException;
+import com.excilys.exception.ExceptionMessage;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDatabaseConnection;
@@ -20,8 +21,23 @@ import com.excilys.util.Page;
 public enum ComputerDAO implements DAO<Computer, Long> {
 	INSTANCE;
 
+	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
+	private static final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, "
+			+ "discontinued = ?, company_id = ? WHERE id = ?";
+	private static final String CREATE_COMPUTER = "INSERT INTO computer VALUES (?, ?, ?, ?, ?)";
+	private static final String GET_BY_ID_COMPUTER = "SELECT * FROM computer LEFT OUTER JOIN company"
+			+ " ON computer.company_id = company.id WHERE computer.id = ?";
+	private static final String GET_ALL_COMPUTERS_PAGINATED = "SELECT * FROM computer LEFT OUTER JOIN company"
+			+ " ON computer.company_id = company.id"
+			+ " ORDER BY ? ? LIMIT ? OFFSET ?";
+	private static final String COUNT_ALL_COMPUTERS = "SELECT COUNT(*) FROM computer";
+	private static final String GET_ALL_COMPUTERS = "SELECT * FROM computer LEFT OUTER JOIN company"
+			+ " ON computer.company_id = company.id";
+
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerDAO.class);
+
+	private final ComputerMapper computerMapper = ComputerMapper.INSTANCE;
 
 	/**
 	 * Number of computers in the database.
@@ -29,10 +45,9 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	 * @return Number of entities
 	 */
 	public int count() {
-		final String sql = "SELECT COUNT(*) FROM computer";
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
 				.getInstance().createStatement()) {
-			final ResultSet rs = state.executeQuery(sql);
+			final ResultSet rs = state.executeQuery(COUNT_ALL_COMPUTERS);
 			while (rs.next()) {
 				return rs.getInt(1);
 			}
@@ -44,14 +59,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public List<Computer> getAll() {
-		final String sql = "SELECT * FROM computer LEFT OUTER JOIN company"
-				+ " ON computer.company_id = company.id";
 		final List<Computer> computers = new ArrayList<>();
-		final ComputerMapper computerMapper = new ComputerMapper();
 
 		try (final Statement state = ComputerDatabaseConnection.INSTANCE
 				.getInstance().createStatement()) {
-			final ResultSet rs = state.executeQuery(sql);
+			final ResultSet rs = state.executeQuery(GET_ALL_COMPUTERS);
 			while (rs.next()) {
 				computers.add(computerMapper.rowMap(rs));
 			}
@@ -63,14 +75,13 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	}
 
 	public List<Computer> getAll(Page page) {
+		if (page == null) {
+			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
+		}
 		final List<Computer> computers = new ArrayList<>();
-		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM computer LEFT OUTER JOIN company"
-				+ " ON computer.company_id = company.id"
-				+ " ORDER BY ? ? LIMIT ? OFFSET ?";
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+				.getInstance().prepareStatement(GET_ALL_COMPUTERS_PAGINATED)) {
 			pStatement.setString(1, page.getProperties());
 			pStatement.setString(2, page.getSort().toString());
 			pStatement.setInt(3, page.getSize());
@@ -88,12 +99,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public Computer getById(Long id) {
-		final ComputerMapper computerMapper = new ComputerMapper();
-		final String sql = "SELECT * FROM computer LEFT OUTER JOIN company"
-				+ " ON computer.company_id = company.id WHERE computer.id = ?";
-
+		if (id == null || id <= 0) {
+			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
+		}
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+				.getInstance().prepareStatement(GET_BY_ID_COMPUTER)) {
 			pStatement.setLong(1, id);
 			final ResultSet rs = pStatement.executeQuery();
 			if (rs.first()) {
@@ -108,10 +118,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void create(Computer entity) {
-		final String sql = "INSERT INTO computer VALUES (?, ?, ?, ?, ?)";
-
+		if (entity == null) {
+			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
+		}
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql,
+				.getInstance().prepareStatement(CREATE_COMPUTER,
 						Statement.RETURN_GENERATED_KEYS)) {
 			pStatement.setObject(1, null);
 			pStatement.setString(2, entity.getName());
@@ -147,10 +158,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void update(Computer entity) {
-		final String sql = "UPDATE computer SET name = ?, introduced = ?, "
-				+ "discontinued = ?, company_id = ? WHERE id = ?";
+		if (entity == null) {
+			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
+		}
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+				.getInstance().prepareStatement(UPDATE_COMPUTER)) {
 			pStatement.setString(1, entity.getName());
 			if (entity.getIntroduced() != null) {
 				pStatement.setTimestamp(2,
@@ -180,9 +192,11 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 
 	@Override
 	public void delete(Long id) {
-		final String sql = "DELETE FROM computer WHERE id = ?";
+		if (id == null || id <= 0) {
+			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
+		}
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(sql)) {
+				.getInstance().prepareStatement(DELETE_COMPUTER)) {
 			pStatement.setLong(1, id);
 			pStatement.execute();
 			LOGGER.info("Entity with id {} successfully deleted", id);
