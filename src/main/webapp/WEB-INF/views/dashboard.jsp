@@ -2,23 +2,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="p" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Computer Database</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta charset="utf-8">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/font-awesome.css" rel="stylesheet" media="screen">
-    <link href="css/main.css" rel="stylesheet" media="screen">
-</head>
+<c:import url="import/head.jsp" />
 <body>
-<header class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="<c:url value="/dashboard" />"> Application - Computer Database </a>
-    </div>
-</header>
+<c:import url="import/header.jsp" />
 
 <section id="main">
     <div class="container">
@@ -88,11 +74,17 @@
                 <td>
                     <a href="<c:url value="/editComputer?id=${computer.id}" />"><c:out value="${computer.name}"/></a>
                 </td>
-                <td><fmt:formatDate value="${computer.introducedDate}" type="date" dateStyle="full"/></td>
-                <td><fmt:formatDate value="${computer.discontinuedDate}" type="date" dateStyle="full"/></td>
                 <td>
-                    <c:if test="${!empty computer.company}">
-                        <c:out value="${computer.company.name}"/>
+                	<fmt:parseDate value="${computer.introduced}" var="introducedDate" pattern="yyyy-MM-dd HH:mm" />
+                	<fmt:formatDate value="${introducedDate}" type="Date" dateStyle="full" />
+                </td>
+                <td>
+					<fmt:parseDate value="${computer.discontinued}" var="discontinuedDate" pattern="yyyy-MM-dd HH:mm" />                
+                	<fmt:formatDate value="${discontinuedDate}" type="Date" dateStyle="full" />
+                </td>
+                <td>
+                    <c:if test="${!empty computer.companyId}">
+                        <c:out value="${computer.companyName}"/>
                     </c:if>
                 </td>
             </tr>
@@ -108,9 +100,7 @@
                  url="/dashboard" previous="${page.previous}"/>
 </footer>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/dashboard.js"></script>
+<c:import url="import/footer.jsp" />
 
 </body>
 </html>
