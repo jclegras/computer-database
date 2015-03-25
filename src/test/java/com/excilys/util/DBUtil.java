@@ -1,11 +1,5 @@
 package com.excilys.util;
 
-import com.excilys.persistence.ComputerDatabaseConnection;
-import org.dbunit.IDatabaseTester;
-import org.dbunit.JdbcDatabaseTester;
-import org.dbunit.dataset.IDataSet;
-import org.dbunit.operation.DatabaseOperation;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,8 +10,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
+import org.dbunit.IDatabaseTester;
+import org.dbunit.JdbcDatabaseTester;
+import org.dbunit.dataset.IDataSet;
+import org.dbunit.operation.DatabaseOperation;
+
+import com.excilys.persistence.ComputerDatabaseConnection;
+
 public class DBUtil {
-    private static final String CONFIG_TEST = "config-test.properties";
+    private static final String CONFIG_TEST = "config.properties";
+    private static final String SQL_FILE = "test.sql";
 
     static {
         final Properties properties = new Properties();
@@ -57,7 +59,7 @@ public class DBUtil {
      */
     public static void executeSqlFile(String file, Connection connection) throws IOException, SQLException {
         final InputStream is = ComputerDatabaseConnection.class
-                .getClassLoader().getResourceAsStream("test.sql");
+                .getClassLoader().getResourceAsStream(SQL_FILE);
         try (final BufferedReader br = new BufferedReader(new InputStreamReader(is, "UTF-8"))) {
             final StringBuilder sb = new StringBuilder();
             String str;

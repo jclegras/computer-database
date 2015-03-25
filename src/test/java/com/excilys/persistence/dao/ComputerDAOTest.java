@@ -20,7 +20,6 @@ public class ComputerDAOTest {
 
     @BeforeClass
     public static void setUpDB() {
-        System.setProperty("env", "TEST");
         try {
             DBUtil.executeSqlFile("test.sql", DBUtil.getConnection());
         } catch (IOException | SQLException e) {

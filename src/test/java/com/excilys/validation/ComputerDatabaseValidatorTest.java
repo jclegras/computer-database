@@ -1,5 +1,8 @@
 package com.excilys.validation;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
@@ -55,5 +58,13 @@ public class ComputerDatabaseValidatorTest {
 
         // THEN
         Assertions.assertThat(result).isFalse();
+    }
+    
+    @Test
+    public void test() {
+    	LocalDateTime ldt = LocalDateTime.now();
+		DateTimeFormatter formatter = DateTimeFormatter
+				.ofPattern("yyyy-MM-dd HH:mm:ss");
+		System.out.println(LocalDateTime.parse("2014-10-05 00:00:00", formatter));
     }
 }
