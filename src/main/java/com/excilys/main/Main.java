@@ -1,9 +1,6 @@
 package com.excilys.main;
 
-import com.excilys.model.Company;
-import com.excilys.model.Computer;
-import com.excilys.service.CompanyService;
-import com.excilys.service.ComputerService;
+import com.excilys.persistence.dao.ComputerDAO;
 
 
 public class Main {
@@ -13,10 +10,6 @@ public class Main {
 //            System.out.println(c);
 //        }
 //        System.out.println("size ---> " + computers.size());
-    	Company company = CompanyService.INSTANCE.getById(2L);
-    	Computer computer = new Computer();
-    	computer.setName("name");
-    	computer.setCompany(company);
-    	ComputerService.INSTANCE.create(computer);
+    	System.out.println(ComputerDAO.INSTANCE.getByName("CM-2a"));
     }
 }

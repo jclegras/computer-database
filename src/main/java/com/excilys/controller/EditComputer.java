@@ -65,7 +65,7 @@ public class EditComputer extends HttpServlet {
 		String introduced = req.getParameter("introduced");
 		String discontinued = req.getParameter("discontinued");
 		String companyId = req.getParameter("companyId");
-		Long computerId;
+		Long computerId = null;
 		if (id != null) {
 			id = id.trim();
 			if (!id.isEmpty()) {
@@ -106,6 +106,7 @@ public class EditComputer extends HttpServlet {
 				dto.setCompanyName(company.getName());
 			}
 		}
+		dto.setId(computerId);
 		dto.setName(name);
 		dto.setIntroduced(introduced);
 		dto.setDiscontinued(discontinued);

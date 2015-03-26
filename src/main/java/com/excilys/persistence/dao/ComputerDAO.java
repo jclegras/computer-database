@@ -29,10 +29,13 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			+ " ON computer.company_id = company.id WHERE computer.id = ?";
 	private static final String GET_ALL_COMPUTERS_PAGINATED = "SELECT * FROM computer LEFT OUTER JOIN company"
 			+ " ON computer.company_id = company.id"
-			+ " ORDER BY ? ? LIMIT ? OFFSET ?";
+			+ " ORDER BY %s %s LIMIT ? OFFSET ?";
 	private static final String COUNT_ALL_COMPUTERS = "SELECT COUNT(*) FROM computer";
 	private static final String GET_ALL_COMPUTERS = "SELECT * FROM computer LEFT OUTER JOIN company"
 			+ " ON computer.company_id = company.id";
+	private static final String GET_BY_NAME_COMPUTER_AND_COMPANY = "SELECT * FROM computer"
+			+ " LEFT OUTER JOIN company ON computer.company_id = company.id"
+			+ " WHERE UCASE(computer.name) LIKE ? or UCASE(company.name) LIKE ?";
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerDAO.class);
@@ -79,13 +82,35 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
 		}
 		final List<Computer> computers = new ArrayList<>();
+		String request = String.format(GET_ALL_COMPUTERS_PAGINATED,
+				page.getProperties(), page.getSort().toString());
+		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
+				.getInstance().prepareStatement(request)) {
+			pStatement.setInt(1, page.getSize());
+			pStatement.setInt(2, page.getOffset());
+			final ResultSet rs = pStatement.executeQuery();
+			while (rs.next()) {
+				computers.add(computerMapper.rowMap(rs));
+			}
+		} catch (SQLException e) {
+			throw new DAOException(e);
+		}
+
+		return computers;
+	}
+
+	public List<Computer> getByName(String name) {
+		if (name == null) {
+			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
+		}
+		final List<Computer> computers = new ArrayList<>();
 
 		try (final PreparedStatement pStatement = ComputerDatabaseConnection.INSTANCE
-				.getInstance().prepareStatement(GET_ALL_COMPUTERS_PAGINATED)) {
-			pStatement.setString(1, page.getProperties());
-			pStatement.setString(2, page.getSort().toString());
-			pStatement.setInt(3, page.getSize());
-			pStatement.setInt(4, page.getOffset());
+				.getInstance().prepareStatement(
+						GET_BY_NAME_COMPUTER_AND_COMPANY)) {
+			name = name.trim().toUpperCase();
+			pStatement.setString(1, "%" + name + "%");
+			pStatement.setString(2, "%" + name + "%");
 			final ResultSet rs = pStatement.executeQuery();
 			while (rs.next()) {
 				computers.add(computerMapper.rowMap(rs));

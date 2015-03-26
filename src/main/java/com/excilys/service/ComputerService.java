@@ -39,6 +39,13 @@ public enum ComputerService implements Service<Computer, Long> {
 		}
 		return computerDAO.getById(id);
 	}
+	
+	public List<Computer> getByName(String name) {
+		if (name == null) {
+			throw new IllegalArgumentException();
+		}
+		return computerDAO.getByName(name);
+	}
 
 	public void create(Computer computer) {
 		if (computer == null) {

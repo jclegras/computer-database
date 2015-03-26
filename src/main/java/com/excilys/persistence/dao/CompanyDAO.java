@@ -18,6 +18,7 @@ public enum CompanyDAO implements DAO<Company, Long> {
 
 	private static final String GET_BY_ID_COMPANY = "SELECT * FROM company WHERE id = ?";
 	private static final String RETRIEVE_ALL_COMPANIES = "SELECT * FROM company";
+
 	private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
 
 	@Override

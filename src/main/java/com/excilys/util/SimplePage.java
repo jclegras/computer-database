@@ -13,6 +13,10 @@ public class SimplePage implements Page {
     private int page;
     private int size;
     private String textualProperties;
+    private int totalPages;
+    private int displayablePages;
+    private int entitiesByPage;
+    private int totalEntities;
 
     /**
      * @post getPage() == 1
@@ -27,19 +31,20 @@ public class SimplePage implements Page {
         this.properties = new ArrayList<>();
         this.properties.add(DEFAULT_PROPERTY);
     }
-
+    
     /**
+     * @param property Column on which apply the sort
      * @post getPage() == 1
-     * getSize() == size getSort().equals(Sort.ASC)
+     * getSize() == DEFAULT_SIZE getSort().equals(Sort.ASC)
      * getProperties().size() == 1
-     * getProperties().contains(Page.DEFAULT_PROPERTY)
+     * getProperties().contains(property)
      */
-    public SimplePage(int size) {
+    public SimplePage(String property) {
         this.page = 1;
-        this.size = size;
+        this.size = DEFAULT_SIZE;
         this.sort = Sort.ASC;
         this.properties = new ArrayList<>();
-        this.properties.add(DEFAULT_PROPERTY);
+        this.properties.add(property);
     }
 
     /**
@@ -114,14 +119,11 @@ public class SimplePage implements Page {
     public int getSize() {
         return size;
     }
-
-    @Override
-    public void setSize(int size) {
-        if (size < 0) {
-            throw new IllegalArgumentException();
-        }
-        this.size = size;
-    }
+    
+	@Override
+	public int getTotalPages() {
+		return totalPages;
+	}
 
     @Override
     public int getOffset() {
@@ -137,15 +139,12 @@ public class SimplePage implements Page {
     public Sort getSort() {
         return sort;
     }
-
-    @Override
-    public void setSort(Sort sort) {
-        if (sort == null) {
-            throw new IllegalArgumentException();
-        }
-        this.sort = sort;
-    }
-
+    
+	@Override
+	public int getDisplayablePages() {
+		return displayablePages;
+	}
+	
     @Override
     public Page getFirst() {
         return new SimplePage(1, size, sort);
@@ -155,6 +154,69 @@ public class SimplePage implements Page {
     public Page getNext() {
         return new SimplePage(page + 1, size, sort);
     }
+	
+    @Override
+    public String getProperties() {
+        if (textualProperties == null) {
+            final StringBuilder sb = new StringBuilder();
+            sb.append(properties.get(0));
+            for (int k = 1; k < properties.size(); ++k) {
+                sb.append(", ").append(properties.get(k));
+            }
+            textualProperties = sb.toString();
+        }
+        return textualProperties;
+    }
+    
+	@Override
+	public int getEntitiesByPage() {
+		return entitiesByPage;
+	}
+	
+	@Override
+	public int getTotalEntities() {
+		return totalEntities;
+	}
+
+	@Override
+	public void setTotalEntities(int totalEntities) {
+		if (totalEntities <= 0) {
+			throw new IllegalArgumentException();
+		}
+		this.totalEntities = totalEntities;
+	}
+
+    @Override
+    public void setSort(Sort sort) {
+        if (sort == null) {
+            throw new IllegalArgumentException();
+        }
+        this.sort = sort;
+    }
+    
+    @Override
+    public void setSize(int size) {
+        if (size < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.size = size;
+    }
+    
+	@Override
+	public void setTotalPages(int pages) {
+		if (pages <= 0) {
+			throw new IllegalArgumentException();
+		}
+		this.totalPages = pages;
+	}
+	
+	@Override
+	public void setDisplayablePages(int displayablePages) {
+		if (displayablePages <= 0) {
+			throw new IllegalArgumentException();
+		}
+		this.displayablePages = displayablePages;
+	}
 
     @Override
     public int hashCode() {
@@ -185,23 +247,20 @@ public class SimplePage implements Page {
     }
 
     @Override
-    public String getProperties() {
-        if (textualProperties == null) {
-            final StringBuilder sb = new StringBuilder();
-            sb.append(properties.get(0));
-            for (int k = 1; k < properties.size(); ++k) {
-                sb.append(", ").append(properties.get(k));
-            }
-            textualProperties = sb.toString();
-        }
-        return textualProperties;
-    }
-
-    @Override
     public void setProperties(String... properties) {
+    	if (properties.length == 0) {
+    		throw new IllegalArgumentException();
+    	}
         if (properties.length > 0) {
             this.properties = Arrays.asList(properties);
         }
     }
 
+	@Override
+	public void setEntitiesByPage(int entitiesByPage) {
+		if (entitiesByPage <= 0) {
+			throw new IllegalArgumentException();
+		}
+		this.entitiesByPage = entitiesByPage;
+	}
 }

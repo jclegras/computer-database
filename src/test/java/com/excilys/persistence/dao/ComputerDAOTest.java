@@ -189,6 +189,14 @@ public class ComputerDAOTest {
         Assertions.assertThat(computers).isNotNull();
         Assertions.assertThat(computers.size()).isEqualTo(expectedSize);
     }
+    
+    @Test
+    public void test() throws Exception {
+        // GIVEN
+        DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
+                "src/test/resources/datasets/computerDAO/getAll.xml")));
+        System.out.println(ComputerDAO.INSTANCE.getByName("CM-200"));
+    }
 
     @After
     public void tearDown() throws Exception {
