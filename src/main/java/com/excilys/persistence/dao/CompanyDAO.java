@@ -1,14 +1,18 @@
 package com.excilys.persistence.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDatabaseConnection;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 public enum CompanyDAO implements DAO<Company, Long> {
     INSTANCE;
@@ -22,14 +26,17 @@ public enum CompanyDAO implements DAO<Company, Long> {
     @Override
     public List<Company> getAll() {
         final List<Company> companies = new ArrayList<>();
-        try (final Connection connection = compDtbconnection.getInstance();
-             final Statement state = connection.createStatement()) {
+        final Connection connection = compDtbconnection.getInstance();
+        
+        try (final Statement state = connection.createStatement()) {
             final ResultSet rs = state.executeQuery(RETRIEVE_ALL_COMPANIES);
             while (rs.next()) {
                 companies.add(companyMapper.rowMap(rs));
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+        	compDtbconnection.close();
         }
 
         return companies;
@@ -40,8 +47,9 @@ public enum CompanyDAO implements DAO<Company, Long> {
         if (id == null || id <= 0) {
             throw new DAOException(ExceptionMessage.WRONG_ID.toString());
         }
-        try (final Connection connection = compDtbconnection.getInstance();
-             final PreparedStatement pStatement = connection.prepareStatement(GET_BY_ID_COMPANY)) {
+        final Connection connection = compDtbconnection.getInstance();
+        
+        try (final PreparedStatement pStatement = connection.prepareStatement(GET_BY_ID_COMPANY)) {
             pStatement.setLong(1, id);
             final ResultSet rs = pStatement.executeQuery();
             if (rs.first()) {
@@ -49,6 +57,8 @@ public enum CompanyDAO implements DAO<Company, Long> {
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+        	compDtbconnection.close();
         }
 
         return null;
