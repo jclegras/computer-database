@@ -1,20 +1,19 @@
 package com.excilys.persistence.dao;
 
-import java.io.File;
-import java.io.IOException;
-import java.sql.SQLException;
-import java.time.LocalDateTime;
-import java.util.List;
-
+import com.excilys.model.Company;
+import com.excilys.model.Computer;
+import com.excilys.util.DBUtil;
 import org.assertj.core.api.Assertions;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
 import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import com.excilys.model.Company;
-import com.excilys.model.Computer;
-import com.excilys.util.DBUtil;
+import java.io.File;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class ComputerDAOTest {
 
@@ -138,7 +137,7 @@ public class ComputerDAOTest {
         Assertions.assertThat(computers.get(0).getName()).isEqualTo("name");
 
         // CLEAN
-        ComputerDAO.INSTANCE.delete(computer.getId());
+        ComputerDAO.INSTANCE.delete(1L);
     }
 
     @Test
