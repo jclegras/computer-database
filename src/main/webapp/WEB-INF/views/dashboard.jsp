@@ -70,13 +70,11 @@
                 		<c:when test="${page.properties.contains('computer.name')}">
 		                	<c:choose>
 		                		<c:when test="${page.sort == 'ASC'}">
-		                			<c:out value="${ computerNameASC }"></c:out>
 				                	<a href="${computerNameASC}">
 				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Computer name
 				                	</a>           			
 		                		</c:when>
 		                		<c:when test="${page.sort == 'DESC'}">
-		                		<c:out value="${ computerNameDESC }"></c:out>
 				                	<a href="${computerNameDESC}">
 				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Computer name
 				                	</a>           			
@@ -84,7 +82,6 @@
 		                	</c:choose>                			
                 		</c:when>
                 		<c:otherwise>
-                			<c:out value="${ computerNameASC }"></c:out>
 		                	<a href="${computerNameASC}">
 		                		<span aria-hidden="true">Computer name</span>
 		                	</a>                  		
@@ -114,13 +111,11 @@
                 		<c:when test="${page.properties.contains('computer.introduced')}">
 		                	<c:choose>
 		                		<c:when test="${page.sort == 'ASC'}">
-		                			<c:out value="${ computerIntroducedASC }"></c:out>
 				                	<a href="${computerIntroducedASC}">
 				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Introduced date
 				                	</a>           			
 		                		</c:when>
 		                		<c:when test="${page.sort == 'DESC'}">
-		                			<c:out value="${ computerIntroducedDESC }"></c:out>
 				                	<a href="${computerIntroducedDESC}">
 				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Introduced date
 				                	</a>           			
@@ -128,7 +123,6 @@
 		                	</c:choose>                			
                 		</c:when>
                 		<c:otherwise>
-		                			<c:out value="${ computerIntroducedASC }"></c:out>
 		                	<a href="${computerIntroducedASC}">
 		                		<span aria-hidden="true">Introduced date</span>
 		                	</a>                  		
@@ -159,13 +153,11 @@
                 		<c:when test="${page.properties.contains('computer.discontinued')}">
 		                	<c:choose>
 		                		<c:when test="${page.sort == 'ASC'}">
-		                			<c:out value="${ computerDiscontinuedASC }"></c:out>
 				                	<a href="${computerDiscontinuedASC}">
 				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Discontinued date
 				                	</a>           			
 		                		</c:when>
 		                		<c:when test="${page.sort == 'DESC'}">
-		                			<c:out value="${ computerDiscontinuedDESC }"></c:out>
 				                	<a href="${computerDiscontinuedDESC}">
 				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Discontinued date
 				                	</a>           			
@@ -173,7 +165,6 @@
 		                	</c:choose>                			
                 		</c:when>
                 		<c:otherwise>
-		                			<c:out value="${ computerDiscontinuedASC }"></c:out>
 		                	<a href="${computerDiscontinuedASC}">
 		                		<span aria-hidden="true">Discontinued date</span>
 		                	</a>           		
@@ -204,13 +195,11 @@
                 		<c:when test="${page.properties.contains('company.name')}">
 		                	<c:choose>
 		                		<c:when test="${page.sort == 'ASC'}">
-		                			<c:out value="${ computerCompanyASC }"></c:out>
 				                	<a href="${computerCompanyASC}">
 				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Company
 				                	</a>           			
 		                		</c:when>
 		                		<c:when test="${page.sort == 'DESC'}">
-		                			<c:out value="${ computerCompanyDESC }"></c:out>
 				                	<a href="${computerCompanyDESC}">
 				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Company
 				                	</a>           			
@@ -218,7 +207,6 @@
 		                	</c:choose>                			
                 		</c:when>
                 		<c:otherwise>
-		                			<c:out value="${ computerCompanyASC }"></c:out>
 		                	<a href="${computerCompanyASC}">
 		                		<span aria-hidden="true">Company</span>
 		                	</a>           		

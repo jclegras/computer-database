@@ -5,149 +5,142 @@ import java.util.Set;
 
 /**
  * @inv getPage() >= 1 getProperties() != null && 1 <= getProperties().size()
- *      getSize() >= 0 getTotalPages >= 0 getDisplayablePages >= 0 getSort() !=
- *      null
+ * getSize() >= 0 getTotalPages >= 0 getDisplayablePages >= 0 getSort() !=
+ * null
  */
 public interface Page {
-	/**
-	 * Default property on which apply the sorting
-	 */
-	String DEFAULT_PROPERTY = "ID";
-	/**
-	 * Default size
-	 */
-	int DEFAULT_SIZE = 10;
+    /**
+     * Default property on which apply the sorting
+     */
+    String DEFAULT_PROPERTY = "ID";
+    /**
+     * Default size
+     */
+    int DEFAULT_SIZE = 10;
 
-	boolean isPrevious();
+    boolean isPrevious();
 
-	/**
-	 * @return Current page
-	 */
-	int getPage();
+    /**
+     * @return Current page
+     */
+    int getPage();
 
-	/**
-	 * @return Number entities by page
-	 */
-	int getSize();
+    /**
+     * @param page Current page
+     * @pre page >= 1
+     */
+    void setPage(int page);
 
-	/**
-	 * @return Number of pages
-	 */
-	int getTotalPages();
+    /**
+     * @return Number entities by page
+     */
+    int getSize();
 
-	/**
-	 * @return Number of displayable pages
-	 */
-	int getDisplayablePages();
+    /**
+     * @param size Number entities
+     * @pre size >= 0
+     */
+    void setSize(int size);
 
-	/**
-	 * @return Offset for this page
-	 */
-	int getOffset();
+    /**
+     * @return Number of pages
+     */
+    int getTotalPages();
 
-	/**
-	 * @return Current sort
-	 */
-	Sort getSort();
+    /**
+     * @param pages Number of pages
+     * @pre pages >= 0
+     */
+    void setTotalPages(int pages);
 
-	/**
-	 * Returns the first {@link Page}.
-	 *
-	 * @return first page
-	 */
-	Page getFirst();
+    /**
+     * @return Number of displayable pages
+     */
+    int getDisplayablePages();
 
-	/**
-	 * Returns the {@link Page} requesting the next {@link Page}.
-	 *
-	 * @return next page
-	 */
-	Page getNext();
+    /**
+     * @param displayablePages Number of pages
+     * @pre displayablePages >= 0
+     */
+    void setDisplayablePages(int displayablePages);
 
-	/**
-	 * @return Properties on which apply the sort
-	 */
-	String getProperties();
+    /**
+     * @return Offset for this page
+     */
+    int getOffset();
 
-	/**
-	 * @return Number of entities by page
-	 */
-	int getEntitiesByPage();
+    /**
+     * @return Current sort
+     */
+    Sort getSort();
 
-	/**
-	 * @return Number of entities
-	 */
-	int getTotalEntities();
+    /**
+     * @param sort Current sort
+     * @pre sort != null
+     */
+    void setSort(Sort sort);
 
-	/**
-	 * @param page
-	 *            Current page
-	 * @pre page >= 1
-	 */
-	void setPage(int page);
+    /**
+     * Returns the first {@link Page}.
+     *
+     * @return first page
+     */
+    Page getFirst();
 
-	/**
-	 * @param size
-	 *            Number entities
-	 * @pre size >= 0
-	 */
-	void setSize(int size);
+    /**
+     * Returns the {@link Page} requesting the next {@link Page}.
+     *
+     * @return next page
+     */
+    Page getNext();
 
-	/**
-	 * @param pages
-	 *            Number of pages
-	 * @pre pages >= 0
-	 */
-	void setTotalPages(int pages);
+    /**
+     * @return Properties on which apply the sort
+     */
+    String getProperties();
 
-	/**
-	 * @pre displayablePages >= 0
-	 * @param displayablePages
-	 *            Number of pages
-	 */
-	void setDisplayablePages(int displayablePages);
+    /**
+     * @param properties Properties for the sort
+     * @pre |properties| > 0
+     */
+    void setProperties(String... properties);
 
-	/**
-	 * @param sort
-	 *            Current sort
-	 * @pre sort != null
-	 */
-	void setSort(Sort sort);
+    /**
+     * @return Number of entities by page
+     */
+    int getEntitiesByPage();
 
-	/**
-	 * @param properties
-	 *            Properties for the sort
-	 * @pre |properties| > 0
-	 */
-	void setProperties(String... properties);
+    /**
+     * @param entitiesByPage Entities by page
+     * @pre entitiesByPage >= 0
+     */
+    void setEntitiesByPage(int entitiesByPage);
 
-	/**
-	 * @pre entitiesByPage >= 0
-	 * @param entitiesByPage
-	 *            Entities by page
-	 */
-	void setEntitiesByPage(int entitiesByPage);
+    /**
+     * @return Number of entities
+     */
+    int getTotalEntities();
 
-	/**
-	 * @pre totalEntities >= 0
-	 * @param totalEntities
-	 *            Total entities
-	 */
-	void setTotalEntities(int totalEntities);
+    /**
+     * @param totalEntities Total entities
+     * @pre totalEntities >= 0
+     */
+    void setTotalEntities(int totalEntities);
 
-	enum Sort {
-		ASC, DESC;
+    enum Sort {
+        ASC, DESC;
 
-		private static final Set<String> values;
-		static {
-			values = new HashSet<>();
-			for (Sort s : Sort.values()) {
-				values.add(s.toString());
-			}
-		}
+        private static final Set<String> values;
 
-		public static boolean isValid(String sort) {
-			return values.contains(sort);
-		}
-	}
+        static {
+            values = new HashSet<>();
+            for (Sort s : Sort.values()) {
+                values.add(s.toString());
+            }
+        }
+
+        public static boolean isValid(String sort) {
+            return values.contains(sort);
+        }
+    }
 }

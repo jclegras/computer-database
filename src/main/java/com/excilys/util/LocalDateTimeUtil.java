@@ -3,7 +3,7 @@ package com.excilys.util;
 import com.excilys.validation.ComputerDatabaseValidator;
 
 public class LocalDateTimeUtil {
-	public static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_PATTERN = "yyyy-MM-dd HH:mm:ss";
     private static final String DEFAULT_TIME = "00:00:00";
     private static final String SEPARATOR = " ";
 

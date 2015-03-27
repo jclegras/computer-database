@@ -1,13 +1,13 @@
 package com.excilys.mapper;
 
+import com.excilys.model.Company;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.excilys.model.Company;
-
 public enum CompanyMapper implements Mapper<Company> {
-	INSTANCE;
-	
+    INSTANCE;
+
     @Override
     public Company rowMap(ResultSet res) throws SQLException {
         if (res == null) {

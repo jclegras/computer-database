@@ -31,7 +31,7 @@ public class SimplePage implements Page {
         this.properties = new ArrayList<>();
         this.properties.add(DEFAULT_PROPERTY);
     }
-    
+
     /**
      * @param property Column on which apply the sort
      * @post getPage() == 1
@@ -119,15 +119,18 @@ public class SimplePage implements Page {
     public int getSize() {
         return size;
     }
-    
-	@Override
-	public int getTotalPages() {
-		return totalPages;
-	}
 
     @Override
-    public int getOffset() {
-        return (page - 1) * size;
+    public void setSize(int size) {
+        if (size < 0) {
+            throw new IllegalArgumentException();
+        }
+        this.size = size;
+    }
+
+    @Override
+    public int getTotalPages() {
+        return totalPages;
     }
 //	
 //	@Override
@@ -136,15 +139,44 @@ public class SimplePage implements Page {
 //	}
 
     @Override
+    public void setTotalPages(int pages) {
+        if (pages <= 0) {
+            throw new IllegalArgumentException();
+        }
+        this.totalPages = pages;
+    }
+
+    @Override
+    public int getOffset() {
+        return (page - 1) * size;
+    }
+
+    @Override
     public Sort getSort() {
         return sort;
     }
-    
-	@Override
-	public int getDisplayablePages() {
-		return displayablePages;
-	}
-	
+
+    @Override
+    public void setSort(Sort sort) {
+        if (sort == null) {
+            throw new IllegalArgumentException();
+        }
+        this.sort = sort;
+    }
+
+    @Override
+    public int getDisplayablePages() {
+        return displayablePages;
+    }
+
+    @Override
+    public void setDisplayablePages(int displayablePages) {
+        if (displayablePages <= 0) {
+            throw new IllegalArgumentException();
+        }
+        this.displayablePages = displayablePages;
+    }
+
     @Override
     public Page getFirst() {
         return new SimplePage(1, size, sort);
@@ -154,7 +186,7 @@ public class SimplePage implements Page {
     public Page getNext() {
         return new SimplePage(page + 1, size, sort);
     }
-	
+
     @Override
     public String getProperties() {
         if (textualProperties == null) {
@@ -167,56 +199,42 @@ public class SimplePage implements Page {
         }
         return textualProperties;
     }
-    
-	@Override
-	public int getEntitiesByPage() {
-		return entitiesByPage;
-	}
-	
-	@Override
-	public int getTotalEntities() {
-		return totalEntities;
-	}
-
-	@Override
-	public void setTotalEntities(int totalEntities) {
-		if (totalEntities <= 0) {
-			throw new IllegalArgumentException();
-		}
-		this.totalEntities = totalEntities;
-	}
 
     @Override
-    public void setSort(Sort sort) {
-        if (sort == null) {
+    public void setProperties(String... properties) {
+        if (properties.length == 0) {
             throw new IllegalArgumentException();
         }
-        this.sort = sort;
+        if (properties.length > 0) {
+            this.properties = Arrays.asList(properties);
+        }
     }
-    
+
     @Override
-    public void setSize(int size) {
-        if (size < 0) {
+    public int getEntitiesByPage() {
+        return entitiesByPage;
+    }
+
+    @Override
+    public void setEntitiesByPage(int entitiesByPage) {
+        if (entitiesByPage <= 0) {
             throw new IllegalArgumentException();
         }
-        this.size = size;
+        this.entitiesByPage = entitiesByPage;
     }
-    
-	@Override
-	public void setTotalPages(int pages) {
-		if (pages <= 0) {
-			throw new IllegalArgumentException();
-		}
-		this.totalPages = pages;
-	}
-	
-	@Override
-	public void setDisplayablePages(int displayablePages) {
-		if (displayablePages <= 0) {
-			throw new IllegalArgumentException();
-		}
-		this.displayablePages = displayablePages;
-	}
+
+    @Override
+    public int getTotalEntities() {
+        return totalEntities;
+    }
+
+    @Override
+    public void setTotalEntities(int totalEntities) {
+        if (totalEntities <= 0) {
+            throw new IllegalArgumentException();
+        }
+        this.totalEntities = totalEntities;
+    }
 
     @Override
     public int hashCode() {
@@ -245,22 +263,4 @@ public class SimplePage implements Page {
             return false;
         return true;
     }
-
-    @Override
-    public void setProperties(String... properties) {
-    	if (properties.length == 0) {
-    		throw new IllegalArgumentException();
-    	}
-        if (properties.length > 0) {
-            this.properties = Arrays.asList(properties);
-        }
-    }
-
-	@Override
-	public void setEntitiesByPage(int entitiesByPage) {
-		if (entitiesByPage <= 0) {
-			throw new IllegalArgumentException();
-		}
-		this.entitiesByPage = entitiesByPage;
-	}
 }
