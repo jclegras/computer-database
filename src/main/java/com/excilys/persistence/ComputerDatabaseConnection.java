@@ -27,15 +27,17 @@ public enum ComputerDatabaseConnection {
 
     public Connection getInstance() {
         try {
-            Class.forName(properties.getProperty("driver")).newInstance();
-            BoneCPConfig config = new BoneCPConfig();
-            config.setJdbcUrl(properties.getProperty("url"));
-            config.setUsername(properties.getProperty("user"));
-            config.setPassword(properties.getProperty("password"));
-            config.setMinConnectionsPerPartition(Integer.valueOf(properties.getProperty("minConnectionsPerPartition")));
-            config.setMaxConnectionsPerPartition(Integer.valueOf(properties.getProperty("maxConnectionsPerPartition")));
-            config.setPartitionCount(Integer.valueOf(properties.getProperty("partitionCount")));
-            connectionPool = new BoneCP(config);
+            if (connectionPool == null) {
+                Class.forName(properties.getProperty("driver")).newInstance();
+                BoneCPConfig config = new BoneCPConfig();
+                config.setJdbcUrl(properties.getProperty("url"));
+                config.setUsername(properties.getProperty("user"));
+                config.setPassword(properties.getProperty("password"));
+                config.setMinConnectionsPerPartition(Integer.valueOf(properties.getProperty("minConnectionsPerPartition")));
+                config.setMaxConnectionsPerPartition(Integer.valueOf(properties.getProperty("maxConnectionsPerPartition")));
+                config.setPartitionCount(Integer.valueOf(properties.getProperty("partitionCount")));
+                connectionPool = new BoneCP(config);
+            }
         } catch (SQLException | InstantiationException | IllegalAccessException
                 | ClassNotFoundException e) {
             throw new PersistenceException(e);
