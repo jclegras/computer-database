@@ -1,19 +1,20 @@
 package com.excilys.controller;
 
-import com.excilys.mapper.ComputerMapperDTO;
-import com.excilys.model.Computer;
-import com.excilys.service.ComputerService;
-import com.excilys.util.Page;
-import com.excilys.util.Page.Sort;
-import com.excilys.util.SimplePage;
+import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
-import java.util.List;
+
+import com.excilys.mapper.ComputerMapperDTO;
+import com.excilys.model.Computer;
+import com.excilys.service.ComputerService;
+import com.excilys.util.Page;
+import com.excilys.util.Page.Sort;
+import com.excilys.util.SimplePage;
 
 @WebServlet(urlPatterns = "/dashboard")
 public class Dashboard extends HttpServlet {
@@ -38,6 +39,7 @@ public class Dashboard extends HttpServlet {
             getServletContext()
                     .getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
                     request, response);
+            return;
         }
         if (page != null) {
             page = page.trim();
@@ -75,7 +77,6 @@ public class Dashboard extends HttpServlet {
         request.setAttribute("page", p);
         request.setAttribute("computers", computerMapperDTO
                 .modelsToDto(ComputerService.INSTANCE.getAll(p)));
-        System.out.println(p.getProperties());
         getServletContext()
                 .getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
                 request, response);

@@ -48,170 +48,90 @@
                             </span>
                 </th>
                 <th>
-                	<c:choose>
-                		<c:when test="${page.sort == 'ASC'}">
-                			<c:url value="dashboard" var="computerNameASC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="DESC" />
-                				<c:param name="col" value="computer.name" />
-                			</c:url>       			
-                		</c:when>
-                		<c:otherwise>
-                			<c:url value="dashboard" var="computerNameDESC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="ASC" />
-                				<c:param name="col" value="computer.name" />
-                			</c:url>                		              		
-                		</c:otherwise>
-                	</c:choose>
-                	<c:choose>
-                		<c:when test="${page.properties.contains('computer.name')}">
-		                	<c:choose>
-		                		<c:when test="${page.sort == 'ASC'}">
-				                	<a href="${computerNameASC}">
-				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Computer name
-				                	</a>           			
-		                		</c:when>
-		                		<c:when test="${page.sort == 'DESC'}">
-				                	<a href="${computerNameDESC}">
-				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Computer name
-				                	</a>           			
-		                		</c:when>
-		                	</c:choose>                			
-                		</c:when>
-                		<c:otherwise>
-		                	<a href="${computerNameASC}">
-		                		<span aria-hidden="true">Computer name</span>
-		                	</a>                  		
-                		</c:otherwise>
-                	</c:choose>                	
+					<c:if test="${page.properties.contains('computer.name')}">
+	                	<c:choose>
+	                		<c:when test="${page.sort == 'ASC'}">
+			                	<p:link url="dashboard" sort="DESC" size="${page.size}" column="computer.name" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Computer name	
+								</p:link>			                		           			
+	                		</c:when>
+	                		<c:otherwise>
+			                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.name" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Computer name	
+								</p:link>	 		                		       			
+	                		</c:otherwise>
+	                	</c:choose>
+                	</c:if>
+                	<c:if test="${!page.properties.contains('computer.name')}">
+	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.name" page="${page.page}">
+	                		<span aria-hidden="true">Computer name</span>  		
+						</p:link>	                	  		                		 
+                	</c:if>              			
                 </th>
                 <th>
-                	<c:choose>
-                		<c:when test="${page.sort == 'ASC'}">
-                			<c:url value="dashboard" var="computerIntroducedASC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="DESC" />
-                				<c:param name="col" value="computer.introduced" />
-                			</c:url>       			
-                		</c:when>
-                		<c:otherwise>
-                			<c:url value="dashboard" var="computerIntroducedDESC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="ASC" />
-                				<c:param name="col" value="computer.introduced" />
-                			</c:url>                		              		
-                		</c:otherwise>
-                	</c:choose>
-                	<c:choose>
-                		<c:when test="${page.properties.contains('computer.introduced')}">
-		                	<c:choose>
-		                		<c:when test="${page.sort == 'ASC'}">
-				                	<a href="${computerIntroducedASC}">
-				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Introduced date
-				                	</a>           			
-		                		</c:when>
-		                		<c:when test="${page.sort == 'DESC'}">
-				                	<a href="${computerIntroducedDESC}">
-				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Introduced date
-				                	</a>           			
-		                		</c:when>
-		                	</c:choose>                			
-                		</c:when>
-                		<c:otherwise>
-		                	<a href="${computerIntroducedASC}">
-		                		<span aria-hidden="true">Introduced date</span>
-		                	</a>                  		
-                		</c:otherwise>
-                	</c:choose>                   
+					<c:if test="${page.properties.contains('computer.introduced')}">                	
+	                	<c:choose>
+	                		<c:when test="${page.sort == 'ASC'}">
+			                	<p:link url="dashboard" sort="DESC" size="${page.size}" column="computer.introduced" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Introduced date		
+								</p:link>		                		          			
+	                		</c:when>
+	                		<c:otherwise>
+			                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.introduced" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Introduced date		
+								</p:link>	                		      			
+	                		</c:otherwise>
+	                	</c:choose>  
+	                </c:if>
+	                <c:if test="${!page.properties.contains('computer.introduced')}">
+	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.introduced" page="${page.page}">
+							<span aria-hidden="true">Introduced date</span>     		
+						</p:link>		                		                
+	                </c:if>           			                   
                 </th>
                 <!-- Table header for Discontinued Date -->
                 <th>
-                	<c:choose>
-                		<c:when test="${page.sort == 'ASC'}">
-                			<c:url value="dashboard" var="computerDiscontinuedASC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="DESC" />
-                				<c:param name="col" value="computer.discontinued" />
-                			</c:url>       			
-                		</c:when>
-                		<c:otherwise>
-                			<c:url value="dashboard" var="computerDiscontinuedDESC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="ASC" />
-                				<c:param name="col" value="computer.discontinued" />
-                			</c:url>                		              		
-                		</c:otherwise>
-                	</c:choose>
-                	<c:choose>
-                		<c:when test="${page.properties.contains('computer.discontinued')}">
-		                	<c:choose>
-		                		<c:when test="${page.sort == 'ASC'}">
-				                	<a href="${computerDiscontinuedASC}">
-				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Discontinued date
-				                	</a>           			
-		                		</c:when>
-		                		<c:when test="${page.sort == 'DESC'}">
-				                	<a href="${computerDiscontinuedDESC}">
-				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Discontinued date
-				                	</a>           			
-		                		</c:when>
-		                	</c:choose>                			
-                		</c:when>
-                		<c:otherwise>
-		                	<a href="${computerDiscontinuedASC}">
-		                		<span aria-hidden="true">Discontinued date</span>
-		                	</a>           		
-                		</c:otherwise>
-                	</c:choose>        
+                	<c:if test="${page.properties.contains('computer.discontinued')}">
+	                	<c:choose>
+	                		<c:when test="${page.sort == 'ASC'}">
+			                	<p:link url="dashboard" sort="DESC" size="${page.size}" column="computer.discontinued" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Discontinued date        		
+								</p:link>		                		          			
+	                		</c:when>
+	                		<c:otherwise>
+			                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.discontinued" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Discontinued date        		
+								</p:link>		                		     			
+	                		</c:otherwise>
+	                	</c:choose>
+	                </c:if>
+	                <c:if test="${!page.properties.contains('computer.discontinued')}">
+	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.discontinued" page="${page.page}">
+							<span aria-hidden="true">Discontinued date</span>     		
+						</p:link>		                           
+	                </c:if>             			        
                 </th>
                 <!-- Table header for Company -->
                 <th>                    
-                	<c:choose>
-                		<c:when test="${page.sort == 'ASC'}">
-                			<c:url value="dashboard" var="computerCompanyASC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="DESC" />
-                				<c:param name="col" value="company.name" />
-                			</c:url>       			
-                		</c:when>
-                		<c:otherwise>
-                			<c:url value="dashboard" var="computerCompanyDESC">
-                				<c:param name="page" value="${page.page}" />
-                				<c:param name="size" value="${page.size}" />
-                				<c:param name="sort" value="ASC" />
-                				<c:param name="col" value="company.name" />
-                			</c:url>                		              		
-                		</c:otherwise>
-                	</c:choose>
-                	<c:choose>
-                		<c:when test="${page.properties.contains('company.name')}">
-		                	<c:choose>
-		                		<c:when test="${page.sort == 'ASC'}">
-				                	<a href="${computerCompanyASC}">
-				                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Company
-				                	</a>           			
-		                		</c:when>
-		                		<c:when test="${page.sort == 'DESC'}">
-				                	<a href="${computerCompanyDESC}">
-				                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Company
-				                	</a>           			
-		                		</c:when>
-		                	</c:choose>                			
-                		</c:when>
-                		<c:otherwise>
-		                	<a href="${computerCompanyASC}">
-		                		<span aria-hidden="true">Company</span>
-		                	</a>           		
-                		</c:otherwise>
-                	</c:choose>                  
+                	<c:if test="${page.properties.contains('company.name')}">
+	                	<c:choose>
+	                		<c:when test="${page.sort == 'ASC'}">
+	                			<p:link url="dashboard" sort="DESC" size="${page.size}" column="company.name" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Company
+				                </p:link>	                		       			
+	                		</c:when>
+	                		<c:otherwise>
+	                			<p:link url="dashboard" sort="ASC" size="${page.size}" column="company.name" page="${page.page}">
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Company
+				                </p:link>           			
+	                		</c:otherwise>
+	                	</c:choose>                			
+               		</c:if>
+               		<c:if test="${!page.properties.contains('company.name')}">
+	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="company.name" page="${page.page}">
+	                		<span aria-hidden="true">Company</span>               		
+						</p:link>	                	
+               		</c:if>              
                 </th>
             </tr>
             </thead>

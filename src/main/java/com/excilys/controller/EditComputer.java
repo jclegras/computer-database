@@ -1,5 +1,16 @@
 package com.excilys.controller;
 
+import java.io.IOException;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.CompanyMapperDTO;
 import com.excilys.mapper.ComputerMapperDTO;
@@ -7,15 +18,6 @@ import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 
 @WebServlet(urlPatterns = "/editComputer")
 public class EditComputer extends HttpServlet {
@@ -34,6 +36,7 @@ public class EditComputer extends HttpServlet {
             if (id.isEmpty()) {
                 getServletContext().getRequestDispatcher(
                         "/WEB-INF/views/404.jsp").forward(request, response);
+                return;
             } else {
                 if (!id.matches("^[1-9][0-9]*$")) {
                     getServletContext().getRequestDispatcher(
@@ -71,10 +74,12 @@ public class EditComputer extends HttpServlet {
             } else {
                 getServletContext().getRequestDispatcher(
                         "/WEB-INF/views/404.html").forward(req, resp);
+                return;
             }
         } else {
             getServletContext().getRequestDispatcher("/WEB-INF/views/404.html")
                     .forward(req, resp);
+            return;
         }
         if (name != null) {
             name = name.trim();
@@ -85,6 +90,7 @@ public class EditComputer extends HttpServlet {
                 req.setAttribute("message", "Name is mandatory");
                 getServletContext().getRequestDispatcher(
                         "/WEB-INF/views/editComputer.jsp").forward(req, resp);
+                return;
             }
         } else {
             LOGGER.error("Editing computer failed because of null name");
@@ -93,6 +99,7 @@ public class EditComputer extends HttpServlet {
             req.setAttribute("message", "Name is mandatory");
             getServletContext().getRequestDispatcher(
                     "/WEB-INF/views/editComputer.jsp").forward(req, resp);
+            return;
         }
         final ComputerDTO dto = new ComputerDTO();
         if (companyId != null) {
