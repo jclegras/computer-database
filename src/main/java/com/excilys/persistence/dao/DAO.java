@@ -20,10 +20,10 @@ public interface DAO<T, I extends Serializable> {
 
     /**
      * Retrieve entity by its identifier.
-     * 
-     * @pre id != null && id > 0
+     *
      * @param id Identifier
      * @return The matching entity
+     * @pre id != null && id > 0
      */
     default T getById(I id) {
         throw new UnsupportedOperationException();
@@ -32,8 +32,8 @@ public interface DAO<T, I extends Serializable> {
     /**
      * Create a new entity.
      *
-     * @pre entity != null
      * @param entity
+     * @pre entity != null
      */
     default void create(T entity) {
         throw new UnsupportedOperationException();
@@ -42,8 +42,8 @@ public interface DAO<T, I extends Serializable> {
     /**
      * Update the entity.
      *
-     * @pre entity != null
      * @param entity Entity to update
+     * @pre entity != null
      */
     default void update(T entity) {
         throw new UnsupportedOperationException();
@@ -52,8 +52,8 @@ public interface DAO<T, I extends Serializable> {
     /**
      * Delete a entity by its identifier.
      *
-     * @pre id != null && id > 0
      * @param id Identifier
+     * @pre id != null && id > 0
      */
     default void delete(I id) {
         throw new UnsupportedOperationException();
