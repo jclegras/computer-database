@@ -8,19 +8,23 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDatabaseConnection;
 
-public enum CompanyDAO implements DAO<Company, Long> {
-    INSTANCE;
+@Repository
+public class CompanyDAO implements DAO<Company, Long> {
 
     private static final String GET_BY_ID_COMPANY = "SELECT * FROM company WHERE id = ?";
     private static final String RETRIEVE_ALL_COMPANIES = "SELECT * FROM company";
 
-    private final CompanyMapper companyMapper = CompanyMapper.INSTANCE;
+    @Autowired
+    private CompanyMapper companyMapper;
     private final ComputerDatabaseConnection compDtbconnection = ComputerDatabaseConnection.INSTANCE;
 
     @Override

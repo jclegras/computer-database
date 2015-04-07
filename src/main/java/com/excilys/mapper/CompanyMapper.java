@@ -1,12 +1,14 @@
 package com.excilys.mapper;
 
-import com.excilys.model.Company;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public enum CompanyMapper implements Mapper<Company> {
-    INSTANCE;
+import org.springframework.stereotype.Component;
+
+import com.excilys.model.Company;
+
+@Component
+public class CompanyMapper implements Mapper<Company> {
 
     @Override
     public Company rowMap(ResultSet res) throws SQLException {

@@ -11,6 +11,8 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
@@ -19,9 +21,8 @@ import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.util.Page;
 
-public enum ComputerDAO implements DAO<Computer, Long> {
-	INSTANCE;
-
+@Repository
+public class ComputerDAO implements DAO<Computer, Long> {
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
 	private static final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, "
 			+ "discontinued = ?, company_id = ? WHERE id = ?";
@@ -41,7 +42,8 @@ public enum ComputerDAO implements DAO<Computer, Long> {
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerDAO.class);
 
-	private final ComputerMapper computerMapper = ComputerMapper.INSTANCE;
+	@Autowired
+	private ComputerMapper computerMapper;
 	private final ComputerDatabaseConnection compDtbConnection = ComputerDatabaseConnection.INSTANCE;
 
 	/**

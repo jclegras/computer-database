@@ -23,7 +23,7 @@ public enum ComputerDatabaseConnection {
 			}
 	    }
 	};
-	private static BoneCP connectionPool = null;
+	private static BoneCP connectionPool;
 	private Properties properties;
 
 	ComputerDatabaseConnection() {

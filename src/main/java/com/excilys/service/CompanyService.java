@@ -1,16 +1,20 @@
 package com.excilys.service;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Company;
 import com.excilys.persistence.dao.CompanyDAO;
 
-import java.util.List;
+@Service
+public class CompanyService implements IService<Company, Long> {
 
-public enum CompanyService implements Service<Company, Long> {
-    INSTANCE;
-
-    private final CompanyDAO companyDAO = CompanyDAO.INSTANCE;
+	@Autowired
+    private CompanyDAO companyDAO;
 
     public List<Company> getAll() {
         return companyDAO.getAll();

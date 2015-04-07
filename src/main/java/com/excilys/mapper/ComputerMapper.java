@@ -1,14 +1,16 @@
 package com.excilys.mapper;
 
-import com.excilys.model.Company;
-import com.excilys.model.Computer;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
-public enum ComputerMapper implements Mapper<Computer> {
-    INSTANCE;
+import org.springframework.stereotype.Component;
+
+import com.excilys.model.Company;
+import com.excilys.model.Computer;
+
+@Component
+public class ComputerMapper implements Mapper<Computer> {
 
     @Override
     public Computer rowMap(ResultSet res) throws SQLException {

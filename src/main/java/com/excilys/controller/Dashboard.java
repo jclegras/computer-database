@@ -5,9 +5,11 @@ import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 
 import com.excilys.mapper.ComputerMapperDTO;
 import com.excilys.model.Computer;
@@ -16,10 +18,14 @@ import com.excilys.util.Page;
 import com.excilys.util.Page.Sort;
 import com.excilys.util.SimplePage;
 
+@Controller
 @WebServlet(urlPatterns = "/dashboard")
-public class Dashboard extends HttpServlet {
+public class Dashboard extends AbstractServlet {
 
-    private final ComputerMapperDTO computerMapperDTO = ComputerMapperDTO.INSTANCE;
+	@Autowired
+    private ComputerMapperDTO computerMapperDTO;
+    @Autowired
+    private ComputerService computerService;
 
     @Override
     protected void doGet(HttpServletRequest request,
@@ -32,7 +38,7 @@ public class Dashboard extends HttpServlet {
         final Page p = new SimplePage("computer.name");
         if (search != null) {
             search = search.trim();
-            List<Computer> computers = ComputerService.INSTANCE.getByName(search);
+            List<Computer> computers = computerService.getByName(search);
             p.setTotalEntities(computers.size());
             request.setAttribute("computers", computerMapperDTO
                     .modelsToDto(computers));
@@ -67,7 +73,7 @@ public class Dashboard extends HttpServlet {
                 p.setProperties(column);
             }
         }
-        p.setTotalEntities(ComputerService.INSTANCE.count());
+        p.setTotalEntities(computerService.count());
         int maxPages = (p.getTotalEntities() / p.getSize());
         if (p.getTotalEntities() % p.getSize() != 0) {
             ++maxPages;
@@ -76,7 +82,7 @@ public class Dashboard extends HttpServlet {
         p.setDisplayablePages(Math.min(maxPages, p.getPage() + p.getSize() - 1));
         request.setAttribute("page", p);
         request.setAttribute("computers", computerMapperDTO
-                .modelsToDto(ComputerService.INSTANCE.getAll(p)));
+                .modelsToDto(computerService.getAll(p)));
         getServletContext()
                 .getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
                 request, response);

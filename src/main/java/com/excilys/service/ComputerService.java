@@ -1,21 +1,26 @@
 package com.excilys.service;
 
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Computer;
 import com.excilys.persistence.dao.ComputerDAO;
 import com.excilys.util.Page;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
-public enum ComputerService implements Service<Computer, Long> {
-    INSTANCE;
+@Service
+public class ComputerService implements IService<Computer, Long> {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ComputerService.class);
-    private final ComputerDAO computerDAO = ComputerDAO.INSTANCE;
+    
+    @Autowired
+    private ComputerDAO computerDAO;
 
     public int count() {
         return computerDAO.count();

@@ -8,7 +8,7 @@ import java.util.List;
  * @param <I> The id type.
  * @inv getAll() != null && 0 <= getAll().size()
  */
-public interface Service<T, I extends Serializable> {
+public interface IService<T, I extends Serializable> {
     /**
      * Retrieve all entities.
      *

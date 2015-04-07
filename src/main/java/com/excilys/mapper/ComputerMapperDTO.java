@@ -1,15 +1,17 @@
 package com.excilys.mapper;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.stereotype.Component;
+
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 import com.excilys.util.LocalDateTimeUtil;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
-public enum ComputerMapperDTO implements MapperDTO<Computer, ComputerDTO> {
-    INSTANCE;
+@Component
+public class ComputerMapperDTO implements MapperDTO<Computer, ComputerDTO> {
 
     @Override
     public Computer dtoToModel(ComputerDTO dto) {

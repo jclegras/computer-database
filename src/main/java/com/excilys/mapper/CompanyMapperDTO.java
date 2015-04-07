@@ -1,10 +1,12 @@
 package com.excilys.mapper;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.dto.CompanyDTO;
 import com.excilys.model.Company;
 
-public enum CompanyMapperDTO implements MapperDTO<Company, CompanyDTO> {
-    INSTANCE;
+@Component
+public class CompanyMapperDTO implements MapperDTO<Company, CompanyDTO> {
 
     @Override
     public Company dtoToModel(CompanyDTO dto) {

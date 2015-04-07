@@ -29,6 +29,16 @@
 		<dependency>
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-web</artifactId>
+            <exclusions>
+            	<exclusion>
+            		<groupId>commons-logging</groupId>
+            		<artifactId>commons-logging</artifactId>
+            	</exclusion>
+            </exclusions>						
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
 		</dependency>
 		<!-- Servlet -->
 		<dependency>
@@ -115,9 +125,10 @@
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
 			<version>${logback.version}</version>
-		</dependency>
+		</dependency>		
 	</dependencies>
 	
+	<!-- Bills of Materials for Spring -->
 	<dependencyManagement>
 	    <dependencies>
 	        <dependency>
@@ -125,17 +136,18 @@
 	            <artifactId>spring-framework-bom</artifactId>
 	            <version>4.1.6.RELEASE</version>
 	            <type>pom</type>
-	            <scope>import</scope>
+	            <scope>import</scope>		            
 	        </dependency>
 	    </dependencies>
 	</dependencyManagement>
 	
+	<!-- Repo for Spring releases -->
 	<repositories>
 	    <repository>
 	        <id>io.spring.repo.maven.release</id>
 	        <url>http://repo.spring.io/release/</url>
 	        <snapshots><enabled>false</enabled></snapshots>
-	    </repository>
+	    </repository>	    
 	</repositories>		
 
 	<build>
