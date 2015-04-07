@@ -1,21 +1,16 @@
 package com.excilys.persistence.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDatabaseConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class CompanyDAO implements DAO<Company, Long> {
@@ -25,7 +20,8 @@ public class CompanyDAO implements DAO<Company, Long> {
 
     @Autowired
     private CompanyMapper companyMapper;
-    private final ComputerDatabaseConnection compDtbconnection = ComputerDatabaseConnection.INSTANCE;
+    @Autowired
+    private ComputerDatabaseConnection compDtbconnection;
 
     @Override
     public List<Company> getAll() {
@@ -39,9 +35,10 @@ public class CompanyDAO implements DAO<Company, Long> {
             }
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-        	compDtbconnection.close();
         }
+//        finally {
+//        	compDtbconnection.close();
+//        }
 
         return companies;
     }
@@ -61,9 +58,10 @@ public class CompanyDAO implements DAO<Company, Long> {
             }
         } catch (SQLException e) {
             throw new DAOException(e);
-        } finally {
-        	compDtbconnection.close();
         }
+//        finally {
+//        	compDtbconnection.close();
+//        }
 
         return null;
     }

@@ -1,25 +1,19 @@
 package com.excilys.persistence.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.Timestamp;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.util.Page;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Repository
 public class ComputerDAO implements DAO<Computer, Long> {
@@ -44,7 +38,8 @@ public class ComputerDAO implements DAO<Computer, Long> {
 
 	@Autowired
 	private ComputerMapper computerMapper;
-	private final ComputerDatabaseConnection compDtbConnection = ComputerDatabaseConnection.INSTANCE;
+	@Autowired
+	private ComputerDatabaseConnection compDtbConnection;
 
 	/**
 	 * Number of computers in the database.
@@ -61,9 +56,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			compDtbConnection.close();
 		}
+//		finally {
+//			compDtbConnection.close();
+//		}
 
 		return 0;
 	}
@@ -80,9 +76,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			compDtbConnection.close();
 		}
+//		finally {
+//			compDtbConnection.close();
+//		}
 
 		return computers;
 	}
@@ -105,9 +102,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			compDtbConnection.close();
 		}
+//		finally {
+//			compDtbConnection.close();
+//		}
 
 		return computers;
 	}
@@ -130,9 +128,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			compDtbConnection.close();
 		}
+//		finally {
+//			compDtbConnection.close();
+//		}
 
 		return computers;
 	}
@@ -153,9 +152,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			compDtbConnection.close();
 		}
+//		finally {
+//			compDtbConnection.close();
+//		}
 
 		return null;
 	}
@@ -198,9 +198,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 					entity.getId());
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			compDtbConnection.close();
 		}
+//		finally {
+//			compDtbConnection.close();
+//		}
 	}
 
 	@Override
@@ -236,9 +237,10 @@ public class ComputerDAO implements DAO<Computer, Long> {
 					entity.getId());
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		} finally {
-			compDtbConnection.close();
 		}
+//		finally {
+//			compDtbConnection.close();
+//		}
 	}
 
 	@Override
@@ -254,7 +256,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 				.prepareStatement(DELETE_COMPUTER)) {
 			pStatement.setLong(1, id);
 			pStatement.execute();
-			compDtbConnection.commit();
+//			compDtbConnection.commit();
 			LOGGER.info("Entity with id {} successfully deleted", id);
 		} catch (SQLException e) {
 			throw new DAOException(e);

@@ -4,10 +4,17 @@
     xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd"
     version="3.0">
     <display-name>Computer Database</display-name>
-    
+
+	<!-- Spring container configuration -->
 	<context-param>
 		<param-name>contextConfigLocation</param-name>
 		<param-value>/WEB-INF/application-context.xml</param-value>
+	</context-param>
+
+	<!-- Active Spring profile -->
+	<context-param>
+		<param-name>spring.profiles.active</param-name>
+		<param-value>DEV</param-value>
 	</context-param>
 
 	<listener>
