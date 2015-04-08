@@ -48,6 +48,12 @@ public class CompanyDAO implements DAO<Company, Long> {
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
         }
 
         return companies;
@@ -68,6 +74,12 @@ public class CompanyDAO implements DAO<Company, Long> {
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
         }
 
         return null;
@@ -87,7 +99,13 @@ public class CompanyDAO implements DAO<Company, Long> {
 			LOGGER.info("Entity with id {} successfully deleted", id);
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
     }
    
 }

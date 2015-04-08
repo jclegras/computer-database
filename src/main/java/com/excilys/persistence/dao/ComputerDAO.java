@@ -64,7 +64,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 
 		return 0;
 	}
@@ -81,7 +87,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 
 		return computers;
 	}
@@ -104,7 +116,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 
 		return computers;
 	}
@@ -127,7 +145,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 
 		return computers;
 	}
@@ -148,7 +172,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			}
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 
 		return null;
 	}
@@ -191,7 +221,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 					entity.getId());
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 	}
 
 	@Override
@@ -227,7 +263,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 					entity.getId());
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 	}
 
 	@Override
@@ -244,7 +286,13 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			LOGGER.info("Entity with id {} successfully deleted", id);
 		} catch (SQLException e) {
 			throw new DAOException(e);
-		}
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
+        }
 	}
 	
     public List<Computer> getAllByCompany(Long id) {
@@ -262,6 +310,12 @@ public class ComputerDAO implements DAO<Computer, Long> {
             }
         } catch (SQLException e) {
             throw new DAOException(e);
+        } finally {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				throw new DAOException(e);
+			}
         }
         
         return computers;
