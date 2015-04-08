@@ -26,10 +26,10 @@ public class DBUtil {
         try (final InputStream is = ComputerDatabaseConnection.class
                 .getClassLoader().getResourceAsStream(CONFIG_TEST)) {
             properties.load(is);
-            jdbcDriver = properties.getProperty("driver");
-            jdbcUrl = properties.getProperty("url");
-            user = properties.getProperty("user");
-            password = properties.getProperty("password");
+            jdbcDriver = properties.getProperty("jdbc.test.driver");
+            jdbcUrl = properties.getProperty("jdbc.test.url");
+            user = properties.getProperty("jdbc.test.username");
+            password = properties.getProperty("jdbc.test.password");
         } catch (IOException e) {
             System.err.println(e.getMessage());
         }
@@ -77,7 +77,7 @@ public class DBUtil {
         try (final InputStream is = ComputerDatabaseConnection.class
                 .getClassLoader().getResourceAsStream(CONFIG_TEST)) {
             properties.load(is);
-            final String url = properties.getProperty("url");
+            final String url = properties.getProperty("jdbc.test.url");
             return DriverManager.getConnection(url, properties);
         }
     }
