@@ -1,19 +1,25 @@
 package com.excilys.persistence.dao;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.util.Page;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
-
-import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Repository
 public class ComputerDAO implements DAO<Computer, Long> {
@@ -32,6 +38,8 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	private static final String GET_BY_NAME_COMPUTER_AND_COMPANY = "SELECT * FROM computer"
 			+ " LEFT OUTER JOIN company ON computer.company_id = company.id"
 			+ " WHERE UCASE(computer.name) LIKE ? or UCASE(company.name) LIKE ?";
+    private static final String RETRIEVE_COMPUTERS_BY_COMPANY = "SELECT * FROM computer LEFT OUTER JOIN company"
+			+ " ON computer.company_id = company.id WHERE company.id = ?";
 
 	private static final Logger LOGGER = LoggerFactory
 			.getLogger(ComputerDAO.class);
@@ -57,9 +65,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-//		finally {
-//			compDtbConnection.close();
-//		}
 
 		return 0;
 	}
@@ -77,9 +82,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-//		finally {
-//			compDtbConnection.close();
-//		}
 
 		return computers;
 	}
@@ -103,9 +105,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-//		finally {
-//			compDtbConnection.close();
-//		}
 
 		return computers;
 	}
@@ -129,9 +128,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-//		finally {
-//			compDtbConnection.close();
-//		}
 
 		return computers;
 	}
@@ -153,9 +149,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-//		finally {
-//			compDtbConnection.close();
-//		}
 
 		return null;
 	}
@@ -199,9 +192,6 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-//		finally {
-//			compDtbConnection.close();
-//		}
 	}
 
 	@Override
@@ -238,29 +228,43 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
-//		finally {
-//			compDtbConnection.close();
-//		}
 	}
 
 	@Override
-	// TODO gérer connexion
 	public void delete(Long id) {
 		if (id == null || id <= 0) {
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
-		Connection connection = null;
-
-		connection = compDtbConnection.getInstance();
+		final Connection connection = compDtbConnection.getInstance();
+		
 		try (final PreparedStatement pStatement = connection
 				.prepareStatement(DELETE_COMPUTER)) {
 			pStatement.setLong(1, id);
 			pStatement.execute();
-//			compDtbConnection.commit();
 			LOGGER.info("Entity with id {} successfully deleted", id);
 		} catch (SQLException e) {
 			throw new DAOException(e);
 		}
 	}
+	
+    public List<Computer> getAllByCompany(Long id) {
+        if (id == null || id <= 0) {
+            throw new DAOException(ExceptionMessage.WRONG_ID.toString());
+        }
+        final List<Computer> computers = new ArrayList<>();
+        final Connection connection = compDtbConnection.getInstance();
+        
+        try (final PreparedStatement pStatement = connection.prepareStatement(RETRIEVE_COMPUTERS_BY_COMPANY)) {
+            pStatement.setLong(1, id);
+            final ResultSet rs = pStatement.executeQuery();
+            while (rs.next()) {
+                computers.add(computerMapper.rowMap(rs));
+            }
+        } catch (SQLException e) {
+            throw new DAOException(e);
+        }
+        
+        return computers;
+    }
 
 }
