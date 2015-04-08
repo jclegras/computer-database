@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.exception.ServiceException;
@@ -14,6 +15,7 @@ import com.excilys.persistence.dao.ComputerDAO;
 import com.excilys.util.Page;
 
 @Service
+@Transactional(readOnly = true)
 public class ComputerService implements IService<Computer, Long> {
 
     private static final Logger LOGGER = LoggerFactory
@@ -51,6 +53,7 @@ public class ComputerService implements IService<Computer, Long> {
         return computerDAO.getByName(name);
     }
 
+    @Transactional
     public void create(Computer computer) {
         if (computer == null) {
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
@@ -60,6 +63,7 @@ public class ComputerService implements IService<Computer, Long> {
                 computer.getId());
     }
 
+    @Transactional
     public void update(Computer computer) {
         if (computer == null) {
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
@@ -69,6 +73,7 @@ public class ComputerService implements IService<Computer, Long> {
                 computer.getId());
     }
 
+    @Transactional
     public void delete(Long id) {
         if ((id != null) && (id <= 0)) {
             throw new ServiceException(ExceptionMessage.WRONG_ID.toString());
