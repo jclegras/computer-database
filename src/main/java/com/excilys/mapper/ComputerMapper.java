@@ -4,38 +4,41 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
 
 @Component
-public class ComputerMapper implements Mapper<Computer> {
+public class ComputerMapper implements RowMapper<Computer> {
 
-    @Override
-    public Computer rowMap(ResultSet res) throws SQLException {
-        if (res == null) {
+	@Override
+	public Computer mapRow(ResultSet rs, int rowNum) throws SQLException {
+        if (rs == null) {
             throw new IllegalArgumentException();
         }
         final Computer computer = new Computer();
-        computer.setId(res.getLong("computer.id"));
-        computer.setName(res.getString("computer.name"));
-        final Timestamp introduced = res.getTimestamp("computer.introduced");
+        computer.setId(rs.getLong("computer.id"));
+        computer.setName(rs.getString("computer.name"));
+        final Timestamp introduced = rs.getTimestamp("computer.introduced");
         if (introduced != null) {
             computer.setIntroduced(introduced.toLocalDateTime());
         }
-        final Timestamp discontinued = res.getTimestamp("computer.discontinued");
+        final Timestamp discontinued = rs.getTimestamp("computer.discontinued");
         if (discontinued != null) {
             computer.setDiscontinued(discontinued.toLocalDateTime());
         }
-        final Long companyId = res.getLong("computer.company_id");
+        final Long companyId = rs.getLong("computer.company_id");
         if (companyId > 0) {
             final Company company = new Company();
             company.setId(companyId);
-            company.setName(res.getString("company.name"));
+            company.setName(rs.getString("company.name"));
             computer.setCompany(company);
         }
         return computer;
-    }
+	}
+
+  
 
 }

@@ -1,23 +1,17 @@
 package com.excilys.persistence.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
-import com.excilys.persistence.ComputerDatabaseConnection;
 
 @Repository
 public class CompanyDAO implements DAO<Company, Long> {
@@ -34,29 +28,11 @@ public class CompanyDAO implements DAO<Company, Long> {
     @Autowired
     private CompanyMapper companyMapper;
     @Autowired
-    private ComputerDatabaseConnection compDtbconnection;
+    private JdbcTemplate jdbcTemplate;
 
     @Override
     public List<Company> getAll() {
-        final List<Company> companies = new ArrayList<>();
-        final Connection connection = compDtbconnection.getInstance();
-        
-        try (final Statement state = connection.createStatement()) {
-            final ResultSet rs = state.executeQuery(RETRIEVE_ALL_COMPANIES);
-            while (rs.next()) {
-                companies.add(companyMapper.rowMap(rs));
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-
-        return companies;
+        return jdbcTemplate.query(RETRIEVE_ALL_COMPANIES, companyMapper);
     }
 
     @Override
@@ -64,25 +40,7 @@ public class CompanyDAO implements DAO<Company, Long> {
         if (id == null || id <= 0) {
             throw new DAOException(ExceptionMessage.WRONG_ID.toString());
         }
-        final Connection connection = compDtbconnection.getInstance();
-        
-        try (final PreparedStatement pStatement = connection.prepareStatement(GET_BY_ID_COMPANY)) {
-            pStatement.setLong(1, id);
-            final ResultSet rs = pStatement.executeQuery();
-            if (rs.first()) {
-                return companyMapper.rowMap(rs);
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-
-        return null;
+        return jdbcTemplate.queryForObject(GET_BY_ID_COMPANY, new Object[] { id }, companyMapper);
     }
     
     @Override
@@ -90,22 +48,8 @@ public class CompanyDAO implements DAO<Company, Long> {
         if (id == null || id <= 0) {
             throw new DAOException(ExceptionMessage.WRONG_ID.toString());
         }
-        final Connection connection = compDtbconnection.getInstance();
-        
-		try (final PreparedStatement pStatement = connection
-				.prepareStatement(DELETE_COMPANY)) {
-			pStatement.setLong(1, id);
-			pStatement.execute();
-			LOGGER.info("Entity with id {} successfully deleted", id);
-		} catch (SQLException e) {
-			throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
+        jdbcTemplate.update(DELETE_COMPANY, id);
+		LOGGER.info("Entity with id {} successfully deleted", id);
     }
    
 }

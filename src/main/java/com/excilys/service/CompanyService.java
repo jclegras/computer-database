@@ -20,6 +20,10 @@ public class CompanyService implements IService<Company, Long> {
     private CompanyDAO companyDAO;
 	@Autowired
 	private ComputerDAO computerDAO;
+	
+	public void setCompanyDAO(CompanyDAO companyDAO) {
+		this.companyDAO = companyDAO;
+	}
 
     public List<Company> getAll() {
         return companyDAO.getAll();

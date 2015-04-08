@@ -1,5 +1,7 @@
 package com.excilys.service;
 
+import static org.junit.Assert.fail;
+
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -19,6 +21,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.persistence.dao.CompanyDAO;
+import com.excilys.persistence.dao.ComputerDAO;
 import com.excilys.util.DBUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -27,6 +30,8 @@ import com.excilys.util.DBUtil;
 public class ComputerServiceTest {
 	@Autowired
 	private CompanyDAO companyDAO;
+	@Autowired
+	private ComputerDAO computerDAO;
 	@Autowired
 	private CompanyService companyService;
 	@Autowired
@@ -53,6 +58,7 @@ public class ComputerServiceTest {
                 "src/test/resources/datasets/companyService/delete.xml")));
         final long id = 1L;
         final int expectedNbCompanies = 1;
+        final int expectedNbComputers = 1;
         final long expectedCompanyId = 2L;
         
         // WHEN
@@ -63,5 +69,26 @@ public class ComputerServiceTest {
         Assertions.assertThat(companies).isNotNull();
         Assertions.assertThat(companies.size()).isEqualTo(expectedNbCompanies);
         Assertions.assertThat(companies.get(0).getId()).isEqualTo(expectedCompanyId);
+        Assertions.assertThat(computerDAO.count()).isEqualTo(expectedNbComputers);
+    }
+    
+    @Test
+    public void deleteWithFailureRollback() throws Exception {
+    	// GIVEN
+        DBUtil.cleanlyInsert(new FlatXmlDataSetBuilder().build(new File(
+                "src/test/resources/datasets/companyService/delete.xml")));
+        final long id = 1L;
+        final int expectedNbComputers = 5;
+        companyService.setCompanyDAO(null);
+        
+        // WHEN
+        try {
+        	companyService.delete(id);
+        	// THEN KO
+        	fail("An exception must be thrown");
+        } catch (Exception e) {
+            // THEN OK
+            Assertions.assertThat(computerDAO.count()).isEqualTo(expectedNbComputers);	
+        }
     }
 }

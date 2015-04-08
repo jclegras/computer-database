@@ -6,12 +6,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.exception.DAOException;
@@ -48,6 +48,8 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	private ComputerMapper computerMapper;
 	@Autowired
 	private ComputerDatabaseConnection compDtbConnection;
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
 	/**
 	 * Number of computers in the database.
@@ -55,105 +57,31 @@ public class ComputerDAO implements DAO<Computer, Long> {
 	 * @return Number of entities
 	 */
 	public int count() {
-		final Connection connection = compDtbConnection.getInstance();
-
-		try (final Statement state = connection.createStatement()) {
-			final ResultSet rs = state.executeQuery(COUNT_ALL_COMPUTERS);
-			while (rs.next()) {
-				return rs.getInt(1);
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-
-		return 0;
+		return jdbcTemplate.queryForObject(COUNT_ALL_COMPUTERS, Integer.class);
 	}
 
 	@Override
 	public List<Computer> getAll() {
-		final List<Computer> computers = new ArrayList<>();
-		final Connection connection = compDtbConnection.getInstance();
-
-		try (final Statement state = connection.createStatement()) {
-			final ResultSet rs = state.executeQuery(GET_ALL_COMPUTERS);
-			while (rs.next()) {
-				computers.add(computerMapper.rowMap(rs));
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-
-		return computers;
+        return jdbcTemplate.query(GET_ALL_COMPUTERS, computerMapper);
 	}
 
 	public List<Computer> getAll(Page page) {
 		if (page == null) {
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
 		}
-		final List<Computer> computers = new ArrayList<>();
-		final Connection connection = compDtbConnection.getInstance();
-		String request = String.format(GET_ALL_COMPUTERS_PAGINATED,
+		final String request = String.format(GET_ALL_COMPUTERS_PAGINATED,
 				page.getProperties(), page.getSort().toString());
-		try (final PreparedStatement pStatement = connection
-				.prepareStatement(request)) {
-			pStatement.setInt(1, page.getSize());
-			pStatement.setInt(2, page.getOffset());
-			final ResultSet rs = pStatement.executeQuery();
-			while (rs.next()) {
-				computers.add(computerMapper.rowMap(rs));
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-
-		return computers;
+		return jdbcTemplate.query(request, 
+				new Object[] { page.getSize(), page.getOffset() }, computerMapper);
 	}
 
 	public List<Computer> getByName(String name) {
 		if (name == null) {
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
 		}
-		final List<Computer> computers = new ArrayList<>();
-		final Connection connection = compDtbConnection.getInstance();
-
-		try (final PreparedStatement pStatement = connection
-				.prepareStatement(GET_BY_NAME_COMPUTER_AND_COMPANY)) {
-			name = name.trim().toUpperCase();
-			pStatement.setString(1, "%" + name + "%");
-			pStatement.setString(2, "%" + name + "%");
-			final ResultSet rs = pStatement.executeQuery();
-			while (rs.next()) {
-				computers.add(computerMapper.rowMap(rs));
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-
-		return computers;
+		return jdbcTemplate.query(GET_BY_NAME_COMPUTER_AND_COMPANY, 
+				new Object[] { "%" + name + "%", "%" + name + "%" }, 
+				computerMapper);
 	}
 
 	@Override
@@ -161,26 +89,8 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		if (id == null || id <= 0) {
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
-		final Connection connection = compDtbConnection.getInstance();
-
-		try (final PreparedStatement pStatement = connection
-				.prepareStatement(GET_BY_ID_COMPUTER)) {
-			pStatement.setLong(1, id);
-			final ResultSet rs = pStatement.executeQuery();
-			if (rs.first()) {
-				return computerMapper.rowMap(rs);
-			}
-		} catch (SQLException e) {
-			throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-
-		return null;
+		return jdbcTemplate.queryForObject(GET_BY_ID_COMPUTER, 
+				new Object[] { id }, computerMapper);
 	}
 
 	@Override
@@ -277,48 +187,16 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		if (id == null || id <= 0) {
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
-		final Connection connection = compDtbConnection.getInstance();
-		
-		try (final PreparedStatement pStatement = connection
-				.prepareStatement(DELETE_COMPUTER)) {
-			pStatement.setLong(1, id);
-			pStatement.execute();
-			LOGGER.info("Entity with id {} successfully deleted", id);
-		} catch (SQLException e) {
-			throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
+		jdbcTemplate.update(DELETE_COMPUTER, new Object[] { id });
+		LOGGER.info("Entity with id {} successfully deleted", id);		
 	}
 	
     public List<Computer> getAllByCompany(Long id) {
         if (id == null || id <= 0) {
             throw new DAOException(ExceptionMessage.WRONG_ID.toString());
         }
-        final List<Computer> computers = new ArrayList<>();
-        final Connection connection = compDtbConnection.getInstance();
-        
-        try (final PreparedStatement pStatement = connection.prepareStatement(RETRIEVE_COMPUTERS_BY_COMPANY)) {
-            pStatement.setLong(1, id);
-            final ResultSet rs = pStatement.executeQuery();
-            while (rs.next()) {
-                computers.add(computerMapper.rowMap(rs));
-            }
-        } catch (SQLException e) {
-            throw new DAOException(e);
-        } finally {
-        	try {
-				connection.close();
-			} catch (SQLException e) {
-				throw new DAOException(e);
-			}
-        }
-        
-        return computers;
+        return jdbcTemplate.query(RETRIEVE_COMPUTERS_BY_COMPANY, 
+        		new Object[] { id }, computerMapper);
     }
 
 }
