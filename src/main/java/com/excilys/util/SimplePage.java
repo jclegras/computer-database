@@ -132,11 +132,6 @@ public class SimplePage implements Page {
     public int getTotalPages() {
         return totalPages;
     }
-//	
-//	@Override
-//	public Page getPrevious() {
-//		return page > 1 ? new SimplePage(page - 1, size, sort) : null;
-//	}
 
     @Override
     public void setTotalPages(int pages) {
@@ -230,7 +225,7 @@ public class SimplePage implements Page {
 
     @Override
     public void setTotalEntities(int totalEntities) {
-        if (totalEntities <= 0) {
+        if (totalEntities < 0) {
             throw new IllegalArgumentException();
         }
         this.totalEntities = totalEntities;

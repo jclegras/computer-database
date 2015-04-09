@@ -12,19 +12,19 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementCreator;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
-import com.excilys.mapper.ComputerMapper;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.util.Page;
 
 @Repository
-public class ComputerDAO implements DAO<Computer, Long> {
+public class ComputerDAO implements IComputerDAO {
 	private static final String DELETE_COMPUTER = "DELETE FROM computer WHERE id = ?";
 	private static final String UPDATE_COMPUTER = "UPDATE computer SET name = ?, introduced = ?, "
 			+ "discontinued = ?, company_id = ? WHERE id = ?";
@@ -47,7 +47,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 			.getLogger(ComputerDAO.class);
 
 	@Autowired
-	private ComputerMapper computerMapper;
+	private RowMapper<Computer> computerMapper;
 	@Autowired
 	private ComputerDatabaseConnection compDtbConnection;
 	@Autowired
@@ -104,6 +104,7 @@ public class ComputerDAO implements DAO<Computer, Long> {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		jdbcTemplate.update(
 				new PreparedStatementCreator() {
+					@Override
 					public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 						PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER, 
 								new String[] { "id", "name", "introduced", "discontinued", "company_id" });

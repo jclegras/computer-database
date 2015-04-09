@@ -11,8 +11,7 @@
         http://www.springframework.org/schema/context
         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<context:component-scan base-package="com.excilys.mapper, com.excilys.persistence, 
-		com.excilys.persistence.dao, com.excilys.persistence, com.excilys.service" />
+	<context:component-scan base-package="com.excilys.mapper, com.excilys.persistence, com.excilys.service" />
     <context:property-placeholder location="classpath:config.properties" />
 
     <beans profile="DEV">
@@ -38,6 +37,6 @@
         <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
             <property name="dataSource" ref="dataSource"/>
         </bean>
-        <tx:annotation-driven proxy-target-class="true"/>
+        <tx:annotation-driven />
     </beans>
 </beans>

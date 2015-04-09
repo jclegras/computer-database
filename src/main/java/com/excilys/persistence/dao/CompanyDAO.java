@@ -6,15 +6,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
-import com.excilys.mapper.CompanyMapper;
 import com.excilys.model.Company;
 
 @Repository
-public class CompanyDAO implements DAO<Company, Long> {
+public class CompanyDAO implements ICompanyDAO {
 
 	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id = ?";
     private static final String GET_BY_ID_COMPANY = "SELECT * FROM company WHERE id = ?";
@@ -26,7 +26,7 @@ public class CompanyDAO implements DAO<Company, Long> {
     @Autowired
     private ComputerDAO computerDAO;
     @Autowired
-    private CompanyMapper companyMapper;
+    private RowMapper<Company> companyMapper;
     @Autowired
     private JdbcTemplate jdbcTemplate;
 

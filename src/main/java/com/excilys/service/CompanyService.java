@@ -10,18 +10,18 @@ import com.excilys.exception.ExceptionMessage;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.persistence.dao.CompanyDAO;
-import com.excilys.persistence.dao.ComputerDAO;
+import com.excilys.persistence.dao.ICompanyDAO;
+import com.excilys.persistence.dao.IComputerDAO;
 
 @Service
-public class CompanyService implements IService<Company, Long> {
+public class CompanyService implements ICompanyService {
 
 	@Autowired
-    private CompanyDAO companyDAO;
+    private ICompanyDAO companyDAO;
 	@Autowired
-	private ComputerDAO computerDAO;
+	private IComputerDAO computerDAO;
 	
-	public void setCompanyDAO(CompanyDAO companyDAO) {
+	public void setCompanyDAO(ICompanyDAO companyDAO) {
 		this.companyDAO = companyDAO;
 	}
 

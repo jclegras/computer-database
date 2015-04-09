@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import com.excilys.mapper.ComputerMapperDTO;
+import com.excilys.dto.ComputerDTO;
+import com.excilys.mapper.MapperDTO;
 import com.excilys.model.Computer;
-import com.excilys.service.ComputerService;
+import com.excilys.service.IComputerService;
 import com.excilys.util.Page;
 import com.excilys.util.Page.Sort;
 import com.excilys.util.SimplePage;
@@ -21,9 +22,9 @@ import com.excilys.util.SimplePage;
 public class Dashboard extends AbstractServlet {
 
 	@Autowired
-    private ComputerMapperDTO computerMapperDTO;
+    private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
     @Autowired
-    private ComputerService computerService;
+    private IComputerService computerService;
 
     @Override
     protected void doGet(HttpServletRequest request,

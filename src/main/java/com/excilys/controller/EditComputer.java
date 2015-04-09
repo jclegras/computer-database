@@ -11,13 +11,13 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
-import com.excilys.mapper.CompanyMapperDTO;
-import com.excilys.mapper.ComputerMapperDTO;
+import com.excilys.mapper.MapperDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.service.CompanyService;
-import com.excilys.service.ComputerService;
+import com.excilys.service.ICompanyService;
+import com.excilys.service.IComputerService;
 
 @WebServlet(urlPatterns = "/editComputer")
 public class EditComputer extends AbstractServlet {
@@ -25,13 +25,13 @@ public class EditComputer extends AbstractServlet {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(EditComputer.class);
     @Autowired
-    private CompanyMapperDTO companyMapperDTO;
+    private MapperDTO<Company, CompanyDTO> companyMapperDTO;
     @Autowired
-    private ComputerMapperDTO computerMapperDTO;
+    private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
     @Autowired
-    private ComputerService computerService;
+    private IComputerService computerService;
     @Autowired
-    private CompanyService companyService;
+    private ICompanyService companyService;
 
     @Override
     protected void doGet(HttpServletRequest request,

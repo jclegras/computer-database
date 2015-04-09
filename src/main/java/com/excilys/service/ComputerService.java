@@ -10,17 +10,17 @@ import org.springframework.stereotype.Service;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Computer;
-import com.excilys.persistence.dao.ComputerDAO;
+import com.excilys.persistence.dao.IComputerDAO;
 import com.excilys.util.Page;
 
 @Service
-public class ComputerService implements IService<Computer, Long> {
+public class ComputerService implements IComputerService {
 
     private static final Logger LOGGER = LoggerFactory
             .getLogger(ComputerService.class);
     
     @Autowired
-    private ComputerDAO computerDAO;
+    private IComputerDAO computerDAO;
 
     public int count() {
         return computerDAO.count();
