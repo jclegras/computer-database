@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.excilys.mapper.ComputerMapperDTO;
 import com.excilys.model.Computer;
@@ -18,7 +17,6 @@ import com.excilys.util.Page;
 import com.excilys.util.Page.Sort;
 import com.excilys.util.SimplePage;
 
-@Controller
 @WebServlet(urlPatterns = "/dashboard")
 public class Dashboard extends AbstractServlet {
 

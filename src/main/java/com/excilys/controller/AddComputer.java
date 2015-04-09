@@ -10,7 +10,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.CompanyMapperDTO;
@@ -20,7 +19,6 @@ import com.excilys.model.Computer;
 import com.excilys.service.CompanyService;
 import com.excilys.service.ComputerService;
 
-@Controller
 @WebServlet(urlPatterns = "/addComputer")
 public class AddComputer extends AbstractServlet {
 

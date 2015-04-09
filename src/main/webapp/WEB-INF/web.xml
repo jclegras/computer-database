@@ -5,12 +5,6 @@
     version="3.0">
     <display-name>Computer Database</display-name>
 
-	<!-- Spring container configuration -->
-	<context-param>
-		<param-name>contextConfigLocation</param-name>
-		<param-value>/WEB-INF/application-context.xml</param-value>
-	</context-param>
-
 	<!-- Active Spring profile -->
 	<context-param>
 		<param-name>spring.profiles.active</param-name>

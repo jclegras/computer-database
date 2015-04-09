@@ -25,7 +25,7 @@ import com.excilys.persistence.dao.ComputerDAO;
 import com.excilys.util.DBUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/application-context.xml")
+@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/applicationContext.xml")
 @ActiveProfiles("TEST")
 public class ComputerServiceTest {
 	@Autowired
