@@ -107,7 +107,7 @@ public class ComputerDAO implements IComputerDAO {
 					@Override
 					public PreparedStatement createPreparedStatement(Connection connection) throws SQLException {
 						PreparedStatement ps = connection.prepareStatement(CREATE_COMPUTER, 
-								new String[] { "id", "name", "introduced", "discontinued", "company_id" });
+								new String[] { "id" });
 						ps.setObject(1, null);
 						ps.setString(2, entity.getName());
 						if (entity.getIntroduced() != null) {
