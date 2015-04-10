@@ -14,24 +14,22 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.model.Company;
 import com.excilys.persistence.ComputerDatabaseConnection;
-import com.excilys.persistence.dao.CompanyDAO;
-import com.excilys.persistence.dao.ComputerDAO;
+import com.excilys.persistence.dao.ICompanyDAO;
+import com.excilys.persistence.dao.IComputerDAO;
 import com.excilys.util.DBUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/applicationContext.xml")
-@ActiveProfiles("TEST")
+@ContextConfiguration(locations = "file:src/test/resources/applicationContext.xml")
 public class ComputerServiceTest {
 	@Autowired
-	private CompanyDAO companyDAO;
+	private ICompanyDAO companyDAO;
 	@Autowired
-	private ComputerDAO computerDAO;
+	private IComputerDAO computerDAO;
 	@Autowired
 	private CompanyService companyService;
 	@Autowired

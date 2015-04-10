@@ -12,7 +12,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
@@ -21,8 +20,7 @@ import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.util.DBUtil;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "file:src/main/webapp/WEB-INF/applicationContext.xml")
-@ActiveProfiles("TEST")
+@ContextConfiguration(locations = "file:src/test/resources/applicationContext.xml")
 public class CompanyDAOTest {
 	@Autowired
 	private CompanyDAO companyDAO;
