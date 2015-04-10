@@ -1,15 +1,15 @@
 package com.excilys.controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -19,9 +19,12 @@ import com.excilys.model.Computer;
 import com.excilys.service.ICompanyService;
 import com.excilys.service.IComputerService;
 
-@WebServlet(urlPatterns = "/editComputer")
-public class EditComputer extends AbstractServlet {
-
+@Controller
+@RequestMapping("/editComputer")
+public class EditComputer {
+	private static final String PAGE_404 = "404";
+	private static final String EDIT_VIEW = "editComputer";
+	private static final String DASHBOARD_VIEW = "dashboard";
     private static final Logger LOGGER = LoggerFactory
             .getLogger(EditComputer.class);
     @Autowired
@@ -32,98 +35,68 @@ public class EditComputer extends AbstractServlet {
     private IComputerService computerService;
     @Autowired
     private ICompanyService companyService;
-
-    @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-        String id = request.getParameter("id");
-        if (id != null) {
-            id = id.trim();
-            if (id.isEmpty()) {
-                getServletContext().getRequestDispatcher(
-                        "/WEB-INF/views/404.jsp").forward(request, response);
-                return;
-            } else {
-                if (!id.matches("^[1-9][0-9]*$")) {
-                    getServletContext().getRequestDispatcher(
-                            "/WEB-INF/views/404.jsp")
-                            .forward(request, response);
-                }
-                Long idComputer = Long.valueOf(id);
-                request.setAttribute("computer", computerMapperDTO
-                		.modelToDto(computerService
-                                .getById(idComputer)));
-            }
-        } else {
-            getServletContext().getRequestDispatcher("/WEB-INF/views/404.jsp")
-                    .forward(request, response);
-        }
-        request.setAttribute("companies",
-                companyMapperDTO.modelsToDto(companyService.getAll()));
-        getServletContext().getRequestDispatcher(
-                "/WEB-INF/views/editComputer.jsp").forward(request, response);
+    
+    
+    @RequestMapping(method = RequestMethod.GET)
+    public String index(@RequestParam("id") Optional<Long> id, Model model) {
+    	if (id.isPresent()) {
+    		if (id.get() <= 0) {
+    			return PAGE_404;
+    		} else {
+    			model.addAttribute("computer", computerMapperDTO.modelToDto(
+    					computerService.getById(id.get())));
+    		}
+    	} else {
+    		return PAGE_404;
+    	}
+    	model.addAttribute("companies", 
+    			companyMapperDTO.modelsToDto(companyService.getAll()));
+    	
+    	return EDIT_VIEW;
     }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String id = req.getParameter("id");
-        String name = req.getParameter("name");
-        String introduced = req.getParameter("introduced");
-        String discontinued = req.getParameter("discontinued");
-        String companyId = req.getParameter("companyId");
-        Long computerId = null;
-        if (id != null) {
-            id = id.trim();
-            if (!id.isEmpty()) {
-                computerId = Long.valueOf(id);
-            } else {
-                getServletContext().getRequestDispatcher(
-                        "/WEB-INF/views/404.html").forward(req, resp);
-                return;
-            }
-        } else {
-            getServletContext().getRequestDispatcher("/WEB-INF/views/404.html")
-                    .forward(req, resp);
-            return;
+    
+    @RequestMapping(method = RequestMethod.POST)
+    public String editComputer(@RequestParam("id") Optional<Long> id,
+    		@RequestParam("name") Optional<String> name, 
+			@RequestParam("introduced") Optional<String> introduced,
+			@RequestParam("discontinued") Optional<String> discontinued, 
+			@RequestParam("companyId") Optional<Long> companyId,
+			Model model) {
+    	if (!id.isPresent()) {
+    		LOGGER.error("Editing computer failed because of non-present id");
+    		return PAGE_404;
         }
-        if (name != null) {
-            name = name.trim();
-            if (name.isEmpty()) {
+    	
+        if (name.isPresent()) {
+        	final String nam = name.get().trim();
+            if (nam.isEmpty()) {
                 LOGGER.error("Editing computer failed because of empty name");
-                req.setAttribute("companies", companyMapperDTO
+                model.addAttribute("companies", companyMapperDTO
                         .modelsToDto(companyService.getAll()));
-                req.setAttribute("message", "Name is mandatory");
-                getServletContext().getRequestDispatcher(
-                        "/WEB-INF/views/editComputer.jsp").forward(req, resp);
-                return;
+                model.addAttribute("message", "Name is mandatory");
+                return EDIT_VIEW;
             }
         } else {
             LOGGER.error("Editing computer failed because of null name");
-            req.setAttribute("companies", companyMapperDTO
+            model.addAttribute("companies", companyMapperDTO
                     .modelsToDto(companyService.getAll()));
-            req.setAttribute("message", "Name is mandatory");
-            getServletContext().getRequestDispatcher(
-                    "/WEB-INF/views/editComputer.jsp").forward(req, resp);
-            return;
+            model.addAttribute("message", "Name is mandatory");
+            return EDIT_VIEW;
         }
         final ComputerDTO dto = new ComputerDTO();
-        if (companyId != null) {
-            companyId = companyId.trim();
-            if (!companyId.isEmpty() && companyId.matches("^[1-9][0-9]*$")) {
-                final Company company = companyService.getById(Long
-                        .valueOf(companyId));
-                dto.setCompanyId(companyId);
+        if (companyId.isPresent()) {
+                final Company company = companyService.getById(companyId.get());
+                dto.setCompanyId(String.valueOf(companyId.get()));
                 dto.setCompanyName(company.getName());
-            }
         }
-        dto.setId(computerId);
-        dto.setName(name);
-        dto.setIntroduced(introduced);
-        dto.setDiscontinued(discontinued);
+        dto.setId(id.get());
+        dto.setName(name.get());
+        dto.setIntroduced(introduced.get());
+        dto.setDiscontinued(discontinued.get());
         final Computer computer = computerMapperDTO.dtoToModel(dto);
         computerService.update(computer);
-        resp.sendRedirect("dashboard");
+        LOGGER.info("Successfully updated computer with id {}",
+                computer.getId());
+        return "redirect:" + DASHBOARD_VIEW;
     }
-
 }

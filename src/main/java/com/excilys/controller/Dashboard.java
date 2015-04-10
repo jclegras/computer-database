@@ -1,75 +1,60 @@
 package com.excilys.controller;
 
-import java.io.IOException;
 import java.util.List;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.mapper.MapperDTO;
 import com.excilys.model.Computer;
 import com.excilys.service.IComputerService;
 import com.excilys.util.Page;
-import com.excilys.util.Page.Sort;
 import com.excilys.util.SimplePage;
 
-@WebServlet(urlPatterns = "/dashboard")
-public class Dashboard extends AbstractServlet {
-
+@Controller
+@RequestMapping("/dashboard")
+public class Dashboard {
+	private static final String DASHBOARD_VIEW = "dashboard";
 	@Autowired
     private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
     @Autowired
     private IComputerService computerService;
-
-    @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-        String page = request.getParameter("page");
-        String size = request.getParameter("size");
-        String search = request.getParameter("search");
-        String sort = request.getParameter("sort");
-        String column = request.getParameter("col");
-        final Page p = new SimplePage("computer.name");
-        if (search != null) {
-            search = search.trim();
-            List<Computer> computers = computerService.getByName(search);
+	
+	@RequestMapping(method = RequestMethod.GET)
+	public String dashboard(@RequestParam("page") Optional<Integer> page,
+			@RequestParam("size") Optional<Integer> size,
+			@RequestParam("search") Optional<String> search,
+			@RequestParam("sort") Optional<String> sort,
+			@RequestParam("col") Optional<String> column,
+			Model model) {
+		final Page p = new SimplePage("computer.name");
+        if (search.isPresent()) {
+            List<Computer> computers = computerService.getByName(search.get().trim());
             p.setTotalEntities(computers.size());
-            request.setAttribute("computers", computerMapperDTO
-                    .modelsToDto(computers));
-            getServletContext()
-                    .getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
-                    request, response);
-            return;
+            model.addAttribute("computers", 
+            		computerMapperDTO.modelsToDto(computers));
+            return DASHBOARD_VIEW;
         }
-        if (page != null) {
-            page = page.trim();
-            if (!page.isEmpty()) {
-                p.setPage(Integer.valueOf(page));
-            }
-        }
-        if (size != null) {
-            size = size.trim();
-            if (!size.isEmpty()) {
-                p.setSize(Integer.valueOf(size));
-            }
-        }
-        if (sort != null) {
-            sort = sort.trim();
-            if (!sort.isEmpty()) {
-                if (Page.Sort.isValid(sort)) {
-                    p.setSort(Sort.valueOf(sort));
+        page.ifPresent(x -> p.setPage(page.get()));
+        page.ifPresent(x -> p.setSize(size.get()));
+        if (sort.isPresent()) {
+        	final String srt = sort.get().trim();
+            if (!srt.isEmpty()) {
+                if (Page.Sort.isValid(srt)) {
+                    p.setSort(Page.Sort.valueOf(srt));
                 }
             }
         }
-        if (column != null) {
-            column = column.trim();
-            if (!column.isEmpty()) {
-                p.setProperties(column);
+        if (column.isPresent()) {
+        	final String col = column.get().trim();
+            if (!col.isEmpty()) {
+                p.setProperties(col);
             }
         }
         p.setTotalEntities(computerService.count());
@@ -79,12 +64,10 @@ public class Dashboard extends AbstractServlet {
         }
         p.setTotalPages(maxPages);
         p.setDisplayablePages(Math.min(maxPages, p.getPage() + p.getSize() - 1));
-        request.setAttribute("page", p);
-        request.setAttribute("computers", computerMapperDTO
-                .modelsToDto(computerService.getAll(p)));
-        getServletContext()
-                .getRequestDispatcher("/WEB-INF/views/dashboard.jsp").forward(
-                request, response);
-    }
-
+        model.addAttribute("page", p);
+        model.addAttribute("computers", 
+        		computerMapperDTO.modelsToDto(computerService.getAll(p)));
+		return DASHBOARD_VIEW;
+	}
+	
 }

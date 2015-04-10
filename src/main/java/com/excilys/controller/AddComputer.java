@@ -1,15 +1,15 @@
 package com.excilys.controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -19,13 +19,13 @@ import com.excilys.model.Computer;
 import com.excilys.service.ICompanyService;
 import com.excilys.service.IComputerService;
 
-@WebServlet(urlPatterns = "/addComputer")
-public class AddComputer extends AbstractServlet {
-
+@Controller
+@RequestMapping("/addComputer")
+public class AddComputer {
     private static final Logger LOGGER = LoggerFactory
             .getLogger(AddComputer.class);
-    private static final String DASHBOARD_VIEW = "/WEB-INF/views/addComputer.jsp";
-    private static final String DASHBOARD_CTRL = "dashboard";
+    private static final String ADDCOMPUTER_VIEW = "addComputer";
+    private static final String DASHBOARD_VIEW = "dashboard";
     @Autowired
     private MapperDTO<Company, CompanyDTO> companyMapperDTO;
     @Autowired
@@ -35,60 +35,49 @@ public class AddComputer extends AbstractServlet {
     @Autowired
     private ICompanyService companyService;
 
-    @Override
-    protected void doGet(HttpServletRequest request,
-                         HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("companies",
-                companyMapperDTO.modelsToDto(companyService.getAll()));
-        getServletContext().getRequestDispatcher(DASHBOARD_VIEW).forward(
-                request, response);
-    }
-
-    @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-            throws ServletException, IOException {
-        String name = req.getParameter("name");
-        String introduced = req.getParameter("introduced");
-        String discontinued = req.getParameter("discontinued");
-        String companyId = req.getParameter("companyId");
-        if (name != null) {
-            name = name.trim();
-            if (name.isEmpty()) {
+	@RequestMapping(method = RequestMethod.GET)
+	public String index(Model model) {
+		model.addAttribute("companies", 
+				companyMapperDTO.modelsToDto(companyService.getAll()));
+		return ADDCOMPUTER_VIEW;
+	}
+	
+	// TODO Retrieve DTO
+	@RequestMapping(method = RequestMethod.POST)
+	public String addComputer(@RequestParam("name") Optional<String> name, 
+			@RequestParam("introduced") Optional<String> introduced,
+			@RequestParam("discontinued") Optional<String> discontinued, 
+			@RequestParam("companyId") Optional<Long> companyId,
+			Model model) {
+		if (name.isPresent()) {
+			final String nme = name.get().trim();
+            if (nme.isEmpty()) {
                 LOGGER.error("Adding computer failed because of empty name");
-                req.setAttribute("companies", companyMapperDTO
-                        .modelsToDto(companyService.getAll()));
-                req.setAttribute("message", "Name is mandatory");
-                getServletContext().getRequestDispatcher(DASHBOARD_VIEW)
-                        .forward(req, resp);
-                return;
+                model.addAttribute("companies", 
+                		companyMapperDTO.modelsToDto(companyService.getAll()));
+                model.addAttribute("message", "Name is mandatory");
+                return ADDCOMPUTER_VIEW;
             }
         } else {
             LOGGER.error("Adding computer failed because of null name");
-            req.setAttribute("companies", companyMapperDTO
-                    .modelsToDto(companyService.getAll()));
-            req.setAttribute("message", "Name is mandatory");
-            getServletContext().getRequestDispatcher(DASHBOARD_VIEW).forward(
-                    req, resp);
-            return;
+            model.addAttribute("companies", 
+            		companyMapperDTO.modelsToDto(companyService.getAll()));
+            model.addAttribute("message", "Name is mandatory");
+            return ADDCOMPUTER_VIEW;
         }
         final ComputerDTO dto = new ComputerDTO();
-        if (companyId != null) {
-            companyId = companyId.trim();
-            if (!companyId.isEmpty() && companyId.matches("^[1-9][0-9]*$")) {
-                final Company company = companyService.getById(Long
-                        .valueOf(companyId));
-                dto.setCompanyId(companyId);
-                dto.setCompanyName(company.getName());
-            }
+        if (companyId.isPresent()) {
+        	final Company company = companyService.getById(companyId.get());
+        	dto.setCompanyId(String.valueOf(companyId.get()));
+        	dto.setCompanyName(company.getName());
         }
-        dto.setName(name);
-        dto.setIntroduced(introduced);
-        dto.setDiscontinued(discontinued);
+        dto.setName(name.get());
+        dto.setIntroduced(introduced.get());
+        dto.setDiscontinued(discontinued.get());
         final Computer computer = computerMapperDTO.dtoToModel(dto);
         computerService.create(computer);
         LOGGER.info("Successfully created computer with id {}",
                 computer.getId());
-        resp.sendRedirect(DASHBOARD_CTRL);
-    }
-
+        return "redirect:" + DASHBOARD_VIEW;
+	}
 }
