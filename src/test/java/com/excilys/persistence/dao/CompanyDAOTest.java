@@ -23,7 +23,7 @@ import com.excilys.util.DBUtil;
 @ContextConfiguration(locations = "file:src/test/resources/applicationContext.xml")
 public class CompanyDAOTest {
 	@Autowired
-	private CompanyDAO companyDAO;
+	private ICompanyDAO companyDAO;
 	@Autowired
 	private ComputerDatabaseConnection computerDatabaseConnection;
 	
