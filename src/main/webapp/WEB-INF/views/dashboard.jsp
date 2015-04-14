@@ -3,14 +3,18 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="p" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:import url="import/head.jsp" />
 <body>
 <c:import url="import/header.jsp" />
 
 <section id="main">
     <div class="container">
+    	<div>
+    		Language : <a href="?language=en"><spring:message code="dashboard.english" /></a>|<a href="?language=fr">Français</a>
+    	</div>
         <h1 id="homeTitle">
-            ${page.totalEntities} Computers found
+            ${page.totalEntities} <spring:message code="dashboard.computersFound" />
         </h1>
 
         <div id="actions" class="form-horizontal">
