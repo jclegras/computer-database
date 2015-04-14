@@ -1,21 +1,8 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Computer Database</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
-    <link href="css/font-awesome.css" rel="stylesheet" media="screen">
-    <link href="css/main.css" rel="stylesheet" media="screen">
-</head>
+<c:import url="import/head.jsp" />
 <body>
-<header class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-        <a class="navbar-brand" href="<c:url value="/dashboard" />"> Application - Computer Database </a>
-    </div>
-</header>
+<c:import url="import/header.jsp" />
 
 <section id="main">
     <div class="container">
@@ -27,9 +14,7 @@
     </div>
 </section>
 
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/dashboard.js"></script>
+<c:import url="import/footer.jsp" />
 
 </body>
 </html>
