@@ -1,6 +1,7 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:import url="import/head.jsp" />
 <body>
 <c:import url="import/header.jsp" />
@@ -15,50 +16,40 @@
                 <c:if test="${!empty message}">
                     <div class="has-error">${message}</div>
                 </c:if>
-                <form action="editComputer" method="POST">
-                    <input type="hidden" name="id" value="${computer.id}"/>
+                <form:form commandName="computer" action="editComputer" method="POST">
                     <fieldset>
                         <div class="form-group">
-                            <label for="name">Computer name</label>
-                            <input type="text" class="form-control" id="name" name="name" placeholder="Computer name"
-                                   value="<c:out value="${computer.name}"/>"/>
+                            <form:label path="name" for="name">Computer name</form:label>
+                            <form:input path="name" type="text" cssClass="form-control" id="name" name="name" placeholder="Computer name" />
+                            <form:errors path="name" cssClass="has-error" />
                         </div>
                         <div class="form-group">
-                            <label for="introduced">Introduced date</label>
-                            <fmt:parseDate value="${computer.introduced}" var="introducedDate" pattern="yyyy-MM-dd HH:mm" />
-                            <input type="date" class="form-control" id="introduced" name="introduced"
-                                   placeholder="Introduced date"
-                                   value="<fmt:formatDate value="${introducedDate}" pattern="yyyy-MM-dd" />"/>
+                            <form:label path="introduced" for="introduced">Introduced date</form:label>
+                            <form:input path="introduced" type="date" cssClass="form-control" id="introduced" name="introduced"
+                                   placeholder="Introduced date" />
+							<form:errors path="introduced" cssClass="has-error" />                                   
                         </div>
                         <div class="form-group">
-                            <label for="discontinued">Discontinued date</label>
-                            <fmt:parseDate value="${computer.discontinued}" var="discontinuedDate" pattern="yyyy-MM-dd HH:mm" />
-                            <input type="date" class="form-control" id="discontinued" name="discontinued"
-                                   placeholder="Discontinued date"
-                                   value="<fmt:formatDate value="${discontinuedDate}" pattern="yyyy-MM-dd" />"/>
+                            <form:label path="discontinued" for="discontinued">Discontinued date</form:label>
+                            <form:input path="discontinued" type="date" cssClass="form-control" id="discontinued" name="discontinued"
+                                   placeholder="Discontinued date" />
+							<form:errors path="discontinued" cssClass="has-error" />                                   
                         </div>
                         <div class="form-group">
-                            <label for="companyId">Company</label>
-                            <select class="form-control" id="companyId" name="companyId">
-                                <c:forEach var="c" items="${companies}">
-                                    <c:choose>
-                                        <c:when test="${(!empty computer.companyId != null) && (computer.companyId == c.id)}">
-                                            <option value="${c.id}" selected>${c.name}</option>
-                                        </c:when>
-                                        <c:otherwise>
-                                            <option value="${c.id}">${c.name}</option>
-                                        </c:otherwise>
-                                    </c:choose>
-                                </c:forEach>
-                            </select>
+                            <form:label path="companyId" for="companyId">Company</form:label>
+                            <form:select id="companyId" name="companyId" path="companyId" cssClass="form-control" multiple="false">
+                            	<form:option value="" label="Select company"/>
+                            	<form:options items="${companies}" itemValue="id" itemLabel="name" />
+                            </form:select>
+							<form:errors path="companyId" cssClass="has-error" />                            
                         </div>
                     </fieldset>
                     <div class="actions pull-right">
                         <input type="submit" value="Edit" class="btn btn-primary">
                         or
-                        <a href="<c:url value="/dashboard" />" class="btn btn-default">Cancel</a>
+                        <a class="btn btn-default" href="<c:url value="/dashboard" />">Cancel</a>
                     </div>
-                </form>
+                </form:form>
             </div>
         </div>
     </div>

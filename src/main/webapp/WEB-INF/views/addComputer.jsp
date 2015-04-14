@@ -1,6 +1,5 @@
 <%@ page pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:import url="import/head.jsp" />
 <body>
@@ -36,7 +35,7 @@
                         <div class="form-group">
                             <form:label path="companyId" for="companyId">Company</form:label>
                             <form:select id="companyId" name="companyId" path="companyId" cssClass="form-control" multiple="false">
-                            	<form:option value="0" label="Select company"/>
+                            	<form:option value="" label="Select company"/>
                             	<form:options items="${companies}" itemValue="id" itemLabel="name" />
                             </form:select>
 							<form:errors path="companyId" cssClass="has-error" />                            

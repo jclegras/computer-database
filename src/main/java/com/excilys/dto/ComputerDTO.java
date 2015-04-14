@@ -1,6 +1,7 @@
 package com.excilys.dto;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class ComputerDTO {
@@ -10,6 +11,7 @@ public class ComputerDTO {
     private String name;
     private String introduced;
     private String discontinued;
+    @Pattern(regexp = "[0-9]+")
     private String companyId;
     private String companyName;
 

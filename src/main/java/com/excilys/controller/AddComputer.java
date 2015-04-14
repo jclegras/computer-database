@@ -1,5 +1,7 @@
 package com.excilys.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.slf4j.Logger;
@@ -11,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -22,62 +25,52 @@ import com.excilys.service.IComputerService;
 
 @Controller
 @RequestMapping("/addComputer")
+@SessionAttributes("companies")
 public class AddComputer {
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(AddComputer.class);
-    private static final String ADDCOMPUTER_VIEW = "addComputer";
-    private static final String DASHBOARD_VIEW = "dashboard";
-    @Autowired
-    private MapperDTO<Company, CompanyDTO> companyMapperDTO;
-    @Autowired
-    private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
-    @Autowired
-    private IComputerService computerService;
-    @Autowired
-    private ICompanyService companyService;
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(AddComputer.class);
+	private static final String ADDCOMPUTER_VIEW = "addComputer";
+	private static final String DASHBOARD_VIEW = "dashboard";
+	@Autowired
+	private MapperDTO<Company, CompanyDTO> companyMapperDTO;
+	@Autowired
+	private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
+	@Autowired
+	private IComputerService computerService;
+	@Autowired
+	private ICompanyService companyService;
+	
+    @ModelAttribute("companies")
+    public List<CompanyDTO> populateModelWithCompanies() {
+        return companyMapperDTO.modelsToDto(companyService.getAll());
+    }
 
 	@RequestMapping(method = RequestMethod.GET)
-	public String index(@ModelAttribute("newComputer") ComputerDTO computerDTO, Model model) {
-		model.addAttribute("companies", 
-				companyMapperDTO.modelsToDto(companyService.getAll()));
+	public String index(@ModelAttribute("newComputer") ComputerDTO computerDTO,
+			Model model) {
 		return ADDCOMPUTER_VIEW;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.POST)
-	public String addComputer(@Valid @ModelAttribute("newComputer") ComputerDTO computerDTO,
+	public String addComputer(
+			@Valid @ModelAttribute("newComputer") ComputerDTO computerDTO,
 			BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            return ADDCOMPUTER_VIEW;
-        }
-//		if (name.isPresent()) {
-//			final String nme = name.get().trim();
-//            if (nme.isEmpty()) {
-//                LOGGER.error("Adding computer failed because of empty name");
-//                model.addAttribute("companies", 
-//                		companyMapperDTO.modelsToDto(companyService.getAll()));
-//                model.addAttribute("message", "Name is mandatory");
-//                return ADDCOMPUTER_VIEW;
-//            }
-//        } else {
-//            LOGGER.error("Adding computer failed because of null name");
-//            model.addAttribute("companies", 
-//            		companyMapperDTO.modelsToDto(companyService.getAll()));
-//            model.addAttribute("message", "Name is mandatory");
-//            return ADDCOMPUTER_VIEW;
-//        }
-//        final ComputerDTO dto = new ComputerDTO();
-//        if (companyId.isPresent()) {
-//        	final Company company = companyService.getById(companyId.get());
-//        	dto.setCompanyId(String.valueOf(companyId.get()));
-//        	dto.setCompanyName(company.getName());
-//        }
-//        dto.setName(name.get());
-//        dto.setIntroduced(introduced.get());
-//        dto.setDiscontinued(discontinued.get());
-//        final Computer computer = computerMapperDTO.dtoToModel(dto);
-//        computerService.create(computer);
-//        LOGGER.info("Successfully created computer with id {}",
-//                computer.getId());
-        return "redirect:" + DASHBOARD_VIEW;
+		if (bindingResult.hasErrors()) {
+			return ADDCOMPUTER_VIEW;
+		}
+		if (computerDTO.getName() == null) {
+			LOGGER.error("Adding computer failed because of null name");
+			model.addAttribute("message", "Name is mandatory");
+			return ADDCOMPUTER_VIEW;
+		}
+		if (computerDTO.getCompanyId() != null) {
+			computerDTO.setCompanyName(companyService.getById(
+					Long.valueOf(computerDTO.getCompanyId())).getName());
+		}
+		final Computer newComputer = computerMapperDTO.dtoToModel(computerDTO);
+		computerService.create(newComputer);
+		LOGGER.info("Successfully created computer with id {}",
+				newComputer.getId());
+		return "redirect:" + DASHBOARD_VIEW;
 	}
 }
