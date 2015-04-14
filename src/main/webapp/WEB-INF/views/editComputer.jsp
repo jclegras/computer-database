@@ -17,6 +17,7 @@
                     <div class="has-error">${message}</div>
                 </c:if>
                 <form:form commandName="computer" action="editComputer" method="POST">
+                	<form:hidden path="id" />
                     <fieldset>
                         <div class="form-group">
                             <form:label path="name" for="name">Computer name</form:label>

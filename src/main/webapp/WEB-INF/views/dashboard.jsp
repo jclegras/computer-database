@@ -147,12 +147,10 @@
                     <a href="<c:url value="/editComputer?id=${computer.id}" />"><c:out value="${computer.name}"/></a>
                 </td>
                 <td>
-                	<fmt:parseDate value="${computer.introduced}" var="introducedDate" pattern="yyyy-MM-dd HH:mm" />
-                	<fmt:formatDate value="${introducedDate}" type="Date" dateStyle="full" />
+					${computer.introduced}
                 </td>
                 <td>
-					<fmt:parseDate value="${computer.discontinued}" var="discontinuedDate" pattern="yyyy-MM-dd HH:mm" />                
-                	<fmt:formatDate value="${discontinuedDate}" type="Date" dateStyle="full" />
+					${computer.discontinued}
                 </td>
                 <td>
                     <c:if test="${!empty computer.companyId}">

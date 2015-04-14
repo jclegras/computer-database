@@ -32,38 +32,38 @@ public class EditComputer {
 	private static final String PAGE_404 = "404";
 	private static final String EDIT_VIEW = "editComputer";
 	private static final String DASHBOARD_VIEW = "dashboard";
-    private static final Logger LOGGER = LoggerFactory
-            .getLogger(EditComputer.class);
-    @Autowired
-    private MapperDTO<Company, CompanyDTO> companyMapperDTO;
-    @Autowired
-    private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
-    @Autowired
-    private IComputerService computerService;
-    @Autowired
-    private ICompanyService companyService;
-    
-    @ModelAttribute("companies")
-    public List<CompanyDTO> populateModelWithCompanies() {
-        return companyMapperDTO.modelsToDto(companyService.getAll());
-    }
-    
-    @RequestMapping(method = RequestMethod.GET)
-    public String index(@RequestParam("id") Optional<Long> id, Model model) {
-    	if (id.isPresent()) {
-    		if (id.get() <= 0) {
-    			return PAGE_404;
-    		} else {
-    			model.addAttribute("computer", computerMapperDTO.modelToDto(
-    					computerService.getById(id.get())));
-    		}
-    	} else {
-    		return PAGE_404;
-    	}
-    	
-    	return EDIT_VIEW;
-    }
-    
+	private static final Logger LOGGER = LoggerFactory
+			.getLogger(EditComputer.class);
+	@Autowired
+	private MapperDTO<Company, CompanyDTO> companyMapperDTO;
+	@Autowired
+	private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
+	@Autowired
+	private IComputerService computerService;
+	@Autowired
+	private ICompanyService companyService;
+
+	@ModelAttribute("companies")
+	public List<CompanyDTO> populateModelWithCompanies() {
+		return companyMapperDTO.modelsToDto(companyService.getAll());
+	}
+
+	@RequestMapping(method = RequestMethod.GET)
+	public String index(@RequestParam("id") Optional<Long> id, Model model) {
+		if (id.isPresent()) {
+			if (id.get() <= 0) {
+				return PAGE_404;
+			} else {
+				model.addAttribute("computer", computerMapperDTO
+						.modelToDto(computerService.getById(id.get())));
+			}
+		} else {
+			return PAGE_404;
+		}
+
+		return EDIT_VIEW;
+	}
+
 	@RequestMapping(method = RequestMethod.POST)
 	public String editComputer(
 			@Valid @ModelAttribute("computer") ComputerDTO computerDTO,
@@ -81,9 +81,9 @@ public class EditComputer {
 					Long.valueOf(computerDTO.getCompanyId())).getName());
 		}
 		final Computer computer = computerMapperDTO.dtoToModel(computerDTO);
-        computerService.update(computer);
-        LOGGER.info("Successfully updated computer with id {}",
-                computer.getId());
+		computerService.update(computer);
+		LOGGER.info("Successfully updated computer with id {}",
+				computer.getId());
 		return "redirect:" + DASHBOARD_VIEW;
 	}
 }
