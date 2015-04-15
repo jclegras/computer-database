@@ -7,12 +7,10 @@
 <c:import url="import/head.jsp" />
 <body>
 <c:import url="import/header.jsp" />
+<p:translator mainCode="title.language" lang2="?language=fr" lang1="?language=en" codeLang2="dashboard.french" codeLang1="dashboard.english" />
 
 <section id="main">
     <div class="container">
-    	<div>
-    		Language : <a href="?language=en"><spring:message code="dashboard.english" /></a>|<a href="?language=fr">Français</a>
-    	</div>
         <h1 id="homeTitle">
             ${page.totalEntities} <spring:message code="dashboard.computersFound" />
         </h1>
@@ -20,15 +18,16 @@
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
                 <form id="searchForm" action="#" method="GET" class="form-inline">
-
-                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="Search name"/>
-                    <input type="submit" id="searchsubmit" value="Filter by name"
+					<c:set var="filterByNameLabel"><spring:message code="form.filterByName"/></c:set>
+					<c:set var="searchNamePlaceholder"><spring:message code="form.placeholder.searchName"/></c:set>
+                    <input type="search" id="searchbox" name="search" class="form-control" placeholder="${searchNamePlaceholder}"/>
+                    <input type="submit" id="searchsubmit" value="${filterByNameLabel}"
                            class="btn btn-primary"/>
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="<c:url value="/addComputer" />">Add Computer</a>
-                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
+                <a class="btn btn-success" id="addComputer" href="<c:url value="/addComputer" />"><spring:message code="title.addComputer" /></a>
+                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="title.editComputer" /></a>
             </div>
         </div>
     </div>
@@ -56,19 +55,19 @@
 	                	<c:choose>
 	                		<c:when test="${page.sort == 'ASC'}">
 			                	<p:link url="dashboard" sort="DESC" size="${page.size}" column="computer.name" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Computer name	
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span><spring:message code="form.computerName" />	
 								</p:link>			                		           			
 	                		</c:when>
 	                		<c:otherwise>
 			                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.name" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Computer name	
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><spring:message code="form.computerName" />	
 								</p:link>	 		                		       			
 	                		</c:otherwise>
 	                	</c:choose>
                 	</c:if>
                 	<c:if test="${!page.properties.contains('computer.name')}">
 	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.name" page="${page.page}">
-	                		<span aria-hidden="true">Computer name</span>  		
+	                		<span aria-hidden="true"><spring:message code="form.computerName" /></span>  		
 						</p:link>	                	  		                		 
                 	</c:if>              			
                 </th>
@@ -77,19 +76,19 @@
 	                	<c:choose>
 	                		<c:when test="${page.sort == 'ASC'}">
 			                	<p:link url="dashboard" sort="DESC" size="${page.size}" column="computer.introduced" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Introduced date		
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span><spring:message code="form.introducedDate" />		
 								</p:link>		                		          			
 	                		</c:when>
 	                		<c:otherwise>
 			                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.introduced" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Introduced date		
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><spring:message code="form.introducedDate" />		
 								</p:link>	                		      			
 	                		</c:otherwise>
 	                	</c:choose>  
 	                </c:if>
 	                <c:if test="${!page.properties.contains('computer.introduced')}">
 	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.introduced" page="${page.page}">
-							<span aria-hidden="true">Introduced date</span>     		
+							<span aria-hidden="true"><spring:message code="form.introducedDate" /></span>     		
 						</p:link>		                		                
 	                </c:if>           			                   
                 </th>
@@ -99,19 +98,19 @@
 	                	<c:choose>
 	                		<c:when test="${page.sort == 'ASC'}">
 			                	<p:link url="dashboard" sort="DESC" size="${page.size}" column="computer.discontinued" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Discontinued date        		
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span><spring:message code="form.discontinuedDate" />        		
 								</p:link>		                		          			
 	                		</c:when>
 	                		<c:otherwise>
 			                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.discontinued" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Discontinued date        		
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><spring:message code="form.discontinuedDate" />        		
 								</p:link>		                		     			
 	                		</c:otherwise>
 	                	</c:choose>
 	                </c:if>
 	                <c:if test="${!page.properties.contains('computer.discontinued')}">
 	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="computer.discontinued" page="${page.page}">
-							<span aria-hidden="true">Discontinued date</span>     		
+							<span aria-hidden="true"><spring:message code="form.discontinuedDate" /></span>     		
 						</p:link>		                           
 	                </c:if>             			        
                 </th>
@@ -121,19 +120,19 @@
 	                	<c:choose>
 	                		<c:when test="${page.sort == 'ASC'}">
 	                			<p:link url="dashboard" sort="DESC" size="${page.size}" column="company.name" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>Company
+			                		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span><spring:message code="form.company" />
 				                </p:link>	                		       			
 	                		</c:when>
 	                		<c:otherwise>
 	                			<p:link url="dashboard" sort="ASC" size="${page.size}" column="company.name" page="${page.page}">
-			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>Company
+			                		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span><spring:message code="form.company" />
 				                </p:link>           			
 	                		</c:otherwise>
 	                	</c:choose>                			
                		</c:if>
                		<c:if test="${!page.properties.contains('company.name')}">
 	                	<p:link url="dashboard" sort="ASC" size="${page.size}" column="company.name" page="${page.page}">
-	                		<span aria-hidden="true">Company</span>               		
+	                		<span aria-hidden="true"><spring:message code="form.company" /></span>               		
 						</p:link>	                	
                		</c:if>              
                 </th>
