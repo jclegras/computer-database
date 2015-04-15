@@ -44,10 +44,9 @@
 		p:cookieName="language"
 		p:cookieMaxAge="100000" />
 
-	<!-- Allows for reading files from any Spring resource location (not just 
-		from the classpath) and supports hot reloading of bundle property files -->
+	<!-- Implementation that accesses resource bundles using specified basenames -->
 	<bean id="messageSource"
-		class="org.springframework.context.support.ReloadableResourceBundleMessageSource"
-		p:basename="classpath:messages"
+		class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basename="messages"
 		p:defaultEncoding="UTF-8" />
 </beans>      
