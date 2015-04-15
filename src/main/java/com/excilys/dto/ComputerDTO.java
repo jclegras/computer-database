@@ -1,17 +1,19 @@
 package com.excilys.dto;
 
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.excilys.validation.Date;
 
 public class ComputerDTO {
     private long id;
-    @NotNull
+    @NotNull(message = "{validation.notNull}")
     @Size(min = 1, max = 100)
     private String name;
+    @Date
     private String introduced;
+    @Date
     private String discontinued;
-    @Pattern(regexp = "[0-9]+")
     private String companyId;
     private String companyName;
 

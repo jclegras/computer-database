@@ -12,8 +12,11 @@
 
 	<context:component-scan base-package="com.excilys.controller" />
 
+	<!-- Assets -->
 	<mvc:resources mapping="/resources/**" location="/public-web-resources/" />
-	<mvc:annotation-driven />
+	
+	<!-- Supports JSR303 annotation if JSR 303 validation present on classpath -->
+	<mvc:annotation-driven validator="validator" />
 
 	<bean id="viewResolver"
 		class="org.springframework.web.servlet.view.UrlBasedViewResolver"
@@ -49,4 +52,10 @@
 		class="org.springframework.context.support.ResourceBundleMessageSource"
 		p:basename="messages"
 		p:defaultEncoding="UTF-8" />
+		
+	<!-- Central class for validation (JSR-303) setup in a Spring application context -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource"/>
+	</bean>		
 </beans>      
