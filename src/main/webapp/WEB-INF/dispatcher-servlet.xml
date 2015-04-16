@@ -24,12 +24,6 @@
 		p:prefix="/WEB-INF/views/"
 		p:suffix=".jsp" />
 
-	<!-- Uses a locale attribute in the user's session Checks the accept-language 
-		header in the client HTTP request -->
-	<bean id="sessionLocaleResolver"
-		class="org.springframework.web.servlet.i18n.SessionLocaleResolver"
-		p:defaultLocale="en" />
-
 	<!-- Detects a parameter in the request and change the locale -->
 	<mvc:interceptors>
 		<bean id="localeChangeInterceptor"
@@ -46,16 +40,4 @@
 		p:defaultLocale="en"
 		p:cookieName="language"
 		p:cookieMaxAge="100000" />
-
-	<!-- Implementation that accesses resource bundles using specified basenames -->
-	<bean id="messageSource"
-		class="org.springframework.context.support.ResourceBundleMessageSource"
-		p:basename="messages"
-		p:defaultEncoding="UTF-8" />
-		
-	<!-- Central class for validation (JSR-303) setup in a Spring application context -->
-	<bean id="validator"
-		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
-		<property name="validationMessageSource" ref="messageSource"/>
-	</bean>		
 </beans>      
