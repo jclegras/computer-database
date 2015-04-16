@@ -30,4 +30,16 @@
     </bean>
   
     <tx:annotation-driven />
+    
+    <!-- Implementation that accesses resource bundles using specified basenames -->
+	<bean id="messageSource"
+		class="org.springframework.context.support.ResourceBundleMessageSource"
+		p:basename="messages"
+		p:defaultEncoding="UTF-8" />
+		
+	<!-- Central class for validation (JSR-303) setup in a Spring application context -->
+	<bean id="validator"
+		class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="validationMessageSource" ref="messageSource"/>
+	</bean>		
 </beans>
