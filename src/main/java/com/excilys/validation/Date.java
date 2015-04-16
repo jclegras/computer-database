@@ -9,9 +9,7 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 
 /**
- * 
  * Custom annotation @Date to validate the date variable.
- * 
  */
 @Constraint(validatedBy = DateValidator.class)
 @Target(value = ElementType.FIELD)

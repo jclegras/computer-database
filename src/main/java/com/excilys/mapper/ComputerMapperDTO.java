@@ -1,41 +1,35 @@
 package com.excilys.mapper;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.dto.ComputerDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
-import com.excilys.util.LocalDateTimeUtil;
 
 @Component
 public class ComputerMapperDTO implements MapperDTO<Computer, ComputerDTO> {
+
+	@Autowired
+	private LocalDateTimeConverter localDateTimeConverter;
 
 	@Override
 	public Computer dtoToModel(ComputerDTO dto) {
 		final Computer computer = new Computer();
 		computer.setId(dto.getId());
 		computer.setName(dto.getName());
-		final DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern(LocalDateTimeUtil.LOCAL_DATE_TIME_PATTERN);
 		if (dto.getIntroduced() != null) {
 			dto.setIntroduced(dto.getIntroduced().trim());
 			if (!dto.getIntroduced().isEmpty()) {
-				dto.setIntroduced(LocalDateTimeUtil
+				computer.setIntroduced(localDateTimeConverter
 						.convertToValidLocalDateTime(dto.getIntroduced()));
-				computer.setIntroduced(LocalDateTime.parse(dto.getIntroduced(),
-						formatter));
 			}
 		}
 		if (dto.getDiscontinued() != null) {
 			dto.setDiscontinued(dto.getDiscontinued().trim());
 			if (!dto.getDiscontinued().isEmpty()) {
-				dto.setDiscontinued(LocalDateTimeUtil
+				computer.setDiscontinued(localDateTimeConverter
 						.convertToValidLocalDateTime(dto.getDiscontinued()));
-				computer.setDiscontinued(LocalDateTime.parse(
-						dto.getDiscontinued(), formatter));
 			}
 		}
 		if (dto.getCompanyId() != null) {
@@ -57,13 +51,13 @@ public class ComputerMapperDTO implements MapperDTO<Computer, ComputerDTO> {
 		final ComputerDTO dto = new ComputerDTO();
 		dto.setId(model.getId());
 		dto.setName(model.getName());
-		final DateTimeFormatter formatter = DateTimeFormatter
-				.ofPattern(LocalDateTimeUtil.DEFAULT_PATTERN);
 		if (model.getIntroduced() != null) {
-			dto.setIntroduced(model.getIntroduced().format(formatter));
+			dto.setIntroduced(localDateTimeConverter.convertToText(model
+					.getIntroduced()));
 		}
 		if (model.getDiscontinued() != null) {
-			dto.setDiscontinued(model.getDiscontinued().format(formatter));
+			dto.setDiscontinued(localDateTimeConverter.convertToText(model
+					.getDiscontinued()));
 		}
 		if (model.getCompany() != null) {
 			dto.setCompanyId(String.valueOf(model.getCompany().getId()));
