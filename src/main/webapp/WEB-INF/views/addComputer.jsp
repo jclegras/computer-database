@@ -20,21 +20,21 @@
                     <fieldset>
                         <div class="form-group">
                             <form:label path="name" for="name"><spring:message code="form.computerName" /></form:label>
-							<c:set var="computerNamePlaceholder"><spring:message code="form.placeholder.computerName"/></c:set>                            
+							<spring:message code="form.placeholder.computerName" var="computerNamePlaceholder"/>                            
                             <form:input path="name" type="text" cssClass="form-control" id="name" name="name" 
                             	placeholder="${computerNamePlaceholder}" />
                             <form:errors path="name" cssClass="has-error" />
                         </div>
                         <div class="form-group">
                             <form:label path="introduced" for="introduced"><spring:message code="form.introducedDate" /></form:label>
-							<c:set var="introducedPlaceholder"><spring:message code="form.placeholder.introducedDate"/></c:set>                              
+							<spring:message code="form.placeholder.introducedDate" var="introducedPlaceholder"/>                              
                             <form:input path="introduced" type="date" cssClass="form-control" id="introduced" name="introduced"
                             	placeholder="${introducedPlaceholder}" />
 							<form:errors path="introduced" cssClass="has-error" />                                   
                         </div>
                         <div class="form-group">
                             <form:label path="discontinued" for="discontinued"><spring:message code="form.discontinuedDate" /></form:label>
-							<c:set var="discontinuedPlaceholder"><spring:message code="form.placeholder.discontinuedDate"/></c:set>                            
+							<spring:message code="form.placeholder.discontinuedDate" var="discontinuedPlaceholder"/>                            
                             <form:input path="discontinued" type="date" cssClass="form-control" id="discontinued" name="discontinued"
                                    placeholder="${discontinuedPlaceholder}" />
 							<form:errors path="discontinued" cssClass="has-error" />                                   
@@ -42,7 +42,7 @@
                         <div class="form-group">
                             <form:label path="companyId" for="companyId"><spring:message code="form.company" /></form:label>
                             <form:select id="companyId" name="companyId" path="companyId" cssClass="form-control" multiple="false">
-                            	<c:set var="selectCompanyLabel"><spring:message code="form.selectCompany"/></c:set>
+                            	<spring:message code="form.selectCompany" var="selectCompanyLabel"/>
                             	<form:option value="" label="${selectCompanyLabel}"/>
                             	<form:options items="${companies}" itemValue="id" itemLabel="name" />
                             </form:select>

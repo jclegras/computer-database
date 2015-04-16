@@ -18,8 +18,8 @@
         <div id="actions" class="form-horizontal">
             <div class="pull-left">
                 <form id="searchForm" action="#" method="GET" class="form-inline">
-					<c:set var="filterByNameLabel"><spring:message code="form.filterByName"/></c:set>
-					<c:set var="searchNamePlaceholder"><spring:message code="form.placeholder.searchName"/></c:set>
+					<spring:message code="form.filterByName" var="filterByNameLabel"/>
+					<spring:message code="form.placeholder.searchName" var="searchNamePlaceholder"/>
                     <input type="search" id="searchbox" name="search" class="form-control" placeholder="${searchNamePlaceholder}"/>
                     <input type="submit" id="searchsubmit" value="${filterByNameLabel}"
                            class="btn btn-primary"/>
