@@ -28,10 +28,12 @@ public class ComputerService implements IComputerService {
         return computerDAO.count();
     }
 
+    @Transactional(readOnly = true)
     public List<Computer> getAll() {
         return computerDAO.getAll();
     }
 
+    @Transactional(readOnly = true)
     public List<Computer> getAll(Page page) {
         if (page == null) {
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
@@ -39,6 +41,7 @@ public class ComputerService implements IComputerService {
         return computerDAO.getAll(page);
     }
 
+    @Transactional(readOnly = true)
     public Computer getById(Long id) {
         if ((id == null) || (id <= 0)) {
             throw new ServiceException(ExceptionMessage.WRONG_ID.toString());
@@ -46,6 +49,7 @@ public class ComputerService implements IComputerService {
         return computerDAO.getById(id);
     }
 
+    @Transactional(readOnly = true)
     public List<Computer> getByName(String name) {
         if (name == null) {
             throw new IllegalArgumentException();
@@ -53,6 +57,7 @@ public class ComputerService implements IComputerService {
         return computerDAO.getByName(name);
     }
 
+    @Transactional
     public void create(Computer computer) {
         if (computer == null) {
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
@@ -62,6 +67,7 @@ public class ComputerService implements IComputerService {
                 computer.getId());
     }
 
+    @Transactional
     public void update(Computer computer) {
         if (computer == null) {
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
@@ -71,6 +77,7 @@ public class ComputerService implements IComputerService {
                 computer.getId());
     }
 
+    @Transactional
     public void delete(Long id) {
         if ((id != null) && (id <= 0)) {
             throw new ServiceException(ExceptionMessage.WRONG_ID.toString());

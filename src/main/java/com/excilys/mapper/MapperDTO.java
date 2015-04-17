@@ -19,7 +19,8 @@ public interface MapperDTO<T, U> {
         if (models == null) {
             throw new IllegalArgumentException();
         }
-        return models.stream().map(m -> modelToDto(m))
+        System.out.println(models);
+        return models.stream().map(this::modelToDto)
                 .collect(Collectors.toList());
     }
 

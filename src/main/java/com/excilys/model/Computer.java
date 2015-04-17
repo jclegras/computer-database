@@ -4,18 +4,25 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import javax.persistence.Convert;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import com.excilys.model.converter.LocalDateTimePersistenceConverter;
 
 @Entity
+@Table(name = "computer")
 public class Computer {
 	@Id
 	@GeneratedValue
     private long id;
     private String name;
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime introduced;
+    @Convert(converter = LocalDateTimePersistenceConverter.class)
     private LocalDateTime discontinued;
     @OneToOne
     private Company company;

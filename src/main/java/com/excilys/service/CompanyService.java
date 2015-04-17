@@ -25,10 +25,12 @@ public class CompanyService implements ICompanyService {
 		this.companyDAO = companyDAO;
 	}
 
+	@Transactional(readOnly = true)
     public List<Company> getAll() {
         return companyDAO.getAll();
     }
 
+	@Transactional(readOnly = true)
     public Company getById(Long id) {
         if ((id == null) || (id <= 0)) {
             throw new ServiceException(ExceptionMessage.WRONG_ID.toString());
