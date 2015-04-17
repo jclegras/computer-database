@@ -45,24 +45,24 @@ public interface Page {
     /**
      * @return Number of pages
      */
-    int getTotalPages();
+    long getTotalPages();
 
     /**
      * @param pages Number of pages
      * @pre pages >= 0
      */
-    void setTotalPages(int pages);
+    void setTotalPages(long pages);
 
     /**
      * @return Number of displayable pages
      */
-    int getDisplayablePages();
+    long getDisplayablePages();
 
     /**
      * @param displayablePages Number of pages
      * @pre displayablePages >= 0
      */
-    void setDisplayablePages(int displayablePages);
+    void setDisplayablePages(long displayablePages);
 
     /**
      * @return Offset for this page
@@ -119,13 +119,13 @@ public interface Page {
     /**
      * @return Number of entities
      */
-    int getTotalEntities();
+    long getTotalEntities();
 
     /**
      * @param totalEntities Total entities
      * @pre totalEntities >= 0
      */
-    void setTotalEntities(int totalEntities);
+    void setTotalEntities(long totalEntities);
 
     enum Sort {
         ASC, DESC;

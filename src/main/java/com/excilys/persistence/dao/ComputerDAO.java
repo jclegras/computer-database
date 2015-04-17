@@ -7,6 +7,7 @@ import java.sql.Timestamp;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.hibernate.SessionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +35,7 @@ public class ComputerDAO implements IComputerDAO {
 	private static final String GET_ALL_COMPUTERS_PAGINATED = "SELECT * FROM computer LEFT OUTER JOIN company"
 			+ " ON computer.company_id = company.id"
 			+ " ORDER BY %s %s LIMIT ? OFFSET ?";
-	private static final String COUNT_ALL_COMPUTERS = "SELECT COUNT(*) FROM computer";
+	private static final String COUNT_ALL_COMPUTERS = "SELECT COUNT(*) FROM Computer";
 	private static final String GET_ALL_COMPUTERS = "SELECT * FROM computer LEFT OUTER JOIN company"
 			+ " ON computer.company_id = company.id";
 	private static final String GET_BY_NAME_COMPUTER_AND_COMPANY = "SELECT * FROM computer"
@@ -52,14 +53,17 @@ public class ComputerDAO implements IComputerDAO {
 	private ComputerDatabaseConnection compDtbConnection;
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	@Autowired
+	private SessionFactory sessionFactory;
 
 	/**
 	 * Number of computers in the database.
 	 *
 	 * @return Number of entities
 	 */
-	public int count() {
-		return jdbcTemplate.queryForObject(COUNT_ALL_COMPUTERS, Integer.class);
+	public Long count() {
+		return (Long) sessionFactory.getCurrentSession()
+				.createQuery(COUNT_ALL_COMPUTERS).uniqueResult();
 	}
 
 	@Override

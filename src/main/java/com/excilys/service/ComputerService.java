@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.exception.ServiceException;
@@ -22,7 +23,8 @@ public class ComputerService implements IComputerService {
     @Autowired
     private IComputerDAO computerDAO;
 
-    public int count() {
+    @Transactional(readOnly = true)
+    public Long count() {
         return computerDAO.count();
     }
 

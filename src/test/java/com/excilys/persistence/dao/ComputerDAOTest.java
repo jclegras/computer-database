@@ -52,7 +52,7 @@ public class ComputerDAOTest {
         final int expectedNbComputers = 3;
 
         // WHEN
-        final int nbComputers = computerDAO.count();
+        final long nbComputers = computerDAO.count();
 
         // THEN
         Assertions.assertThat(nbComputers).isEqualTo(expectedNbComputers);
@@ -65,7 +65,7 @@ public class ComputerDAOTest {
                 "src/test/resources/datasets/computerDAO/getAllNoEntity.xml")));
 
         // WHEN
-        final int nbComputers = computerDAO.count();
+        final long nbComputers = computerDAO.count();
 
         // THEN
         Assertions.assertThat(nbComputers).isZero();

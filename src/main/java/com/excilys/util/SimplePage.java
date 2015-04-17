@@ -13,10 +13,10 @@ public class SimplePage implements Page {
     private int page;
     private int size;
     private String textualProperties;
-    private int totalPages;
-    private int displayablePages;
+    private long totalPages;
+    private long displayablePages;
     private int entitiesByPage;
-    private int totalEntities;
+    private long totalEntities;
 
     /**
      * @post getPage() == 1
@@ -129,13 +129,13 @@ public class SimplePage implements Page {
     }
 
     @Override
-    public int getTotalPages() {
+    public long getTotalPages() {
         return totalPages;
     }
 
     @Override
-    public void setTotalPages(int pages) {
-        if (pages <= 0) {
+    public void setTotalPages(long pages) {
+        if (pages < 0L) {
             throw new IllegalArgumentException();
         }
         this.totalPages = pages;
@@ -160,13 +160,13 @@ public class SimplePage implements Page {
     }
 
     @Override
-    public int getDisplayablePages() {
+    public long getDisplayablePages() {
         return displayablePages;
     }
 
     @Override
-    public void setDisplayablePages(int displayablePages) {
-        if (displayablePages <= 0) {
+    public void setDisplayablePages(long displayablePages) {
+        if (displayablePages < 0L) {
             throw new IllegalArgumentException();
         }
         this.displayablePages = displayablePages;
@@ -219,13 +219,13 @@ public class SimplePage implements Page {
     }
 
     @Override
-    public int getTotalEntities() {
+    public long getTotalEntities() {
         return totalEntities;
     }
 
     @Override
-    public void setTotalEntities(int totalEntities) {
-        if (totalEntities < 0) {
+    public void setTotalEntities(long totalEntities) {
+        if (totalEntities < 0L) {
             throw new IllegalArgumentException();
         }
         this.totalEntities = totalEntities;

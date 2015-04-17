@@ -82,7 +82,7 @@ public class ComputerController {
             }
         }
         p.setTotalEntities(computerService.count());
-        int maxPages = (p.getTotalEntities() / p.getSize());
+        long maxPages = (p.getTotalEntities() / p.getSize());
         if (p.getTotalEntities() % p.getSize() != 0) {
             ++maxPages;
         }

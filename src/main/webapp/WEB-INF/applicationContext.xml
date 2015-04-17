@@ -20,14 +20,33 @@
 		p:url="${jdbc.dev.url}"
 		p:username="${jdbc.dev.username}"
 		p:password="${jdbc.dev.password}" />
+	
+	<!-- Creates a session factory from package scanning -->	
+    <bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="packagesToScan">
+            <array>
+                <value>com.excilys.model</value>
+            </array>
+        </property>
+        <property name="hibernateProperties">
+            <props>
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+                <prop key="hibernate.show_sql">true</prop>
+                <prop key="hibernate.format_sql">true</prop>
+                <prop key="hibernate.hbm2ddl.auto">update</prop>
+            </props>
+        </property>
+    </bean>	
 		
    	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
    		<property name="dataSource" ref="dataSource"/>
    	</bean>
    	
-    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource" ref="dataSource"/>
-    </bean>
+     <!-- Hibernate Transaction Manager -->
+     <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+         <property name="sessionFactory" ref="sessionFactory" />
+     </bean>
   
     <tx:annotation-driven />
     

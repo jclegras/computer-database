@@ -18,7 +18,7 @@ public interface IComputerDAO extends DAO<Computer, Long> {
 	 * 
 	 * @return Total entities
 	 */
-	int count();
+	Long count();
 	/**
 	 * Retrieve all computers for the given page.
 	 * 

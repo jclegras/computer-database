@@ -18,7 +18,7 @@ public interface IComputerService extends IService<Computer, Long> {
 	 * 
 	 * @return Total entities
 	 */
-	int count();
+	Long count();
 	/**
 	 * Retrieve all computers for the given page.
 	 * 

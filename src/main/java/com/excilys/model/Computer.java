@@ -4,12 +4,20 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+
+@Entity
 public class Computer {
-    // TODO id primitif
+	@Id
+	@GeneratedValue
     private long id;
     private String name;
     private LocalDateTime introduced;
     private LocalDateTime discontinued;
+    @OneToOne
     private Company company;
 
     public Computer() {
