@@ -14,7 +14,7 @@ import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.model.Computer;
 import com.excilys.persistence.ComputerDatabaseConnection;
-import com.excilys.util.Page;
+import com.excilys.persistence.util.Page;
 
 @Repository
 @SuppressWarnings("unchecked")

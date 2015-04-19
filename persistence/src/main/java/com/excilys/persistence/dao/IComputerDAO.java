@@ -3,7 +3,7 @@ package com.excilys.persistence.dao;
 import java.util.List;
 
 import com.excilys.model.Computer;
-import com.excilys.util.Page;
+import com.excilys.persistence.util.Page;
 
 /**
  * A computer DAO.

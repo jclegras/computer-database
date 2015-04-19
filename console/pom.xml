@@ -9,10 +9,11 @@
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<dependencies>
-		<!-- Module -->
-		<dependency>
-			<groupId>computer-database</groupId>
-			<artifactId>service</artifactId>
-		</dependency>
+		<!--&lt;!&ndash; Module &ndash;&gt;-->
+		<!--<dependency>-->
+			<!--<groupId>computer-database</groupId>-->
+			<!--<artifactId>service</artifactId>-->
+			<!--<version>0.0.1-SNAPSHOT</version>-->
+		<!--</dependency>-->
 	</dependencies>
 </project>

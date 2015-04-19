@@ -12,7 +12,7 @@ import com.excilys.exception.ExceptionMessage;
 import com.excilys.exception.ServiceException;
 import com.excilys.model.Computer;
 import com.excilys.persistence.dao.IComputerDAO;
-import com.excilys.util.Page;
+import com.excilys.persistence.util.Page;
 
 @Service
 public class ComputerService implements IComputerService {

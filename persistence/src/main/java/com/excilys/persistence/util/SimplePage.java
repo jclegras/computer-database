@@ -1,4 +1,4 @@
-package com.excilys.util;
+package com.excilys.persistence.util;
 
 import java.util.ArrayList;
 import java.util.Arrays;

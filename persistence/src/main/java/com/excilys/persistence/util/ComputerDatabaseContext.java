@@ -1,4 +1,4 @@
-package com.excilys.util;
+package com.excilys.persistence.util;
 
 import com.excilys.model.Company;
 import com.excilys.model.Computer;

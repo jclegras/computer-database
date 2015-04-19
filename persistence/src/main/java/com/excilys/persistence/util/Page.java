@@ -1,4 +1,4 @@
-package com.excilys.util;
+package com.excilys.persistence.util;
 
 import java.util.HashSet;
 import java.util.Set;
