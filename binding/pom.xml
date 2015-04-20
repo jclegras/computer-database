@@ -12,9 +12,21 @@
 	<dependencies>
 		<!-- Module -->
 		<dependency>
-			<groupId>computer-database</groupId>
+			<groupId>${pom.groupId}</groupId>
 			<artifactId>core</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<!-- Dependencies -->
+		
+		<!-- Bean Validation provider -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+		</dependency>
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -8,12 +8,12 @@
 		<artifactId>mainParent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
 	<dependencies>
-		<!--&lt;!&ndash; Module &ndash;&gt;-->
-		<!--<dependency>-->
-			<!--<groupId>computer-database</groupId>-->
-			<!--<artifactId>service</artifactId>-->
-			<!--<version>0.0.1-SNAPSHOT</version>-->
-		<!--</dependency>-->
+		<!-- Module -->
+		<dependency>
+			<groupId>${pom.groupId}</groupId>
+			<artifactId>service</artifactId>
+		</dependency>
 	</dependencies>
 </project>

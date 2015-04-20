@@ -12,9 +12,16 @@
 	<dependencies>
 		<!-- Module -->
 		<dependency>
-			<groupId>computer-database</groupId>
+			<groupId>${pom.groupId}</groupId>
 			<artifactId>persistence</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<!-- Dependencies -->
+		
+		<!-- Spring -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+		</dependency>		
 	</dependencies>
 </project>
