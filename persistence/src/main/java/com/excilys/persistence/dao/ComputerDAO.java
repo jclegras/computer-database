@@ -13,7 +13,6 @@ import org.springframework.stereotype.Repository;
 import com.excilys.exception.DAOException;
 import com.excilys.exception.ExceptionMessage;
 import com.excilys.model.Computer;
-import com.excilys.persistence.ComputerDatabaseConnection;
 import com.excilys.persistence.util.Page;
 
 @Repository
@@ -40,8 +39,6 @@ public class ComputerDAO implements IComputerDAO {
 
 	@Autowired
 	private RowMapper<Computer> computerMapper;
-	@Autowired
-	private ComputerDatabaseConnection compDtbConnection;
 	@Autowired
 	private SessionFactory sessionFactory;
 
