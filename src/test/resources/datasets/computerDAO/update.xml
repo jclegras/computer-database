@@ -1,5 +1,0 @@
-<?xml version='1.0' encoding='UTF-8'?>
-<dataset>
-    <company id="1" name="IBM"/>
-    <computer id="1" name="CM-200" introduced="1991-01-01 00:00:00" company_id="1"/>
-</dataset>
