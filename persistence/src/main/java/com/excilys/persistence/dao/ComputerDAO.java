@@ -39,11 +39,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Autowired
 	private SessionFactory sessionFactory;
 
-	/**
-	 * Number of computers in the database.
-	 *
-	 * @return Number of entities
-	 */
+	@Override
 	public Long count() {
 		return (Long) sessionFactory.getCurrentSession()
 				.createQuery(COUNT_ALL_COMPUTERS).uniqueResult();
@@ -55,6 +51,7 @@ public class ComputerDAO implements IComputerDAO {
 				.createQuery(GET_ALL_COMPUTERS).list();
 	}
 
+	@Override
 	public List<Computer> getAll(Page page) {
 		if (page == null) {
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
@@ -66,6 +63,7 @@ public class ComputerDAO implements IComputerDAO {
 				.list();
 	}
 
+	@Override
 	public List<Computer> getByName(String name) {
 		if (name == null) {
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
@@ -115,6 +113,7 @@ public class ComputerDAO implements IComputerDAO {
 		LOGGER.info("Entity with id {} successfully deleted", id);
 	}
 
+	@Override
 	public List<Computer> getAllByCompany(Long id) {
 		if (id == null || id <= 0) {
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
