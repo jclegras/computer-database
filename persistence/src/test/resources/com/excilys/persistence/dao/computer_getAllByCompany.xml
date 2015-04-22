@@ -1,6 +1,7 @@
 <dataset>
     <company id="1" name="company1" />
     <company id="2" name="companyForComputer" />
+    <company id="3" name="company3" />
     <computer id="1" name="comp" company_id="1" />
     <computer id="2" name="computer" company_id="1" />
     <computer id="3" name="computer1" company_id="1" />

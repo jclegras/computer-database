@@ -1,9 +1,10 @@
 package com.excilys.persistence.dao;
 
-import com.excilys.ebi.spring.dbunit.test.DataSet;
-import com.excilys.ebi.spring.dbunit.test.ExpectedDataSet;
-import com.excilys.ebi.spring.dbunit.test.RollbackTransactionalDataSetTestExecutionListener;
-import com.excilys.model.Computer;
+import static org.junit.Assert.fail;
+
+import java.util.Arrays;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -16,8 +17,11 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
+import com.excilys.ebi.spring.dbunit.test.DataSet;
+import com.excilys.ebi.spring.dbunit.test.ExpectedDataSet;
+import com.excilys.ebi.spring.dbunit.test.RollbackTransactionalDataSetTestExecutionListener;
+import com.excilys.exception.DAOException;
+import com.excilys.model.Computer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:persistence-test-context.xml" })
@@ -86,7 +90,22 @@ public class ComputerDAOTest {
         // THEN
         Assertions.assertThat(computers).isEmpty();
     }
-
+    
+    @Test
+    public void getAllWhenNullPageThrowsException() {
+    	// GIVEN
+    	
+    	// WHEN
+    	try {
+    		computerDAO.getAll(null);
+    		// THEN KO
+    		fail("must throw an exception because of null ID");
+    	} catch (Exception ex) {
+    		// THEN OK
+    		Assertions.assertThat(ex).isInstanceOf(DAOException.class);
+    	}
+    }
+    
     // TODO
 //    @Test
 //    @DataSet("computer_getByName.xml")
@@ -115,6 +134,36 @@ public class ComputerDAOTest {
         // THEN
         Assertions.assertThat(computer).isEqualTo(expectedComputer);
     }
+    
+    @Test
+    public void getByIdWhenNullIdThrowsException() {
+        // GIVEN
+
+        // WHEN
+    	try {
+    		computerDAO.getById(null);
+    		fail("must throw an exception because of null ID");
+    		// THEN KO
+    	} catch (Exception ex) {
+    		// THEN OK
+    		Assertions.assertThat(ex).isInstanceOf(DAOException.class);
+    	}
+    }
+    
+    @Test
+    public void getByIdWhenWrongIdThrowsException() {
+        // GIVEN
+
+        // WHEN
+    	try {
+    		computerDAO.getById(-1L);
+    		fail("must throw an exception because of illegal ID");
+    		// THEN KO
+    	} catch (Exception ex) {
+    		// THEN OK
+    		Assertions.assertThat(ex).isInstanceOf(DAOException.class);
+    	}
+    }    
 
     @Test
     @ExpectedDataSet(value = "computer_create.xml", columnsToIgnore = {"company_id", "discontinued", "introduced"})
@@ -152,6 +201,34 @@ public class ComputerDAOTest {
         // WHEN
         computerDAO.delete(id);
     }
+    
+    @Test
+    public void deleteWhenNullIdThrowsException() {
+    	// GIVEN
+    	
+    	// WHEN
+    	try {
+    		computerDAO.delete(null);
+    		fail("must throw an exception because of null ID");
+    	} catch (Exception ex) {
+    		Assertions.assertThat(ex).isInstanceOf(DAOException.class);
+    	}
+    }
+    
+    @Test
+    public void deleteWhenWrongIdThrowsException() {
+    	// GIVEN
+    	
+    	// WHEN
+    	try {
+    		computerDAO.delete(-1L);
+    		// THEN KO
+    		fail("must throw an exception because of illegal ID");
+    	} catch (Exception ex) {
+    		// THEN OK
+    		Assertions.assertThat(ex).isInstanceOf(DAOException.class);
+    	}
+    }
 
     @Test
     @DataSet("computer_getAllByCompany.xml")
@@ -166,4 +243,59 @@ public class ComputerDAOTest {
         // THEN
         Assertions.assertThat(computers.size()).isEqualTo(expectedSize);
     }
+    
+    @Test
+    @DataSet("computer_getAllByCompany.xml")
+    public void getByCompanyReturnsEmptyListWhenNoComputerForACompany() {
+        // GIVEN
+        final long companyId = 3L;
+
+        // WHEN
+        final List<Computer> computers = computerDAO.getAllByCompany(companyId);
+
+        // THEN
+        Assertions.assertThat(computers).isEmpty();
+    }
+    
+    @Test
+    public void getByCompanyReturnsEmptyListWhenNoCompanyForGivenID() {
+        // GIVEN
+        final long companyId = 34546L;
+
+        // WHEN
+        final List<Computer> computers = computerDAO.getAllByCompany(companyId);
+
+        // THEN
+        Assertions.assertThat(computers).isEmpty();
+    }
+    
+    @Test
+    public void getByCompanyThrowsExceptionWhenNullID() {
+    	// GIVEN
+    	
+    	// WHEN
+    	try {
+    		computerDAO.getAllByCompany(null);
+    		// THEN KO
+    		fail("must throw an exception because of null ID");
+    	} catch (Exception ex) {
+    		// THEN OK
+    		Assertions.assertThat(ex).isInstanceOf(DAOException.class);
+    	}
+    }
+    
+    @Test
+    public void getByCompanyThrowsExceptionWhenWrongID() {
+    	// GIVEN
+    	
+    	// WHEN
+    	try {
+    		computerDAO.getAllByCompany(-1L);
+    		// THEN KO
+    		fail("must throw an exception because of illegal ID");
+    	} catch (Exception ex) {
+    		// THEN OK
+    		Assertions.assertThat(ex).isInstanceOf(DAOException.class);
+    	}
+    }    
 }

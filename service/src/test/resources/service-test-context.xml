@@ -45,5 +45,5 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
-    <tx:annotation-driven />
+    <tx:annotation-driven proxy-target-class="true" />
 </beans>
