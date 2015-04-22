@@ -17,6 +17,7 @@
 
 	<properties>
 		<assertj.version>2.0.0</assertj.version>
+		<catch-exception.version>1.2.0</catch-exception.version>
 		<commons-dbcp2.version>2.1</commons-dbcp2.version>
 		<dbunit.version>2.5.0</dbunit.version>
 		<excilys.dbunit.spring.version>1.4.0</excilys.dbunit.spring.version>

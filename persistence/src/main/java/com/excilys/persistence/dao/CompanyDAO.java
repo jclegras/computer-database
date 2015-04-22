@@ -24,8 +24,6 @@ public class CompanyDAO implements ICompanyDAO {
 			.getLogger(CompanyDAO.class);
 
 	@Autowired
-	private ComputerDAO computerDAO;
-	@Autowired
 	private SessionFactory sessionFactory;
 
 	@Override
