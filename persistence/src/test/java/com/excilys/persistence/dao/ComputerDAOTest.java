@@ -166,13 +166,19 @@ public class ComputerDAOTest {
     }    
 
     @Test
-    @ExpectedDataSet(value = "computer_create.xml", columnsToIgnore = {"company_id", "discontinued", "introduced"})
     public void createSuccess() {
         // GIVEN
-        final Computer computer = new Computer(1L, "computer");
+        final Computer expectedComputer = new Computer(1L, "computer");
 
         // WHEN
-        computerDAO.create(computer);
+        computerDAO.create(expectedComputer);
+        
+        // THEN
+        final Computer computer = computerDAO.getById(expectedComputer.getId());
+        Assertions.assertThat(computer).isEqualTo(expectedComputer);
+        
+        // CLEAN
+        computerDAO.delete(computer.getId());
     }
 
     @Test
