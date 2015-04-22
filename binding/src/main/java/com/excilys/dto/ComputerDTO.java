@@ -17,7 +17,6 @@ public class ComputerDTO {
     private String companyId;
     private String companyName;
 
-
     public long getId() {
         return id;
     }
@@ -54,7 +53,7 @@ public class ComputerDTO {
         return companyId;
     }
 
-    public void setCompanyId(String companyId) {
+    public void setCompanyId(String companyId) {	
         this.companyId = companyId;
     }
 

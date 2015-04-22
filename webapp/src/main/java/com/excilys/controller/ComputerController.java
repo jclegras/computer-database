@@ -107,10 +107,7 @@ public class ComputerController {
 		if (bindingResult.hasErrors()) {
 			return ADDCOMPUTER_VIEW;
 		}
-		if (!check(computerDTO, model)) {
-			LOGGER.error("Creating computer failed because of null name");			
-			return ADDCOMPUTER_VIEW;
-		}
+		populateCompany(computerDTO);
 		final Computer newComputer = computerMapperDTO.dtoToModel(computerDTO);
 		computerService.create(newComputer);
 		LOGGER.info("Successfully created computer with id {}",
@@ -141,11 +138,7 @@ public class ComputerController {
 		if (bindingResult.hasErrors()) {
 			return EDIT_VIEW;
 		}
-		if (!check(computerDTO, model)) {
-			LOGGER.error("Updating computer failed because of null name, ID : {}", 
-					computerDTO.getId());
-			return EDIT_VIEW;
-		}
+		populateCompany(computerDTO);
 		final Computer computer = computerMapperDTO.dtoToModel(computerDTO);
 		computerService.update(computer);
 		LOGGER.info("Successfully updated computer with id {}",
@@ -154,18 +147,12 @@ public class ComputerController {
 	}
 	
 	/*
-	 * Checks values of DTO.
-	 * @return false if error, otherwise true
+	 * Populate company from computerDTO's companyId
 	 */
-	private boolean check(ComputerDTO computerDTO, Model model) {
-		if (computerDTO.getName() == null) {
-			model.addAttribute("message", "Name is mandatory");
-			return false;
-		}
+	private void populateCompany(ComputerDTO computerDTO) {
 		if (computerDTO.getCompanyId() != null) {
 			computerDTO.setCompanyName(companyService.getById(
 					Long.valueOf(computerDTO.getCompanyId())).getName());
 		}
-		return true;
 	}
 }
