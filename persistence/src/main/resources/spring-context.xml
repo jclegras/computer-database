@@ -42,6 +42,7 @@
         <property name="sessionFactory" ref="sessionFactory" />
     </bean>
 
+	<!-- Enable @Transactional -->
     <tx:annotation-driven />
 
     <!-- Implementation that accesses resource bundles using specified basenames -->

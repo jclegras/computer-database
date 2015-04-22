@@ -73,7 +73,7 @@ public class ComputerService implements IComputerService {
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
         }
         computerDAO.update(computer);
-        LOGGER.info("Computer with id {} successfully created",
+        LOGGER.info("Computer with id {} successfully updated",
                 computer.getId());
     }
 
