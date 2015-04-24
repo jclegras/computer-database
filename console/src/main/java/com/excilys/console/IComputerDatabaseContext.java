@@ -1,5 +1,15 @@
 package com.excilys.console;
 
-public interface IComputerDatabaseContext {
+import com.excilys.dto.ComputerDTO;
+import com.excilys.webservice.IComputerDatabase;
 
+public interface IComputerDatabaseContext {
+	long getId();
+	String getName();
+	IComputerDatabase getWebService();
+	ComputerDTO getComputerDTO();
+	void setId(long id);
+	void setWebService(IComputerDatabase webService);
+	void setName(String name);
+	void setComputerDTO(ComputerDTO dto);
 }

@@ -17,7 +17,7 @@
 		</dependency>
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
-			<artifactId>service</artifactId>
+			<artifactId>webservice</artifactId>
 		</dependency>
 	</dependencies>
 </project>

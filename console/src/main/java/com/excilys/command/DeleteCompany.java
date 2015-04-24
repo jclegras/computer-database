@@ -8,8 +8,7 @@ public class DeleteCompany implements ICommand {
 	@Override
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
-		// TODO Auto-generated method stub
-		
+		ctx.getWebService().deleteCompany(ctx.getId());
 	}
 
 }

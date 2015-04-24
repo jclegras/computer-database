@@ -1,16 +1,23 @@
-package com.excilys.console;
+package com.excilys.console.impl;
 
 import java.util.List;
 
+import com.excilys.console.IComputerDatabaseStorage;
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
 
 
 public class ComputerDatabaseStorage implements IComputerDatabaseStorage {
+	private long count;
 	private ComputerDTO computer;
 	private CompanyDTO company;
 	private List<ComputerDTO> computers;
 	private List<CompanyDTO> companies;
+	
+	@Override
+	public long getCount() {
+		return count;
+	}
 	
 	@Override
 	public ComputerDTO getComputer() {
@@ -50,6 +57,11 @@ public class ComputerDatabaseStorage implements IComputerDatabaseStorage {
 	@Override
 	public void setCompanies(List<CompanyDTO> companies) {
 		this.companies = companies;
+	}
+
+	@Override
+	public void setCount(long count) {
+		this.count = count;
 	}
 
 }

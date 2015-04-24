@@ -18,6 +18,10 @@
 		<dependency>
 			<groupId>${pom.groupId}</groupId>
 			<artifactId>service</artifactId>
+		</dependency>	
+		<dependency>
+			<groupId>javax.el</groupId>
+			<artifactId>javax.el-api</artifactId>
 		</dependency>
 	</dependencies>
 </project>

@@ -8,8 +8,7 @@ public class DeleteComputer implements ICommand {
 	@Override
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
-		// TODO Auto-generated method stub
-		
+		ctx.getWebService().deleteComputer(ctx.getId());
 	}
 
 }

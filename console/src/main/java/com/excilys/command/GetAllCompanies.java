@@ -8,7 +8,7 @@ public class GetAllCompanies implements ICommand {
 	@Override
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
-		// TODO
+		store.setCompanies(ctx.getWebService().getAllCompanies());
 	}
 
 }

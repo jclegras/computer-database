@@ -21,7 +21,7 @@ public class ComputerDAO implements IComputerDAO {
 	private static final String GET_BY_ID_COMPUTER = "SELECT computer FROM Computer computer "
 			+ " LEFT OUTER JOIN computer.company company"
 			+ " WHERE computer.id = :id";
-	private static final String GET_ALL_COMPUTERS_PAGINATED = "	SELECT computer FROM Computer computer "
+	private static final String GET_ALL_COMPUTERS_PAGINATED = "SELECT computer FROM Computer computer "
 			+ "LEFT OUTER JOIN computer.company company ORDER BY %s %s";
 	private static final String COUNT_ALL_COMPUTERS = "SELECT COUNT(*) FROM Computer";
 	private static final String GET_ALL_COMPUTERS = "FROM Computer";

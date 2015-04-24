@@ -8,7 +8,7 @@ public class GetAllComputers implements ICommand {
 	@Override
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
-		// TODO
+		store.setComputers(ctx.getWebService().getAllComputers());
 	}
 
 }
