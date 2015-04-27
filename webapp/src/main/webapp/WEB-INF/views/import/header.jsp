@@ -5,13 +5,13 @@
     <div class="container">
         <a class="navbar-brand" href="<c:url value="/dashboard" />"> Application - Computer Database </a>
     </div>
+	<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
+		<form action="logout" method="post">
+			<sec:csrfInput />
+			<input type="submit" class="btn btn-danger" value="Logout" />
+		</form>
+	</sec:authorize>    
 </header>
 
 <div>
-<%-- 	<sec:authorize access="ROLE_USER"> --%>
-		<form action="logout" method="post">
-			<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-			<input type="submit" class="btn btn-danger" value="logout" />
-		</form>
-<%-- 	</sec:authorize> --%>
 </div>

@@ -48,7 +48,7 @@ public class ComputerController {
     @ModelAttribute("companies")
     public List<CompanyDTO> populateModelWithCompanies() {
         return companyMapperDTO.modelsToDto(companyService.getAll());
-    }    
+    }
 	
 	@RequestMapping(method = RequestMethod.GET, value = "/dashboard")
 	public String getAll(@RequestParam("page") Optional<Integer> page,

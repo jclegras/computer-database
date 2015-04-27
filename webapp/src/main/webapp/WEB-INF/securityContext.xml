@@ -6,13 +6,22 @@
 		   http://www.springframework.org/schema/security
 		   http://www.springframework.org/schema/security/spring-security.xsd">
 
-	<http use-expressions="false">
-		<intercept-url pattern="/login**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
-<!-- 		<intercept-url pattern="/dashboard/**" access="IS_AUTHENTICATED_ANONYMOUSLY"/>		 -->
-		<intercept-url pattern="/editComputer**" access="ROLE_USER" />
-		<http-basic />
-		<logout logout-url="/logout" delete-cookies="JSESSIONID"
-			logout-success-url="/login" />
+	<http use-expressions="true">
+		<intercept-url pattern="/login**" access="permitAll" />
+		<intercept-url pattern="/dashboard**" access="permitAll" />
+		<intercept-url pattern="/resources/**" access="permitAll" />
+		<intercept-url pattern="/editComputer**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/addComputer**" access="hasRole('ROLE_ADMIN')" />		
+		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
+		<form-login login-page="/login" 
+			username-parameter="username"
+			password-parameter="password"
+			default-target-url="/dashboard"
+			authentication-failure-url="/login?error"
+			always-use-default-target="true" />
+		<logout logout-url="/logout" 
+			delete-cookies="JSESSIONID"
+			logout-success-url="/login?logout" />
 		<csrf />
 	</http>
 

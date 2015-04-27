@@ -32,6 +32,18 @@
   	 	</listener-class>
 	</listener>
 	
+	<!-- Spring MVC Servlet -->
+    <servlet>
+        <servlet-name>dispatcher</servlet-name>
+        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>dispatcher</servlet-name>
+        <url-pattern>/</url-pattern>
+    </servlet-mapping>	
+	
 	<!-- Spring Security -->
 	<filter>
 		<filter-name>springSecurityFilterChain</filter-name>
@@ -48,18 +60,6 @@
 	    <param-name>contextConfigLocation</param-name>
 	    <param-value>/WEB-INF/applicationContext.xml, /WEB-INF/securityContext.xml</param-value>
 	</context-param>	
-	
-	<!-- Spring MVC Servlet -->
-    <servlet>
-        <servlet-name>dispatcher</servlet-name>
-        <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>dispatcher</servlet-name>
-        <url-pattern>/</url-pattern>
-    </servlet-mapping>
     
     <!-- Customed error pages -->
     <error-page>
