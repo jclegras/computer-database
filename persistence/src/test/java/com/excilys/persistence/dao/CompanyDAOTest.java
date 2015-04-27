@@ -1,10 +1,8 @@
 package com.excilys.persistence.dao;
 
-import com.excilys.ebi.spring.dbunit.test.DataSet;
-import com.excilys.ebi.spring.dbunit.test.ExpectedDataSet;
-import com.excilys.ebi.spring.dbunit.test.RollbackTransactionalDataSetTestExecutionListener;
-import com.excilys.exception.DAOException;
-import com.excilys.model.Company;
+import java.util.Arrays;
+import java.util.List;
+
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -18,8 +16,11 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Arrays;
-import java.util.List;
+import com.excilys.ebi.spring.dbunit.test.DataSet;
+import com.excilys.ebi.spring.dbunit.test.ExpectedDataSet;
+import com.excilys.ebi.spring.dbunit.test.RollbackTransactionalDataSetTestExecutionListener;
+import com.excilys.exception.DAOException;
+import com.excilys.model.Company;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:persistence-test-context.xml" })

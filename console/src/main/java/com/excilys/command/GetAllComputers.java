@@ -9,6 +9,7 @@ public class GetAllComputers implements ICommand {
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
 		store.setComputers(ctx.getWebService().getAllComputers());
+		System.out.println(store.getComputers());
 	}
 
 }

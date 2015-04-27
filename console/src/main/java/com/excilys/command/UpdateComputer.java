@@ -9,6 +9,7 @@ public class UpdateComputer implements ICommand {
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
 		ctx.getWebService().update(ctx.getComputerDTO());
+		System.out.println("Successfull updating");
 	}
 
 }

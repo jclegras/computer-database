@@ -9,6 +9,7 @@ public class CreateComputer implements ICommand {
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
 		ctx.getWebService().create(ctx.getComputerDTO());
+		System.out.println("Successfull creation");
 	}
 
 }

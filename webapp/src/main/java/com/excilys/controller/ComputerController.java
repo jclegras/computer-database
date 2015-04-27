@@ -61,6 +61,7 @@ public class ComputerController {
         if (search.isPresent()) {
             List<Computer> computers = computerService.getByName(search.get().trim());
             p.setTotalEntities(computers.size());
+            model.addAttribute("page", p);
             model.addAttribute("computers", 
             		computerMapperDTO.modelsToDto(computers));
             return DASHBOARD_VIEW;

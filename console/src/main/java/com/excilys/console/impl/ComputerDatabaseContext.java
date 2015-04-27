@@ -1,6 +1,7 @@
 package com.excilys.console.impl;
 
 import com.excilys.console.IComputerDatabaseContext;
+import com.excilys.console.IComputerDatabaseScanner;
 import com.excilys.dto.ComputerDTO;
 import com.excilys.webservice.IComputerDatabase;
 
@@ -10,6 +11,7 @@ public class ComputerDatabaseContext implements IComputerDatabaseContext {
 	private String name;
 	private ComputerDTO computerDTO;
 	private IComputerDatabase webService;
+	private IComputerDatabaseScanner scanner;
 	
 	public ComputerDatabaseContext(IComputerDatabase webService) {
 		this.webService = webService;
@@ -33,6 +35,11 @@ public class ComputerDatabaseContext implements IComputerDatabaseContext {
 	@Override
 	public ComputerDTO getComputerDTO() {
 		return computerDTO;
+	}
+	
+	@Override
+	public IComputerDatabaseScanner getScanner() {
+		return scanner;
 	}	
 
 	@Override
@@ -52,5 +59,10 @@ public class ComputerDatabaseContext implements IComputerDatabaseContext {
 	@Override
 	public void setComputerDTO(ComputerDTO dto) {
 		this.computerDTO = dto;
+	}
+
+	@Override
+	public void setScanner(IComputerDatabaseScanner scanner) {
+		this.scanner = scanner;
 	}
 }

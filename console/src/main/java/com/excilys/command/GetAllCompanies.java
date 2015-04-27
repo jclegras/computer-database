@@ -9,6 +9,7 @@ public class GetAllCompanies implements ICommand {
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
 		store.setCompanies(ctx.getWebService().getAllCompanies());
+		System.out.println(store.getCompanies());
 	}
 
 }

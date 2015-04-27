@@ -9,6 +9,7 @@ public class Count implements ICommand {
 	public void execute(IComputerDatabaseStorage store,
 			IComputerDatabaseContext ctx) {
 		store.setCount(ctx.getWebService().count());
+		System.out.println(store.getCount());
 	}
 
 }

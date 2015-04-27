@@ -32,11 +32,11 @@ public class Main {
 		final IComputerDatabaseContext ctx = new ComputerDatabaseContext(
 				service.getPort(IComputerDatabase.class));
 
-		final ComputerDatabaseScanner scanner = new ComputerDatabaseScanner();
+		ctx.setScanner(new ComputerDatabaseScanner());
 		final IComputerDatabaseStorage store = new ComputerDatabaseStorage();
 		ICommand command;
-		while (scanner.hasNextToken()) {
-			command = CommandToken.getCommand(scanner.getNextToken());
+		while (ctx.getScanner().hasNextToken()) {
+			command = CommandToken.getCommand(ctx.getScanner().getNextToken());
 			command.execute(store, ctx);
 		}
 	}

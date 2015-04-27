@@ -8,8 +8,10 @@ public interface IComputerDatabaseContext {
 	String getName();
 	IComputerDatabase getWebService();
 	ComputerDTO getComputerDTO();
+	IComputerDatabaseScanner getScanner();
 	void setId(long id);
 	void setWebService(IComputerDatabase webService);
 	void setName(String name);
 	void setComputerDTO(ComputerDTO dto);
+	void setScanner(IComputerDatabaseScanner scanner);
 }
