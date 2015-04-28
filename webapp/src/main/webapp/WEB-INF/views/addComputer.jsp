@@ -23,6 +23,7 @@
 							<spring:message code="form.placeholder.computerName" var="computerNamePlaceholder"/>                            
                             <form:input path="name" type="text" cssClass="form-control" id="name" name="name" 
                             	placeholder="${computerNamePlaceholder}" />
+                            <span class="error-message"></span>
                             <form:errors path="name" cssClass="has-error" />
                         </div>
                         <div class="form-group">
@@ -30,6 +31,7 @@
 							<spring:message code="form.placeholder.introducedDate" var="introducedPlaceholder"/>                              
                             <form:input path="introduced" type="date" cssClass="form-control" id="introduced" name="introduced"
                             	placeholder="${introducedPlaceholder}" />
+							<span class="error-message"></span>                            	
 							<form:errors path="introduced" cssClass="has-error" />                                   
                         </div>
                         <div class="form-group">
@@ -37,6 +39,7 @@
 							<spring:message code="form.placeholder.discontinuedDate" var="discontinuedPlaceholder"/>                            
                             <form:input path="discontinued" type="date" cssClass="form-control" id="discontinued" name="discontinued"
                                    placeholder="${discontinuedPlaceholder}" />
+							<span class="error-message"></span>                                     
 							<form:errors path="discontinued" cssClass="has-error" />                                   
                         </div>
                         <div class="form-group">
@@ -59,5 +62,33 @@
         </div>
     </div>
 </section>
+<c:import url="import/footer.jsp" />
+<script type="text/javascript">
+	$(function() {
+		$('#name').keyup(function() {
+			if ($.trim($('#name').val()) == '') {
+				$('#name').next('.error-message').fadeIn().text('Nom obligatoire');
+			} else {
+				$('#name').next('.error-message').hide();
+			}
+		});
+		var datePattern = "<spring:message code='validation.date.pattern' javaScriptEscape='true' />";
+		var expectedDateFormat = "<spring:message code='validation.format.short' javaScriptEscape='true' />";
+		$('#introduced').keyup(function() {
+			if (!$.trim($('#introduced').val().match(datePattern))) {
+				$('#introduced').next('.error-message').fadeIn().text(expectedDateFormat);
+			} else {
+				$('#introduced').next('.error-message').hide();
+			}
+		});
+		$('#discontinued').keyup(function() {
+			if (!$.trim($('#discontinued').val().match(datePattern))) {
+				$('#discontinued').next('.error-message').fadeIn().text(expectedDateFormat);
+			} else {
+				$('#discontinued').next('.error-message').hide();
+			}
+		});		
+	});
+</script>
 </body>
 </html>
