@@ -8,20 +8,19 @@
 
 	<http use-expressions="true">
 		<intercept-url pattern="/login**" access="permitAll" />
-		<intercept-url pattern="/dashboard**" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/editComputer**" access="hasRole('ROLE_ADMIN')" />
 		<intercept-url pattern="/addComputer**" access="hasRole('ROLE_ADMIN')" />		
-		<intercept-url pattern="/**" access="hasRole('ROLE_USER')" />
-		<form-login login-page="/login" 
+		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
+		<form-login login-page="/loginPage" 
 			username-parameter="username"
 			password-parameter="password"
 			default-target-url="/dashboard"
-			authentication-failure-url="/login?error"
+			authentication-failure-url="/loginPage?error"
 			always-use-default-target="true" />
 		<logout logout-url="/logout" 
 			delete-cookies="JSESSIONID"
-			logout-success-url="/login?logout" />
+			logout-success-url="/loginPage?logout" />
 		<csrf />
 	</http>
 

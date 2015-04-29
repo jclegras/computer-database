@@ -4,6 +4,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib tagdir="/WEB-INF/tags/" prefix="p" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <c:import url="import/head.jsp" />
 <body>
 <c:import url="import/header.jsp" />
@@ -26,8 +27,10 @@
                 </form>
             </div>
             <div class="pull-right">
-                <a class="btn btn-success" id="addComputer" href="<c:url value="/addComputer" />"><spring:message code="title.addComputer" /></a>
-                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="title.editComputer" /></a>
+            	<sec:authorize access="hasRole('ROLE_ADMIN')">
+	                <a class="btn btn-success" id="addComputer" href="<c:url value="/addComputer" />"><spring:message code="title.addComputer" /></a>
+	                <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message code="title.editComputer" /></a>
+                </sec:authorize>
             </div>
         </div>
     </div>

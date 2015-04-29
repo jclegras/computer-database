@@ -7,29 +7,30 @@
 <c:import url="import/head.jsp" />
 <body>
 	<c:import url="import/header.jsp" />
+	<p:translator mainCode="title.language" lang2="?language=fr" lang1="?language=en" codeLang2="dashboard.french" codeLang1="dashboard.english" />	
 	<section id="main">
-		<div class="container">
 			<form:form method="post" action="login">
 				<div class="container" style="margin-top: 10px;">
-					<table class="table table-striped table-bordered">
-						<tr>
-							<td>User ID:</td>
-							<td><input type='text' name='username' /></td>
-						</tr>
-						<tr>
-							<td>Password:</td>
-							<td><input type='password' name='password' /></td>
-						</tr>
-						<tr>
-							<td colspan='2'><input name="submit" type="submit"
-								value="Login" /></td>
-						</tr>
-					</table>
-					<input type="hidden" name="${_csrf.parameterName}"
-						value="${_csrf.token}" />
+					<c:if test="${not empty error}">
+						<div class="has-error">${error}</div>
+					</c:if>
+					<c:if test="${not empty msg}">
+						<div>${msg}</div>
+					</c:if>
+					<div class="form-group col-xs-4 col-xs-offset-4 row">
+						<label for="username"><spring:message code="form.username" /></label>
+						<input class="form-control" type="text" name="username" required />
+					</div>
+					<div class="form-group col-xs-4 col-xs-offset-4 row">
+						<label for="password"><spring:message code="form.password" /></label>
+						<input class="form-control" type="password" name="password" required />
+					</div>
+					<div class="form-group col-xs-1 col-xs-offset-4 row">
+						<input class="btn btn-primary" name="submit" type="submit" value="Login" />
+						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+					</div>
 				</div>
 			</form:form>
-		</div>
 	</section>
 <c:import url="import/footer.jsp" />
 

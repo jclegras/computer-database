@@ -1,5 +1,5 @@
 $(function() {
-	var mandatoryMessage = "<spring:message code='validation.notNull' javaScriptEscape='true' />";	
+	console.log('---------------> ici');
 	$('#name').keyup(function() {
 		if ($.trim($('#name').val()) == '') {
 			$('#name').next('.error-message').fadeIn().text(mandatoryMessage);
@@ -7,8 +7,6 @@ $(function() {
 			$('#name').next('.error-message').hide();
 		}
 	});
-	var datePattern = "<spring:message code='validation.date.pattern' javaScriptEscape='true' />";
-	var expectedDateFormat = "<spring:message code='validation.format.short' javaScriptEscape='true' />";
 	$('#introduced').keyup(function() {
 		if (!$.trim($('#introduced').val().match(datePattern))) {
 			$('#introduced').next('.error-message').fadeIn().text(expectedDateFormat);
