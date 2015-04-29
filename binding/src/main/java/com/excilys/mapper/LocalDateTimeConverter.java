@@ -38,6 +38,9 @@ public class LocalDateTimeConverter {
 	 * @return text
 	 */
 	public String convertToText(LocalDateTime localDateTime) {
+		if (localDateTime == null) {
+			return null;
+		}
 		final String datePattern = messageSource.getMessage(
 				PATTERN_CODE_SHORT, null, LocaleContextHolder.getLocale());
 		final DateTimeFormatter formatter = DateTimeFormatter

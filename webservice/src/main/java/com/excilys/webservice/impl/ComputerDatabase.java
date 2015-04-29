@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
+import com.excilys.mapper.LocalDateTimeConverter;
 import com.excilys.mapper.MapperDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -28,6 +29,8 @@ public class ComputerDatabase implements IComputerDatabase {
 	private MapperDTO<Computer, ComputerDTO> computerMapper;
 	@Autowired
 	private MapperDTO<Company, CompanyDTO> companyMapper;
+	@Autowired
+	private LocalDateTimeConverter localDateTimeConverter;
 
 	@Override
 	public long count() {
@@ -56,6 +59,25 @@ public class ComputerDatabase implements IComputerDatabase {
 
 	@Override
 	public void update(ComputerDTO computer) {
+		final Computer old = computerService.getById(computer.getId());
+		if (computer.getName() == null) {
+			computer.setName(old.getName());
+		}
+		if (computer.getIntroduced() == null) {
+			computer.setIntroduced(localDateTimeConverter.convertToText(old.getIntroduced()));
+		}
+		if (computer.getDiscontinued() == null) {
+			computer.setDiscontinued(localDateTimeConverter.convertToText(old.getDiscontinued()));
+		}
+		if (computer.getCompanyId() != null) {
+			computer.setCompanyName(companyService.getById(
+					Long.valueOf(computer.getCompanyId())).getName());	
+		} else {
+			if (old.getCompany() != null) {
+				computer.setCompanyId(String.valueOf(old.getCompany().getId()));
+				computer.setCompanyName(old.getCompany().getName());
+			}
+		}
 		computerService.update(computerMapper.dtoToModel(computer));
 	}
 
