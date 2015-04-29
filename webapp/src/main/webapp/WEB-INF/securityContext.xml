@@ -10,7 +10,8 @@
 		<intercept-url pattern="/login**" access="permitAll" />
 		<intercept-url pattern="/resources/**" access="permitAll" />
 		<intercept-url pattern="/editComputer**" access="hasRole('ROLE_ADMIN')" />
-		<intercept-url pattern="/addComputer**" access="hasRole('ROLE_ADMIN')" />		
+		<intercept-url pattern="/addComputer**" access="hasRole('ROLE_ADMIN')" />
+		<intercept-url pattern="/delete**" access="hasRole('ROLE_ADMIN')" />		
 		<intercept-url pattern="/**" access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')" />
 		<form-login login-page="/loginPage" 
 			username-parameter="username"

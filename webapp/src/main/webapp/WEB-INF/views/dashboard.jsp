@@ -35,10 +35,12 @@
         </div>
     </div>
 
-    <form id="deleteForm" action="delete" method="POST">
-        <input type="hidden" name="selection" value="">
-        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-    </form>
+	<sec:authorize access="hasRole('ROLE_ADMIN')">
+	    <form id="deleteForm" action="delete" method="POST">
+	        <input type="hidden" name="selection" value="">
+	        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
+	    </form>
+    </sec:authorize>
 
     <div class="container" style="margin-top: 10px;">
         <table class="table table-striped table-bordered">
@@ -47,12 +49,14 @@
                 <!-- Variable declarations for passing labels as parameters -->
                 <!-- Table header for Computer Name -->
                 <th class="editMode" style="width: 60px; height: 22px;">
-                    <input type="checkbox" id="selectall"/>
-                            <span style="vertical-align: top;">
-                                 -  <a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
-                                <i class="fa fa-trash-o fa-lg"></i>
-                            </a>
-                            </span>
+                	<sec:authorize access="hasRole('ROLE_ADMIN')">
+	                    <input type="checkbox" id="selectall"/>
+	                    <span style="vertical-align: top;"> -  
+	                    	<a href="#" id="deleteSelected" onclick="$.fn.deleteSelected();">
+	                        	<i class="fa fa-trash-o fa-lg"></i>
+	                        </a>
+	                    </span>
+                    </sec:authorize>
                 </th>
                 <th>
 					<c:if test="${page.properties.contains('computer.name')}">
