@@ -35,8 +35,9 @@
         </div>
     </div>
 
-    <form id="deleteForm" action="#" method="POST">
+    <form id="deleteForm" action="delete" method="POST">
         <input type="hidden" name="selection" value="">
+        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
     </form>
 
     <div class="container" style="margin-top: 10px;">
@@ -146,8 +147,8 @@
             <c:forEach items="${computers}" var="computer">
             <tbody>
             <tr>
-                <td class="editMode">
-                    <input type="checkbox" name="cb" class="cb" value="0"/>
+                <td class="editMode">    
+                    <input type="checkbox" name="cb" class="cb" value="${computer.id}"/>
                 </td>
                 <td>
                     <a href="<c:url value="/editComputer?id=${computer.id}" />"><c:out value="${computer.name}"/></a>

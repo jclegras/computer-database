@@ -34,73 +34,73 @@ public class ComputerController {
 			.getLogger(ComputerController.class);
 	private static final String DASHBOARD_VIEW = "dashboard";
 	private static final String ADDCOMPUTER_VIEW = "addComputer";
-	private static final String EDIT_VIEW = "editComputer";	
+	private static final String EDIT_VIEW = "editComputer";
 	private static final String PAGE_404 = "404";
 	@Autowired
-    private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
+	private MapperDTO<Computer, ComputerDTO> computerMapperDTO;
 	@Autowired
 	private MapperDTO<Company, CompanyDTO> companyMapperDTO;
 	@Autowired
 	private IComputerService computerService;
 	@Autowired
-	private ICompanyService companyService;    
-    
-    @ModelAttribute("companies")
-    public List<CompanyDTO> populateModelWithCompanies() {
-        return companyMapperDTO.modelsToDto(companyService.getAll());
-    }
-	
+	private ICompanyService companyService;
+
+	@ModelAttribute("companies")
+	public List<CompanyDTO> populateModelWithCompanies() {
+		return companyMapperDTO.modelsToDto(companyService.getAll());
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/dashboard")
 	public String getAll(@RequestParam("page") Optional<Integer> page,
 			@RequestParam("size") Optional<Integer> size,
 			@RequestParam("search") Optional<String> search,
 			@RequestParam("sort") Optional<String> sort,
-			@RequestParam("col") Optional<String> column,
-			Model model) {
+			@RequestParam("col") Optional<String> column, Model model) {
 		final Page p = new SimplePage("computer.name");
-        if (search.isPresent()) {
-            List<Computer> computers = computerService.getByName(search.get().trim());
-            p.setTotalEntities(computers.size());
-            model.addAttribute("page", p);
-            model.addAttribute("computers", 
-            		computerMapperDTO.modelsToDto(computers));
-            return DASHBOARD_VIEW;
-        }
-        page.ifPresent(x -> p.setPage(page.get()));
-        page.ifPresent(x -> p.setSize(size.get()));
-        if (sort.isPresent()) {
-        	final String srt = sort.get().trim();
-            if (!srt.isEmpty()) {
-                if (Page.Sort.isValid(srt)) {
-                    p.setSort(Page.Sort.valueOf(srt));
-                }
-            }
-        }
-        if (column.isPresent()) {
-        	final String col = column.get().trim();
-            if (!col.isEmpty()) {
-                p.setProperties(col);
-            }
-        }
-        p.setTotalEntities(computerService.count());
-        long maxPages = (p.getTotalEntities() / p.getSize());
-        if (p.getTotalEntities() % p.getSize() != 0) {
-            ++maxPages;
-        }
-        p.setTotalPages(maxPages);
-        p.setDisplayablePages(Math.min(maxPages, p.getPage() + p.getSize() - 1));
-        model.addAttribute("page", p);
-        model.addAttribute("computers", 
-        		computerMapperDTO.modelsToDto(computerService.getAll(p)));
+		if (search.isPresent()) {
+			List<Computer> computers = computerService.getByName(search.get()
+					.trim());
+			p.setTotalEntities(computers.size());
+			model.addAttribute("page", p);
+			model.addAttribute("computers",
+					computerMapperDTO.modelsToDto(computers));
+			return DASHBOARD_VIEW;
+		}
+		page.ifPresent(x -> p.setPage(page.get()));
+		page.ifPresent(x -> p.setSize(size.get()));
+		if (sort.isPresent()) {
+			final String srt = sort.get().trim();
+			if (!srt.isEmpty()) {
+				if (Page.Sort.isValid(srt)) {
+					p.setSort(Page.Sort.valueOf(srt));
+				}
+			}
+		}
+		if (column.isPresent()) {
+			final String col = column.get().trim();
+			if (!col.isEmpty()) {
+				p.setProperties(col);
+			}
+		}
+		p.setTotalEntities(computerService.count());
+		long maxPages = (p.getTotalEntities() / p.getSize());
+		if (p.getTotalEntities() % p.getSize() != 0) {
+			++maxPages;
+		}
+		p.setTotalPages(maxPages);
+		p.setDisplayablePages(Math.min(maxPages, p.getPage() + p.getSize() - 1));
+		model.addAttribute("page", p);
+		model.addAttribute("computers",
+				computerMapperDTO.modelsToDto(computerService.getAll(p)));
 		return DASHBOARD_VIEW;
 	}
-	
+
 	@RequestMapping(method = RequestMethod.GET, value = "/addComputer")
 	public String add(@ModelAttribute("newComputer") ComputerDTO computerDTO,
 			Model model) {
 		return ADDCOMPUTER_VIEW;
-	}	
-	
+	}
+
 	@RequestMapping(method = RequestMethod.POST, value = "/addComputer")
 	public String add(
 			@Valid @ModelAttribute("newComputer") ComputerDTO computerDTO,
@@ -114,8 +114,8 @@ public class ComputerController {
 		LOGGER.info("Successfully created computer with id {}",
 				newComputer.getId());
 		return "redirect:" + DASHBOARD_VIEW;
-	}	
-	
+	}
+
 	@RequestMapping(method = RequestMethod.GET, value = "/editComputer")
 	public String edit(@RequestParam("id") Optional<Long> id, Model model) {
 		if (id.isPresent()) {
@@ -146,7 +146,18 @@ public class ComputerController {
 				computer.getId());
 		return "redirect:" + DASHBOARD_VIEW;
 	}
-	
+
+	@RequestMapping(method = RequestMethod.POST, value = "/delete")
+	public String delete(@RequestParam("selection") Long[] ids, Model model) {
+		for (Long id : ids) {
+			computerService.delete(id);
+			LOGGER.info("Successfully deleted computer with id {}", id);
+		}
+		model.addAttribute("computers",
+				computerMapperDTO.modelsToDto(computerService.getAll()));
+		return "redirect:" + DASHBOARD_VIEW;
+	}
+
 	/*
 	 * Populate company from computerDTO's companyId
 	 */
