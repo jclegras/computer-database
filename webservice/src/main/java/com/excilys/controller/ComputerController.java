@@ -23,7 +23,7 @@ public class ComputerController {
 
 	@RequestMapping(method = RequestMethod.GET, value = "/all", produces = {
 			MediaType.APPLICATION_JSON_VALUE, MediaType.APPLICATION_XML_VALUE })
-	public List<ComputerDTO> test() {
+	public List<ComputerDTO> getAllComputers() {
 		return mapper.modelsToDto(computerService.getAll());
 	}
 }
