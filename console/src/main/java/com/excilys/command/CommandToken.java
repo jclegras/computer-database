@@ -12,7 +12,8 @@ public enum CommandToken {
 	GET_BY_ID_COMPANY("getByIdCompany", new GetByIdCompany()),
 	GET_BY_ID_COMPUTER("getByIdComputer", new GetByIdComputer()),
 	GET_BY_NAME("getByName", new GetByName()),
-	UPDATE_COMPUTER("updateComputer", new UpdateComputer());
+	UPDATE_COMPUTER("updateComputer", new UpdateComputer()),
+	HELP("help", new Help());
 	
 	private static final HashMap<String, ICommand> DATA;
 	static {
@@ -36,5 +37,9 @@ public enum CommandToken {
 			throw new IllegalArgumentException();
 		}
 		return command;
+	}
+	
+	public String toString() {
+		return name;
 	}
 }
