@@ -9,7 +9,6 @@ import javax.xml.namespace.QName;
 import javax.xml.ws.Service;
 
 import com.excilys.command.CommandToken;
-import com.excilys.command.Help;
 import com.excilys.command.ICommand;
 import com.excilys.console.ComputerDatabaseScanner;
 import com.excilys.console.IComputerDatabaseContext;
@@ -35,8 +34,8 @@ public class Main {
 
 		ctx.setScanner(new ComputerDatabaseScanner());
 		final IComputerDatabaseStorage store = new ComputerDatabaseStorage();
+		CommandToken.getCommand("help").execute(store, ctx);
 		ICommand command;
-		new Help().execute(store, ctx);
 		while (ctx.getScanner().hasNextToken()) {
 			command = CommandToken.getCommand(ctx.getScanner().getNextToken());
 			command.execute(store, ctx);
