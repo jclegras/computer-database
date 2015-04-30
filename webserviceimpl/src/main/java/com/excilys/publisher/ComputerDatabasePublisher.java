@@ -1,16 +1,14 @@
 package com.excilys.publisher;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
-
-import javax.xml.ws.Endpoint;
-
+import com.excilys.webserviceimpl.ComputerDatabase;
 import org.jboss.jandex.Main;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.excilys.webservice.impl.ComputerDatabase;
+import javax.xml.ws.Endpoint;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class ComputerDatabasePublisher {
 	public static void main(String[] args) throws IOException {

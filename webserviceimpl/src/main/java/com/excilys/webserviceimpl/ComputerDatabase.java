@@ -1,11 +1,4 @@
-package com.excilys.webservice.impl;
-
-import java.util.List;
-
-import javax.jws.WebService;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+package com.excilys.webserviceimpl;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
@@ -16,6 +9,11 @@ import com.excilys.model.Computer;
 import com.excilys.service.ICompanyService;
 import com.excilys.service.IComputerService;
 import com.excilys.webservice.IComputerDatabase;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.jws.WebService;
+import java.util.List;
 
 @Service
 @WebService(endpointInterface = "com.excilys.webservice.IComputerDatabase")

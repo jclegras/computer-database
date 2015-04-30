@@ -1,16 +1,17 @@
 package com.excilys.webservice;
 
-import java.util.List;
+import com.excilys.dto.CompanyDTO;
+import com.excilys.dto.ComputerDTO;
+import org.springframework.stereotype.Component;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.jws.soap.SOAPBinding.Style;
 import javax.jws.soap.SOAPBinding.Use;
+import java.util.List;
 
-import com.excilys.dto.CompanyDTO;
-import com.excilys.dto.ComputerDTO;
-
+@Component
 @WebService
 @SOAPBinding(style = Style.DOCUMENT, use = Use.LITERAL)
 public interface IComputerDatabase {

@@ -14,7 +14,8 @@
 		<module>console</module>
 		<module>webapp</module>
 		<module>webservice</module>
-	</modules>
+        <module>webserviceimpl</module>
+    </modules>
 
 	<properties>
 		<assertj.version>2.0.0</assertj.version>
