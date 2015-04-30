@@ -55,7 +55,7 @@
                     <div class="actions pull-right">
                         <input type="submit" value="Add" class="btn btn-primary">
                         <spring:message code="form.or" />
-                        <a class="btn btn-default" href="<c:url value="/dashboard" />"><spring:message code="form.cancel" /></a>
+                        <a class="btn btn-default" href="${prev}"><spring:message code="form.cancel" /></a>
                     </div>
                 </form:form>
             </div>
