@@ -1,20 +1,20 @@
 package com.excilys.service;
 
-import java.util.List;
-
+import com.excilys.exception.ExceptionMessage;
+import com.excilys.exception.ServiceException;
+import com.excilys.model.Computer;
+import com.excilys.persistence.dao.IComputerDAO;
+import com.excilys.persistence.util.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.exception.ExceptionMessage;
-import com.excilys.exception.ServiceException;
-import com.excilys.model.Computer;
-import com.excilys.persistence.dao.IComputerDAO;
-import com.excilys.persistence.util.Page;
+import java.util.List;
 
 @Service
+@Transactional
 public class ComputerService implements IComputerService {
 
     private static final Logger LOGGER = LoggerFactory
@@ -36,6 +36,7 @@ public class ComputerService implements IComputerService {
     @Transactional(readOnly = true)
     public List<Computer> getAll(Page page) {
         if (page == null) {
+            LOGGER.error("Page is null");
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
         }
         return computerDAO.getAll(page);
@@ -44,6 +45,7 @@ public class ComputerService implements IComputerService {
     @Transactional(readOnly = true)
     public Computer getById(Long id) {
         if ((id == null) || (id <= 0)) {
+            LOGGER.error("ID is invalid");
             throw new ServiceException(ExceptionMessage.WRONG_ID.toString());
         }
         return computerDAO.getById(id);
@@ -52,14 +54,15 @@ public class ComputerService implements IComputerService {
     @Transactional(readOnly = true)
     public List<Computer> getByName(String name) {
         if (name == null) {
+            LOGGER.error("Name is null");
             throw new IllegalArgumentException();
         }
         return computerDAO.getByName(name);
     }
 
-    @Transactional
     public void create(Computer computer) {
         if (computer == null) {
+            LOGGER.error("Computer is nul");
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
         }
         computerDAO.create(computer);
@@ -67,9 +70,9 @@ public class ComputerService implements IComputerService {
                 computer.getId());
     }
 
-    @Transactional
     public void update(Computer computer) {
         if (computer == null) {
+            LOGGER.error("Computer is nul");
             throw new ServiceException(ExceptionMessage.ARG_NULL.toString());
         }
         computerDAO.update(computer);
@@ -77,9 +80,9 @@ public class ComputerService implements IComputerService {
                 computer.getId());
     }
 
-    @Transactional
     public void delete(Long id) {
         if ((id != null) && (id <= 0)) {
+            LOGGER.error("ID is invalid");
             throw new ServiceException(ExceptionMessage.WRONG_ID.toString());
         }
         computerDAO.delete(id);
