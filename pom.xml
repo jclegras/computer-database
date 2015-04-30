@@ -302,6 +302,14 @@
 
 	<build>
 		<finalName>computer-database</finalName>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>${maven-war-plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
 		<plugins>
 			<!-- Versions used for compilation -->
 			<plugin>
@@ -314,7 +322,6 @@
 			<!-- WAR building -->
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
-				<version>${maven-war-plugin.version}</version>
 			</plugin>
 		</plugins>
 	</build>

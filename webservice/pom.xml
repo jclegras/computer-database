@@ -53,4 +53,13 @@
 			<artifactId>jackson-databind</artifactId>
 		</dependency>
 	</dependencies>
+
+    <build>
+        <plugins>
+            <!-- WAR building -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
