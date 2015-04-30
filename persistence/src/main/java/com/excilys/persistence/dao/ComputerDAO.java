@@ -22,7 +22,7 @@ public class ComputerDAO implements IComputerDAO {
 			+ " LEFT OUTER JOIN computer.company company"
 			+ " WHERE computer.id = :id";
 	private static final String GET_ALL_COMPUTERS_PAGINATED = "SELECT computer FROM Computer computer "
-			+ "LEFT OUTER JOIN computer.company company ORDER BY %s %s";
+			+ "LEFT OUTER JOIN computer.company company ORDER BY %s %s NULLS LAST";
 	private static final String COUNT_ALL_COMPUTERS = "SELECT COUNT(*) FROM Computer";
 	private static final String GET_ALL_COMPUTERS = "FROM Computer";
 	private static final String GET_BY_NAME_COMPUTER_AND_COMPANY = "SELECT computer FROM Computer computer"
@@ -54,6 +54,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public List<Computer> getAll(Page page) {
 		if (page == null) {
+			LOGGER.error("Page is null");
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
 		}
 		final String statement = String.format(GET_ALL_COMPUTERS_PAGINATED,
@@ -66,6 +67,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public List<Computer> getByName(String name) {
 		if (name == null) {
+            LOGGER.error("Name is null");
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
 		}
 		final Query query = sessionFactory.getCurrentSession().createQuery(
@@ -78,6 +80,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public Computer getById(Long id) {
 		if (id == null || id <= 0) {
+            LOGGER.error("ID is invalid");
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
 		return (Computer) sessionFactory.getCurrentSession()
@@ -88,6 +91,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public void create(Computer entity) {
 		if (entity == null) {
+            LOGGER.error("Entity is null");
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
 		}
 		sessionFactory.getCurrentSession().save(entity);
@@ -97,6 +101,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public void update(Computer entity) {
 		if (entity == null) {
+            LOGGER.error("Entity is null");
 			throw new DAOException(ExceptionMessage.ARG_NULL.toString());
 		}
 		sessionFactory.getCurrentSession().update(entity);
@@ -106,6 +111,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public void delete(Long id) {
 		if (id == null || id <= 0) {
+            LOGGER.error("ID is invalid");
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
 		sessionFactory.getCurrentSession().createQuery(DELETE_COMPUTER)
@@ -116,6 +122,7 @@ public class ComputerDAO implements IComputerDAO {
 	@Override
 	public List<Computer> getAllByCompany(Long id) {
 		if (id == null || id <= 0) {
+            LOGGER.error("ID is invalid");
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
 		return sessionFactory.getCurrentSession().createQuery(RETRIEVE_COMPUTERS_BY_COMPANY)

@@ -16,6 +16,7 @@ import com.excilys.model.Company;
 @SuppressWarnings("unchecked")
 public class CompanyDAO implements ICompanyDAO {
 
+    private static final String DELETE_COMPANIES = "DELETE FROM Company WHERE id IN ";
 	private static final String DELETE_COMPANY = "DELETE FROM Company WHERE id = :id";
 	private static final String GET_BY_ID_COMPANY = "FROM Company WHERE id = :id";
 	private static final String RETRIEVE_ALL_COMPANIES = "FROM Company";
@@ -35,6 +36,7 @@ public class CompanyDAO implements ICompanyDAO {
 	@Override
 	public Company getById(Long id) {
 		if (id == null || id <= 0) {
+			LOGGER.error("ID is invalid");
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
 		return (Company) sessionFactory.getCurrentSession()
@@ -45,6 +47,7 @@ public class CompanyDAO implements ICompanyDAO {
 	@Override
 	public void delete(Long id) {
 		if (id == null || id <= 0) {
+			LOGGER.error("ID is invalid");
 			throw new DAOException(ExceptionMessage.WRONG_ID.toString());
 		}
 		sessionFactory.getCurrentSession().createQuery(DELETE_COMPANY)
