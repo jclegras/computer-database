@@ -1,8 +1,10 @@
 package com.excilys.persistence.dao;
 
-import java.util.Arrays;
-import java.util.List;
-
+import com.excilys.ebi.spring.dbunit.test.DataSet;
+import com.excilys.ebi.spring.dbunit.test.ExpectedDataSet;
+import com.excilys.ebi.spring.dbunit.test.RollbackTransactionalDataSetTestExecutionListener;
+import com.excilys.exception.DAOException;
+import com.excilys.model.Company;
 import org.assertj.core.api.Assertions;
 import org.junit.Assert;
 import org.junit.Test;
@@ -16,11 +18,8 @@ import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.test.context.transaction.TransactionalTestExecutionListener;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.excilys.ebi.spring.dbunit.test.DataSet;
-import com.excilys.ebi.spring.dbunit.test.ExpectedDataSet;
-import com.excilys.ebi.spring.dbunit.test.RollbackTransactionalDataSetTestExecutionListener;
-import com.excilys.exception.DAOException;
-import com.excilys.model.Company;
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = { "classpath:persistence-test-context.xml" })
@@ -39,9 +38,9 @@ public class CompanyDAOTest {
 		// GIVEN
         final int expectedSize = 3;
         final List<Company> expectedCompanies = Arrays.asList(
-                new Company(1L, "company1"),
-                new Company(2L, "company2"),
-                new Company(3L, "company3")
+                Company.builder().id(1L).name("company1").build(),
+                Company.builder().id(2L).name("company2").build(),
+                Company.builder().id(3L).name("company3").build()
         );
 
         // WHEN
@@ -70,7 +69,8 @@ public class CompanyDAOTest {
     public void getByIdSuccess() {
         // GIVEN
         final long expectedId = 1L;
-        final Company expectedCompany = new Company(1L, "company1");
+        final Company expectedCompany = Company.builder().id(1L)
+                .name("company1").build();
 
         // WHEN
         final Company company = companyDAO.getById(expectedId);

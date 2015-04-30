@@ -4,8 +4,6 @@ import com.excilys.model.converter.LocalDateTimePersistenceConverter;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 
 @Entity
 @Table(name = "computer")
@@ -21,72 +19,44 @@ public class Computer {
     @OneToOne
     private Company company;
 
-    public Computer() {
-    }
-
-    public Computer(long id, String name) {
-        this.id = id;
-        this.name = name;
-    }
-
-    public Computer(long id, String name, LocalDateTime introduced,
-                    LocalDateTime discontinued, Company company) {
-        this.id = id;
-        this.name = name;
-        this.introduced = introduced;
-        this.discontinued = discontinued;
-        this.company = company;
-    }
-
-    public Computer(String name, LocalDateTime introduced,
-                    LocalDateTime discontinued, Company company) {
-        this(0, name, introduced, discontinued, company);
+    public static Builder builder() {
+        return new Builder();
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public LocalDateTime getIntroduced() {
         return introduced;
     }
 
-    public void setIntroduced(LocalDateTime introduced) {
-        this.introduced = introduced;
-    }
-
-    public Date getIntroducedDate() {
-        return (introduced == null) ? null :
-                Date.from(introduced.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
     public LocalDateTime getDiscontinued() {
         return discontinued;
     }
 
-    public void setDiscontinued(LocalDateTime discontinued) {
-        this.discontinued = discontinued;
-    }
-
-    public Date getDiscontinuedDate() {
-        return (discontinued == null) ? null :
-                Date.from(discontinued.atZone(ZoneId.systemDefault()).toInstant());
-    }
-
     public Company getCompany() {
         return company;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setIntroduced(LocalDateTime introduced) {
+        this.introduced = introduced;
+    }
+
+    public void setDiscontinued(LocalDateTime discontinued) {
+        this.discontinued = discontinued;
     }
 
     public void setCompany(Company company) {
@@ -156,6 +126,43 @@ public class Computer {
         builder.append(company);
         builder.append("]");
         return builder.toString();
+    }
+
+    public static class Builder {
+        private final Computer c;
+
+        private Builder() {
+            c = new Computer();
+        }
+
+        public Builder id(long id) {
+            c.setId(id);
+            return this;
+        }
+
+        public Builder name(String name) {
+            c.setName(name);
+            return this;
+        }
+
+        public Builder introduced(LocalDateTime introduced) {
+            c.setIntroduced(introduced);
+            return this;
+        }
+
+        public Builder discontinued(LocalDateTime discontinued) {
+            c.setDiscontinued(discontinued);
+            return this;
+        }
+
+        public Builder company(Company company) {
+            c.setCompany(company);
+            return this;
+        }
+
+        public Computer build() {
+            return c;
+        }
     }
 
 }

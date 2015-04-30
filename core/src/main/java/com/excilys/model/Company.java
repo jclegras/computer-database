@@ -14,24 +14,20 @@ public class Company {
     private long id;
     private String name;
 
-    public Company() {
-    }
-
-    public Company(long id, String name) {
-        this.id = id;
-        this.name = name;
+    public static Builder builder() {
+        return new Builder();
     }
 
     public long getId() {
         return id;
     }
 
-    public void setId(long id) {
-        this.id = id;
-    }
-
     public String getName() {
         return name;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public void setName(String name) {
@@ -69,6 +65,28 @@ public class Company {
     @Override
     public String toString() {
         return "Company [id=" + id + ", name=" + name + "]";
+    }
+
+    public static class Builder {
+        private final Company c;
+
+        private Builder() {
+            c = new Company();
+        }
+
+        public Builder id(long id) {
+            c.setId(id);
+            return this;
+        }
+
+        public Builder name(String name) {
+            c.setName(name);
+            return this;
+        }
+
+        public Company build() {
+            return c;
+        }
     }
 
 }
