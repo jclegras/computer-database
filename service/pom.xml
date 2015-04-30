@@ -4,8 +4,8 @@
 	<artifactId>service</artifactId>
 
 	<parent>
-		<groupId>computer-database</groupId>
-		<artifactId>mainParent</artifactId>
+		<groupId>com.excilys</groupId>
+		<artifactId>computer-database</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
