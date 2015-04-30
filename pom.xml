@@ -320,10 +320,6 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			<!-- WAR building -->
-			<plugin>
-				<artifactId>maven-war-plugin</artifactId>
-			</plugin>
 		</plugins>
 	</build>
 </project>
