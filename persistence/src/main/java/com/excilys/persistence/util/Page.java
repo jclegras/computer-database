@@ -1,10 +1,11 @@
 package com.excilys.persistence.util;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
- * @inv getPage() >= 1 getProperties() != null && 1 <= getProperties().size()
+ * @inv getPage() >= 1 && 1 <= getProperties().size()
  * getSize() >= 0 getTotalPages >= 0 getDisplayablePages >= 0 getSort() !=
  * null
  */
@@ -12,11 +13,11 @@ public interface Page {
     /**
      * Default property on which apply the sorting
      */
-    String DEFAULT_PROPERTY = "ID";
+    String DEFAULT_PROPERTY = Field.COMPUTER_NAME.toString();
     /**
      * Default size
      */
-    int DEFAULT_SIZE = 10;
+    int DEFAULT_SIZE = EntitySizePerPage.TEN.size;
 
     boolean isPrevious();
 
@@ -38,7 +39,7 @@ public interface Page {
 
     /**
      * @param size Number entities
-     * @pre size >= 0
+     * @pre EntitySizePerPage.isValidSize(size)
      */
     void setSize(int size);
 
@@ -106,15 +107,11 @@ public interface Page {
     void setProperties(String... properties);
 
     /**
-     * @return Number of entities by page
+     * @param properties
+     * @pre properties != null
+     * !properties.isEmpty()
      */
-    int getEntitiesByPage();
-
-    /**
-     * @param entitiesByPage Entities by page
-     * @pre entitiesByPage >= 0
-     */
-    void setEntitiesByPage(int entitiesByPage);
+    void setProperties(List<String> properties);
 
     /**
      * @return Number of entities
@@ -130,17 +127,42 @@ public interface Page {
     enum Sort {
         ASC, DESC;
 
-        private static final Set<String> values;
+        private static final Set<String> VALUES;
 
         static {
-            values = new HashSet<>();
+            VALUES = new HashSet<>();
             for (Sort s : Sort.values()) {
-                values.add(s.toString());
+                VALUES.add(s.toString());
             }
         }
 
         public static boolean isValid(String sort) {
-            return values.contains(sort);
+            return VALUES.contains(sort);
+        }
+    }
+
+    enum EntitySizePerPage {
+        TEN(10), FIFTY(50), HUNDRED(100);
+
+        private static final Set<Integer> SIZES;
+        static {
+            SIZES = new HashSet<>();
+            for (EntitySizePerPage espp : EntitySizePerPage.values()) {
+                SIZES.add(espp.getSize());
+            }
+        }
+        private final int size;
+
+        EntitySizePerPage(int size) {
+            this.size = size;
+        }
+
+        public static boolean isValidSize(int size) {
+            return SIZES.contains(size);
+        }
+
+        public int getSize() {
+            return size;
         }
     }
 }

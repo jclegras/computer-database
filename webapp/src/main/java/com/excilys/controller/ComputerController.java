@@ -2,6 +2,7 @@ package com.excilys.controller;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
+import com.excilys.persistence.util.Field;
 import com.excilys.mapper.MapperDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
@@ -51,7 +52,7 @@ public class ComputerController {
                          @RequestParam("search") Optional<String> search,
                          @RequestParam("sort") Optional<String> sort,
                          @RequestParam("col") Optional<String> column, Model model) {
-        final Page p = new SimplePage("computer.name");
+        final Page p = SimplePage.builder().build();
         if (search.isPresent()) {
             List<Computer> computers = computerService.getByName(search.get()
                     .trim());
@@ -68,11 +69,16 @@ public class ComputerController {
             if (!srt.isEmpty()) {
                 if (Page.Sort.isValid(srt)) {
                     p.setSort(Page.Sort.valueOf(srt));
+                } else {
+                    return PAGE_404;
                 }
             }
         }
         if (column.isPresent()) {
             final String col = column.get().trim();
+            if (!Field.isValid(col)) {
+                return PAGE_404;
+            }
             if (!col.isEmpty()) {
                 p.setProperties(col);
             }

@@ -1,6 +1,5 @@
 package com.excilys.persistence.util;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -18,83 +17,8 @@ public class SimplePage implements Page {
     private int entitiesByPage;
     private long totalEntities;
 
-    /**
-     * @post getPage() == 1
-     * getSize() == DEFAULT_SIZE getSort().equals(Sort.ASC)
-     * getProperties().size() == 1
-     * getProperties().contains(Page.DEFAULT_PROPERTY)
-     */
-    public SimplePage() {
-        this.page = 1;
-        this.size = DEFAULT_SIZE;
-        this.sort = Sort.ASC;
-        this.properties = new ArrayList<>();
-        this.properties.add(DEFAULT_PROPERTY);
-    }
-
-    /**
-     * @param property Column on which apply the sort
-     * @post getPage() == 1
-     * getSize() == DEFAULT_SIZE getSort().equals(Sort.ASC)
-     * getProperties().size() == 1
-     * getProperties().contains(property)
-     */
-    public SimplePage(String property) {
-        this.page = 1;
-        this.size = DEFAULT_SIZE;
-        this.sort = Sort.ASC;
-        this.properties = new ArrayList<>();
-        this.properties.add(property);
-    }
-
-    /**
-     * @param page Current page
-     * @param size Number of entities
-     * @post getPage() == page getSize() == size getSort().equals(Sort.ASC)
-     * getProperties().size() == 1
-     * getProperties().contains(Page.DEFAULT_PROPERTY)
-     */
-    public SimplePage(int page, int size) {
-        if (page < 1 || size < 0) {
-            throw new IllegalArgumentException();
-        }
-        this.page = page;
-        this.size = size;
-        this.sort = Sort.ASC;
-        this.properties = new ArrayList<>();
-        this.properties.add(DEFAULT_PROPERTY);
-    }
-
-    /**
-     * @param page Current page
-     * @param size Number of entities
-     * @param sort Current sort
-     * @post getPage() == page getSize() == size getSort().equals(sort)
-     * getProperties().size() == 1
-     * getProperties().contains(Page.DEFAULT_PROPERTY)
-     */
-    public SimplePage(int page, int size, Sort sort) {
-        this(page, size);
-        if (sort == null) {
-            throw new IllegalArgumentException();
-        }
-        this.sort = sort;
-    }
-
-    /**
-     * @param page       Current page
-     * @param size       Number of entities
-     * @param sort       Current sort
-     * @param properties Properties for the sort
-     * @post getPage() == page getSize() == size getSort().equals(sort)
-     * getProperties().size() == properties.length
-     * getProperties().containsAll(Arrays.asList(properties))
-     */
-    public SimplePage(int page, int size, Sort sort, String... properties) {
-        this(page, size, sort);
-        if (properties.length > 0) {
-            this.properties = Arrays.asList(properties);
-        }
+    public static Builder builder() {
+        return new Builder();
     }
 
     @Override
@@ -122,7 +46,7 @@ public class SimplePage implements Page {
 
     @Override
     public void setSize(int size) {
-        if (size < 0) {
+        if (!EntitySizePerPage.isValidSize(size)) {
             throw new IllegalArgumentException();
         }
         this.size = size;
@@ -174,16 +98,19 @@ public class SimplePage implements Page {
 
     @Override
     public Page getFirst() {
-        return new SimplePage(1, size, sort);
+        return builder().size(size).sort(sort).build();
     }
 
     @Override
     public Page getNext() {
-        return new SimplePage(page + 1, size, sort);
+        return builder().page(page + 1).size(size).sort(sort).build();
     }
 
     @Override
     public String getProperties() {
+        if (properties == null) {
+            return null;
+        }
         if (textualProperties == null) {
             final StringBuilder sb = new StringBuilder();
             sb.append(properties.get(0));
@@ -206,16 +133,11 @@ public class SimplePage implements Page {
     }
 
     @Override
-    public int getEntitiesByPage() {
-        return entitiesByPage;
-    }
-
-    @Override
-    public void setEntitiesByPage(int entitiesByPage) {
-        if (entitiesByPage <= 0) {
+    public void setProperties(List<String> properties) {
+        if (properties == null || properties.isEmpty()) {
             throw new IllegalArgumentException();
         }
-        this.entitiesByPage = entitiesByPage;
+        this.properties = properties;
     }
 
     @Override
@@ -257,5 +179,64 @@ public class SimplePage implements Page {
         if (sort != other.sort)
             return false;
         return true;
+    }
+
+    public static class Builder {
+        private Page page;
+
+        private Builder() {
+            this.page = new SimplePage();
+        }
+
+        public Builder page(int page) {
+            this.page.setPage(page);
+            return this;
+        }
+
+        public Builder size(int size) {
+            page.setSize(size);
+            return this;
+        }
+
+        public Builder totalPages(long totalPages) {
+            page.setTotalPages(totalPages);
+            return this;
+        }
+
+        public Builder displayablePages(long displayablePages) {
+            page.setDisplayablePages(displayablePages);
+            return this;
+        }
+
+        public Builder sort(Sort sort) {
+            page.setSort(sort);
+            return this;
+        }
+
+        public Builder properties(String... properties) {
+            page.setProperties(properties);
+            return this;
+        }
+
+        public Builder totalEntities(long totalEntities) {
+            page.setTotalEntities(totalEntities);
+            return this;
+        }
+
+        public Page build() {
+            if (page.getPage() == 0) {
+                page.setPage(1);
+            }
+            if (page.getSize() == 0) {
+                page.setSize(DEFAULT_SIZE);
+            }
+            if (page.getSort() == null) {
+                page.setSort(Sort.ASC);
+            }
+            if (page.getProperties() == null) {
+                page.setProperties(Arrays.asList(DEFAULT_PROPERTY));
+            }
+            return page;
+        }
     }
 }

@@ -1,8 +1,11 @@
-package com.excilys.model.converter;
+package com.excilys.persistence.util;
 
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Valid naming fields for models.
+ */
 public enum Field {
 	COMPUTER_ID("computer.id"),
 	COMPUTER_NAME("computer.name"),
@@ -20,11 +23,16 @@ public enum Field {
 	}
 	private String name;
 	
-	private Field(String name) {
+	Field(String name) {
 		this.name = name;
 	}
 	
 	public static boolean isValid(String name) {
 		return names.contains(name);
 	}
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

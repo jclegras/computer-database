@@ -14,6 +14,9 @@
             <br/>
             <!-- stacktrace -->
         </div>
+        <div>
+            <a class="btn btn-default" href="<c:url value="/dashboard"/> "><spring:message code="http.error.general.back" /></a>
+        </div>
     </div>
 </section>
 
