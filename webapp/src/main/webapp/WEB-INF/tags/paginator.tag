@@ -1,11 +1,11 @@
 <%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ attribute name="page" required="true" type="java.lang.Integer" %>
-<%@ attribute name="pageCount" required="true" type="java.lang.Integer" %>
+<%@ attribute name="pageCount" required="true" type="java.lang.Long" %>
 <%@ attribute name="pageSize" required="true" type="java.lang.Integer" %>
 <%@ attribute name="url" required="true" %>
 <%@ attribute name="previous" required="true" %>
-<%@ attribute name="totalPages" required="true" type="java.lang.Integer" %>
+<%@ attribute name="totalPages" required="true" type="java.lang.Long" %>
 
 <div class="container text-center">
     <ul class="pagination">
@@ -26,7 +26,15 @@
                 </c:otherwise>
             </c:choose>
         </li>
-        <c:forEach var="i" begin="${page}" end="${pageCount}">
+        <c:choose>
+            <c:when test="${pageCount - page + 1 < 10}">
+                <c:set value="${pageCount - 10 + 1}" var="firstPage" />
+            </c:when>
+            <c:otherwise>
+                <c:set value="${page}" var="firstPage" />
+            </c:otherwise>
+        </c:choose>
+        <c:forEach var="i" begin="${firstPage}" end="${pageCount}">
             <c:choose>
                 <c:when test="${i == page}">
                     <li class="active"><a href="#">${i}</a></li>

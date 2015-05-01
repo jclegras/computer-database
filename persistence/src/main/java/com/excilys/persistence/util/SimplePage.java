@@ -14,7 +14,6 @@ public class SimplePage implements Page {
     private String textualProperties;
     private long totalPages;
     private long displayablePages;
-    private int entitiesByPage;
     private long totalEntities;
 
     public static Builder builder() {

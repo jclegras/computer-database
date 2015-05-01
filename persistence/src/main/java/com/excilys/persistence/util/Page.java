@@ -5,9 +5,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @inv getPage() >= 1 && 1 <= getProperties().size()
- * getSize() >= 0 getTotalPages >= 0 getDisplayablePages >= 0 getSort() !=
- * null
+ * @inv
+ *  getPage() >= 1
+ *  1 <= getProperties().size()
+ *  getSize() >= 0
+ *  getTotalPages >= 0
+ *  getDisplayablePages >= 0
+ *  getSort() != null
  */
 public interface Page {
     /**
