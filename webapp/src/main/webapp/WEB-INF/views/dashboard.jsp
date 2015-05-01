@@ -90,7 +90,7 @@
                     <input type="checkbox" name="cb" class="cb" value="${computer.id}"/>
                 </td>
                 <td>
-                    <a href="<c:url value="/editComputer?id=${computer.id}" />"><c:out value="${computer.name}"/></a>
+                    <a href="<c:url value="editComputer?id=${computer.id}" />"><c:out value="${computer.name}"/></a>
                 </td>
                 <td>
                         ${computer.introduced}

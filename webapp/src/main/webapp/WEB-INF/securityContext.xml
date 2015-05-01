@@ -15,6 +15,7 @@
 
     <!-- Container element for HTTP security configuration -->
     <http use-expressions="true">
+        <access-denied-handler error-page="/403" />
         <intercept-url pattern="/login**" access="permitAll"/>
         <intercept-url pattern="/resources/**" access="permitAll"/>
         <intercept-url pattern="/editComputer**" access="hasRole('ROLE_ADMIN')"/>

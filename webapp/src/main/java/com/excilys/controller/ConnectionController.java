@@ -8,6 +8,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 @Controller
 public class ConnectionController {
+    private static final String PAGE_403 = "403";
+
     //Spring Security see this :
     @RequestMapping(value = "/loginPage**", method = RequestMethod.GET)
     public ModelAndView login(
@@ -25,5 +27,10 @@ public class ConnectionController {
         model.setViewName("login");
 
         return model;
+    }
+
+    @RequestMapping(value = "/403", method = RequestMethod.GET)
+    public String accessDenied() {
+        return PAGE_403;
     }
 }

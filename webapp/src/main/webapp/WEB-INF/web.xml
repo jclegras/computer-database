@@ -5,6 +5,17 @@
          version="3.0">
     <display-name>Computer Database</display-name>
 
+    <!-- Custom error pages -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/404.jsp</location>
+    </error-page>
+
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/500.jsp</location>
+    </error-page>
+
     <!-- Filters -->
 
     <!-- Character encoding for requests (must be the first filter !) -->
@@ -72,20 +83,4 @@
         <param-name>contextConfigLocation</param-name>
         <param-value>/WEB-INF/applicationContext.xml, /WEB-INF/securityContext.xml</param-value>
     </context-param>
-
-    <!-- Custom error pages -->
-    <error-page>
-        <error-code>403</error-code>
-        <location>/WEB-INF/views/403.jsp</location>
-    </error-page>
-
-    <error-page>
-        <error-code>404</error-code>
-        <location>/WEB-INF/views/404.jsp</location>
-    </error-page>
-
-    <error-page>
-        <error-code>500</error-code>
-        <location>/WEB-INF/views/500.jsp</location>
-    </error-page>
 </web-app>
