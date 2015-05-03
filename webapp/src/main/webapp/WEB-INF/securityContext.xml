@@ -26,11 +26,11 @@
                     username-parameter="username"
                     password-parameter="password"
                     default-target-url="/dashboard"
-                    authentication-failure-url="/loginPage?error"
+                    authentication-failure-url="/loginPage?error=true"
                     always-use-default-target="true"/>
         <logout logout-url="/logout"
                 delete-cookies="JSESSIONID"
-                logout-success-url="/loginPage?logout"/>
+                logout-success-url="/loginPage?logout=true"/>
         <!-- for protection against CSRF -->
         <csrf/>
     </http>

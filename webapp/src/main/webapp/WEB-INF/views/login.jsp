@@ -12,10 +12,14 @@
 			<form:form method="post" action="login">
 				<div class="container" style="margin-top: 10px;">
 					<c:if test="${not empty error}">
-						<div class="has-error">${error}</div>
+                        <div class="alert alert-danger">
+                            <div class="has-error">${error}</div>
+                        </div>
 					</c:if>
 					<c:if test="${not empty msg}">
-						<div>${msg}</div>
+                        <div class="alert alert-danger">
+                            <div class="has-error">${msg}</div>
+                        </div>
 					</c:if>
 					<div class="form-group col-xs-4 col-xs-offset-4 row">
 						<label for="username"><spring:message code="form.username" /></label>
