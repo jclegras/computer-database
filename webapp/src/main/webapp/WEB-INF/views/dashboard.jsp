@@ -129,6 +129,7 @@
 <script type="text/javascript">
     var editLabel = "<spring:message code='dashboard.edit' javaScriptEscape='true' />";
     var viewLabel = "<spring:message code='dashboard.view' javaScriptEscape='true' />";
+    var confirmDelete = "<spring:message code='popup.delete.confirm' javaScriptEscape='true' />";
 </script>
 </body>
 </html>

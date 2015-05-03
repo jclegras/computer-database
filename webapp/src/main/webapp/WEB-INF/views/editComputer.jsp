@@ -16,7 +16,7 @@
                 <div class="label label-default pull-right">
                     id: <c:out value="${computer.id}"/>
                 </div>
-                <h1>Edit Computer</h1>
+                <h1><spring:message code="title.editComputer" /></h1>
                 <c:if test="${!empty message}">
                     <div class="has-error">${message}</div>
                 </c:if>
