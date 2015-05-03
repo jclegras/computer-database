@@ -1,5 +1,4 @@
 $(function() {
-	console.log('---------------> ici');
 	$('#name').keyup(function() {
 		if ($.trim($('#name').val()) == '') {
 			$('#name').next('.error-message').fadeIn().text(mandatoryMessage);

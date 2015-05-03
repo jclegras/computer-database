@@ -114,6 +114,7 @@ public class ComputerController {
             @Valid @ModelAttribute("newComputer") ComputerDTO computerDTO,
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", true);
             return ADDCOMPUTER_VIEW;
         }
         populateCompany(computerDTO);
@@ -145,6 +146,7 @@ public class ComputerController {
             @Valid @ModelAttribute("computer") ComputerDTO computerDTO,
             BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
+            model.addAttribute("errors", true);
             return EDIT_VIEW;
         }
         populateCompany(computerDTO);

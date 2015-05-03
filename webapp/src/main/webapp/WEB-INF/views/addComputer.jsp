@@ -23,7 +23,9 @@
 							<spring:message code="form.placeholder.computerName" var="computerNamePlaceholder"/>                            
                             <form:input path="name" type="text" cssClass="form-control" id="name" name="name" 
                             	placeholder="${computerNamePlaceholder}" />
-                            <span class="error-message"></span>
+                            <c:if test="${empty errors}">
+                                <span class="error-message"></span>
+                            </c:if>
                             <form:errors path="name" cssClass="has-error" />
                         </div>
                         <div class="form-group">
@@ -31,7 +33,9 @@
 							<spring:message code="form.placeholder.introducedDate" var="introducedPlaceholder"/>                              
                             <form:input path="introduced" type="date" cssClass="form-control" id="introduced" name="introduced"
                             	placeholder="${introducedPlaceholder}" />
-							<span class="error-message"></span>                            	
+                            <c:if test="${empty errors}">
+                                <span class="error-message"></span>
+                            </c:if>
 							<form:errors path="introduced" cssClass="has-error" />                                   
                         </div>
                         <div class="form-group">
@@ -39,7 +43,9 @@
 							<spring:message code="form.placeholder.discontinuedDate" var="discontinuedPlaceholder"/>                            
                             <form:input path="discontinued" type="date" cssClass="form-control" id="discontinued" name="discontinued"
                                    placeholder="${discontinuedPlaceholder}" />
-							<span class="error-message"></span>                                     
+                            <c:if test="${empty errors}">
+                                <span class="error-message"></span>
+                            </c:if>
 							<form:errors path="discontinued" cssClass="has-error" />                                   
                         </div>
                         <div class="form-group">
