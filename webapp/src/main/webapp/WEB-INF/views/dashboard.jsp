@@ -31,7 +31,7 @@
                     <a class="btn btn-success" id="addComputer" href="<c:url value="/addComputer" />"><spring:message
                             code="title.addComputer"/></a>
                     <a class="btn btn-default" id="editComputer" href="#"
-                       onclick="$.fn.toggleEditMode();"><spring:message code="title.editComputer"/></a>
+                       onclick="$.fn.toggleEditMode();"><spring:message code="dashboard.edit"/></a>
                 </sec:authorize>
             </div>
         </div>
@@ -112,12 +112,23 @@
 </section>
 
 <footer class="navbar-fixed-bottom">
+    <c:choose>
+        <c:when test="${!empty lastSearch}">
+            <c:set value="${'dashboard?'}search=${lastSearch}&" var="url" />
+        </c:when>
+        <c:otherwise>
+            <c:set value="dashboard?" var="url" />
+        </c:otherwise>
+    </c:choose>
     <p:paginator totalPages="${page.totalPages}" page="${page.page}" pageCount="${page.displayablePages}"
                  pageSize="${page.size}"
-                 url="/dashboard" previous="${page.previous}"/>
+                 url="${url}" previous="${page.previous}"/>
 </footer>
 
 <c:import url="import/footer.jsp"/>
-
+<script type="text/javascript">
+    var editLabel = "<spring:message code='dashboard.edit' javaScriptEscape='true' />";
+    var viewLabel = "<spring:message code='dashboard.view' javaScriptEscape='true' />";
+</script>
 </body>
 </html>

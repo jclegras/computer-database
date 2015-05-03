@@ -12,7 +12,8 @@
 		<sec:authorize access="hasAnyRole('ROLE_USER', 'ROLE_ADMIN')">
 			<form action="logout" method="post">
 				<sec:csrfInput />
-				<input type="submit" class="btn btn-danger" value="Logout" />
+				<spring:message code="form.security.logout" var="logoutLabel" />
+				<input type="submit" class="btn btn-danger" value="${logoutLabel}" />
 			</form>
 		</sec:authorize>
 	</div>

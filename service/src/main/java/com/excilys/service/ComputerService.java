@@ -29,6 +29,11 @@ public class ComputerService implements IComputerService {
     }
 
     @Transactional(readOnly = true)
+    public Long count(String search) {
+        return computerDAO.count(search);
+    }
+
+    @Transactional(readOnly = true)
     public List<Computer> getAll() {
         return computerDAO.getAll();
     }
@@ -52,12 +57,12 @@ public class ComputerService implements IComputerService {
     }
 
     @Transactional(readOnly = true)
-    public List<Computer> getByName(String name) {
+    public List<Computer> getByName(Page page, String name) {
         if (name == null) {
             LOGGER.error("Name is null");
             throw new IllegalArgumentException();
         }
-        return computerDAO.getByName(name);
+        return computerDAO.getByName(page, name);
     }
 
     public void create(Computer computer) {

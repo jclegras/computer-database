@@ -58,7 +58,8 @@
                         </div>
                     </fieldset>
                     <div class="actions pull-right">
-                        <input type="submit" value="Edit" class="btn btn-primary">
+                        <spring:message code="form.edit" var="editLabel" />
+                        <input type="submit" value="${editLabel}" class="btn btn-primary">
                         <spring:message code="form.or" />
                         <a class="btn btn-default" href="${prev}"><spring:message code="form.cancel" /></a>
                     </div>

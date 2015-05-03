@@ -2,10 +2,10 @@ package com.excilys.controller;
 
 import com.excilys.dto.CompanyDTO;
 import com.excilys.dto.ComputerDTO;
-import com.excilys.persistence.util.Field;
 import com.excilys.mapper.MapperDTO;
 import com.excilys.model.Company;
 import com.excilys.model.Computer;
+import com.excilys.persistence.util.Field;
 import com.excilys.persistence.util.Page;
 import com.excilys.persistence.util.SimplePage;
 import com.excilys.service.ICompanyService;
@@ -53,17 +53,23 @@ public class ComputerController {
                          @RequestParam("sort") Optional<String> sort,
                          @RequestParam("col") Optional<String> column, Model model) {
         final Page p = SimplePage.builder().build();
-        if (search.isPresent()) {
-            List<Computer> computers = computerService.getByName(search.get()
-                    .trim());
-            p.setTotalEntities(computers.size());
-            model.addAttribute("page", p);
-            model.addAttribute("computers",
-                    computerMapperDTO.modelsToDto(computers));
-            return DASHBOARD_VIEW;
-        }
         page.ifPresent(x -> p.setPage(page.get()));
         page.ifPresent(x -> p.setSize(size.get()));
+        if (search.isPresent()) {
+            final String trimmedSearch = search.get().trim();
+            p.setTotalEntities(computerService.count(trimmedSearch));
+            long maxPages = (p.getTotalEntities() / p.getSize());
+            if (p.getTotalEntities() % p.getSize() != 0) {
+                ++maxPages;
+            }
+            p.setTotalPages(maxPages);
+            p.setDisplayablePages(Math.min(maxPages, p.getPage() + p.getSize() - 1));
+            model.addAttribute("page", p);
+            model.addAttribute("computers",
+                    computerMapperDTO.modelsToDto(computerService.getByName(p, trimmedSearch)));
+            model.addAttribute("lastSearch", trimmedSearch);
+            return DASHBOARD_VIEW;
+        }
         if (sort.isPresent()) {
             final String srt = sort.get().trim();
             if (!srt.isEmpty()) {

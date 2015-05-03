@@ -19,14 +19,15 @@
 					</c:if>
 					<div class="form-group col-xs-4 col-xs-offset-4 row">
 						<label for="username"><spring:message code="form.username" /></label>
-						<input class="form-control" type="text" name="username" required />
+						<input id="username" class="form-control" type="text" name="username" required />
 					</div>
 					<div class="form-group col-xs-4 col-xs-offset-4 row">
 						<label for="password"><spring:message code="form.password" /></label>
-						<input class="form-control" type="password" name="password" required />
+						<input id="password" class="form-control" type="password" name="password" required />
 					</div>
 					<div class="form-group col-xs-1 col-xs-offset-4 row">
-						<input class="btn btn-primary" name="submit" type="submit" value="Login" />
+						<spring:message code="form.security.login" var="loginLabel" />
+						<input class="btn btn-primary" name="submit" type="submit" value="${loginLabel}" />
 						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 					</div>
 				</div>
